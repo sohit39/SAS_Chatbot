@@ -1,0 +1,10 @@
+
+{ "alg":"RS256" , "typ":"JWT"}.
+{
+    "iss": "sas-calendar-fetch@dynamic-nomad-175514.iam.gserviceaccount.com",
+    "scope": "https://www.googleapis.com/auth/prediction",
+    "aud": "https://www.googleapis.com/oauth2/v4/token",
+    "exp": 1501689540,
+    "iat": 1501687063
+}.
+[signature bytes]
