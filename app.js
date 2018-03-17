@@ -236,7 +236,7 @@ function getSchoolDay(sender, responseText) {
 		} else {
 			console.error(response.error);
 		}
-	});
+	}); 
 }
 
 function getSchoolDayAnotherDay(sender, responseText, dateOfDay) {
