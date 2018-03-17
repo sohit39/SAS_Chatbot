@@ -230,7 +230,7 @@ function getSchoolDay(sender, responseText) {
 			let day = JSON.parse(body);
 			let dayOfWeek = new Date(day["items"][0]["start"]["date"]).getDay();
 			if(dayOfWeek == 0) dayOfWeek = "Sunday"; if(dayOfWeek == 1) dayOfWeek = "Monday"; if(dayOfWeek == 2) dayOfWeek = "Tuesday"; if(dayOfWeek == 3) dayOfWeek = "Wednesday"; if(dayOfWeek == 4) dayOfWeek = "Thursday"; if(dayOfWeek == 5) dayOfWeek = "Friday"; if(dayOfWeek == 6) dayOfWeek = "Saturday";
-			let response = `It is a${responseText} ${day["items"][0]["summary"]} on ${dayOfWeek}, ${day["items"][0]["start"]["date"]}. Make sure to pack your bag for ${day["items"][0]["summary"]}!!`;
+			let response = `It is a${responseText} ${day["items"][0]["summary"]} on ${dayOfWeek}, ${day["items"][0]["start"]["date"]}. Make sure to pack your bag for ${day["items"][0]["summary"]}!`;
 			sendTextMessage(sender, response);
 			console.log(codes);
 		} else {
