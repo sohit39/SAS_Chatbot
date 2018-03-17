@@ -228,7 +228,9 @@ function getSchoolDay(sender, responseText) {
 		if (!error && response.statusCode == 200) {
 			console.log(body);
 			let day = JSON.parse(body);
-			let response = `${responseText} ${day["items"][0]["summary"]} on ${day["items"][0]["start"]["date"]}`;
+			let dayOfWeek = new Date().getDay();
+			if(dayOfWeek == 0) dayOfWeek = "Sunday"; if(dayOfWeek == 1) dayOfWeek = "Monday"; if(dayOfWeek == 2) dayOfWeek = "Tuesday"; if(dayOfWeek == 3) dayOfWeek = "Wednesday"; if(dayOfWeek == 4) dayOfWeek = "Thursday"; if(dayOfWeek == 5) dayOfWeek = "Friday"; if(dayOfWeek == 6) dayOfWeek = "Saturday";
+			let response = `It is a ${responseText} ${day["items"][0]["summary"]} on ${dayOfWeek}, ${day["items"][0]["start"]["date"]}`;
 			sendTextMessage(sender, response);
 			console.log(codes);
 		} else {
@@ -253,7 +255,9 @@ function getSchoolDayAnotherDay(sender, responseText, dateOfDay) {
 		if (!error && response.statusCode == 200) {
 			console.log(body);
 			let day = JSON.parse(body);
-			let response = `${responseText} ${day["items"][0]["summary"]} on ${day["items"][0]["start"]["date"]}`;
+			let dayOfWeek = new Date(dateOfDay).getDay();
+			if(dayOfWeek == 0) dayOfWeek = "Sunday"; if(dayOfWeek == 1) dayOfWeek = "Monday"; if(dayOfWeek == 2) dayOfWeek = "Tuesday"; if(dayOfWeek == 3) dayOfWeek = "Wednesday"; if(dayOfWeek == 4) dayOfWeek = "Thursday"; if(dayOfWeek == 5) dayOfWeek = "Friday"; if(dayOfWeek == 6) dayOfWeek = "Saturday";
+			let response = `It is a ${responseText} ${day["items"][0]["summary"]} on ${dayOfWeek}, ${day["items"][0]["start"]["date"]}`;
 			sendTextMessage(sender, response);
 			console.log(codes);
 		} else {
