@@ -230,7 +230,7 @@ function getSchoolDay(sender, responseText) {
 			let day = JSON.parse(body);
 			let dayOfWeek = new Date().getDay();
 			if(dayOfWeek == 0) dayOfWeek = "Sunday"; if(dayOfWeek == 1) dayOfWeek = "Monday"; if(dayOfWeek == 2) dayOfWeek = "Tuesday"; if(dayOfWeek == 3) dayOfWeek = "Wednesday"; if(dayOfWeek == 4) dayOfWeek = "Thursday"; if(dayOfWeek == 5) dayOfWeek = "Friday"; if(dayOfWeek == 6) dayOfWeek = "Saturday";
-			let response = `It is a ${responseText} ${day["items"][0]["summary"]} on ${dayOfWeek}, ${day["items"][0]["start"]["date"]}`;
+			let response = `It is a ${responseText} ${day["items"][0]["summary"]} on ${dayOfWeek}, ${day["items"][0]["start"]["date"]}. Make sure to pack your for ${day["items"][0]["summary"]}!!`;
 			sendTextMessage(sender, response);
 			console.log(codes);
 		} else {
@@ -257,7 +257,7 @@ function getSchoolDayAnotherDay(sender, responseText, dateOfDay) {
 			let day = JSON.parse(body);
 			let dayOfWeek = new Date(dateOfDay).getDay();
 			if(dayOfWeek == 0) dayOfWeek = "Sunday"; if(dayOfWeek == 1) dayOfWeek = "Monday"; if(dayOfWeek == 2) dayOfWeek = "Tuesday"; if(dayOfWeek == 3) dayOfWeek = "Wednesday"; if(dayOfWeek == 4) dayOfWeek = "Thursday"; if(dayOfWeek == 5) dayOfWeek = "Friday"; if(dayOfWeek == 6) dayOfWeek = "Saturday";
-			let response = `It is a ${responseText} ${day["items"][0]["summary"]} on ${dayOfWeek}, ${day["items"][0]["start"]["date"]}`;
+			let response = `It is a${responseText} ${day["items"][0]["summary"]} on ${dayOfWeek}, ${day["items"][0]["start"]["date"]} Did you pack your bag right?`;
 			sendTextMessage(sender, response);
 			console.log(codes);
 		} else {
@@ -285,12 +285,13 @@ function getHoliday(sender, responseText, q1) {
 			let end = new Date(`${day["items"][0]["end"]["date"]}`);
 			var timeDiff = Math.abs(end.getTime() - start.getTime());
 			var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+			var daysTillBreak = Math.abs(today.getTime() - start.getTime())/(1000 * 3600 * 24);
 			if (diffDays <= 1) {
-				let responses = `${responseText} ${day["items"][0]["summary"]} on ${day["items"][0]["start"]["date"]}`;
+				let responses = `It's${responseText} ${day["items"][0]["summary"]} on ${day["items"][0]["start"]["date"]}`;
 				sendTextMessage(sender, responses);
 			}
 			else {
-				let responses = `${responseText} ${day["items"][0]["summary"]} from ${day["items"][0]["start"]["date"]} to ${day["items"][0]["end"]["date"]}`;
+				let responses = `It's${responseText} ${day["items"][0]["summary"]} from ${day["items"][0]["start"]["date"]} to ${day["items"][0]["end"]["date"]} Only ${daysTillBreak} days to go! Keep at it!`;
 				sendTextMessage(sender, responses);
 			}
 
@@ -939,7 +940,7 @@ function greetUserText(userId) {
 				console.log("FB user: %s %s, %s",
 					user.first_name, user.last_name, user.gender);
 
-				sendTextMessage(userId, "Welcome " + user.first_name + '! to the SAS Student Chatbot. Ask me any school related queries! (e.g. School Days, Holidays, Homework Assignments)');
+				sendTextMessage(userId, "Welcome " + user.first_name + '! I am Eddy the Eagle, the SAS Student Chatbot. Ask me any school related queries! (e.g. School Days, Holidays, Homework Assignments) I will probably have an answer :)');
 			} else {
 				console.log("Cannot get data for fb user with id",
 					userId);
