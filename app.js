@@ -342,10 +342,6 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 				getSchoolDayAnotherDay(sender, responseText, (parameters["date"] + "T11:30:56.784Z"));
 			else 
 				getSchoolDay(sender, responseText);
-			
-
-			
-
 		break;
 		
 		case 'fetch_holidays' : 
@@ -418,24 +414,27 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 					if (!error && response.statusCode == 200){
 						console.log(body);
 						let day = JSON.parse(body);
-						let start = new Date(`${day["items"][0]["start"]["date"]}`);
-						let end = new Date(`${day["items"][0]["end"]["date"]}`);
-						var timeDiff = Math.abs(end.getTime() - start.getTime());
-						var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
-						if (diffDays = 0) {
-							let responses = `invalid event`;
-						}
-						if (diffDays <= 1) {
-							let responses = `${responseText} ${day["items"][0]["summary"]} on ${day["items"][0]["start"]["date"]}`;
-							sendTextMessage(sender, responses);
-						}
-						else {
-							let responses = `${responseText} ${day["items"][0]["summary"]} from ${day["items"][0]["start"]["date"]} to ${day["items"][0]["end"]["date"]}`;
-							sendTextMessage(sender, responses);
-						}	
-							console.log(codes);
-						} else {
-							console.error(response.error);
+						if (day["items"][0] !== undefined) {
+							let start = new Date(`${day["items"][0]["start"]["date"]}`);
+							let end = new Date(`${day["items"][0]["end"]["date"]}`);
+							var timeDiff = Math.abs(end.getTime() - start.getTime());
+							var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
+							if (diffDays = 0) {
+								let responses = `invalid event`;
+							}
+						
+							if (diffDays <= 1) {
+								let responses = `${responseText} ${day["items"][0]["summary"]} on ${day["items"][0]["start"]["date"]}`;
+								sendTextMessage(sender, responses);
+							}
+							else {
+								let responses = `${responseText} ${day["items"][0]["summary"]} from ${day["items"][0]["start"]["date"]} to ${day["items"][0]["end"]["date"]}`;
+								sendTextMessage(sender, responses);
+							}	
+								console.log(codes);
+							} else {
+								console.error(response.error);
+							}
 						}
 				});
 		break;
