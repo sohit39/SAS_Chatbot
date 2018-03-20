@@ -432,9 +432,13 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 								sendTextMessage(sender, responses);
 							}	
 								console.log(codes);
-							} else {
-								console.error(response.error);
 							}
+						else {
+							sendTextMessage(sender, "Sorry, I could not find this event.")
+						} 
+						}
+						else {	
+							console.error(response.error);
 						}
 				});
 		break;
