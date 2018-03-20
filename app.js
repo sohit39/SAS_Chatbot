@@ -398,6 +398,9 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 
 				});	
 		break;
+		case 'fetch_summer_break' :
+				sendTextMessage(sender, "Ooh don't get too far ahead of yourself, make sure to do well at school :) Summer break is from the 9th of June.")
+		break;
 		case 'fetch_general_event':
 			refreshToken();
 			var today = new Date();
