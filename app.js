@@ -305,7 +305,7 @@ function getHoliday(sender, responseText, q1) {
 function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 	switch (action) {
 		case 'fetch_homework' :
-		var user;
+		
 		console.log("Sender ID" + sender);
 		request({
 			uri: 'https://graph.facebook.com/v2.7/' + sender,
@@ -316,13 +316,13 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 		}, function (error, response, body) {
 			if (!error && response.statusCode == 200) {
 	
-				user = JSON.parse(body);
+				var user = JSON.parse(body);
 	
 				if (user.first_name) {
 					console.log("FB user: %s %s, %s",
 						user.first_name, user.last_name, user.gender);
 	
-					//sendTextMessage(userId, "Welcome " + user.first_name + '! I am Eddy the Eagle, the SAS Student Chatbot. Ask me any school related queries! (e.g. School Days, Holidays, Homework Assignments) I will probably have an answer :)');
+					sendTextMessage(userId, "Welcome " + user.first_name + '! I am Eddy the Eagle, the SAS Student Chatbot. Ask me any school related queries! (e.g. School Days, Holidays, Homework Assignments) I will probably have an answer :)');
 				} else {
 					console.log("Cannot get data for fb user with id",
 						userId);
