@@ -14,6 +14,7 @@ const uuid = require('uuid');
 var codes;
 refreshToken();
 
+
 // Messenger API parameters
 if (!config.FB_PAGE_TOKEN) {
 	throw new Error('missing FB_PAGE_TOKEN');
@@ -304,6 +305,33 @@ function getHoliday(sender, responseText, q1) {
 function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 	switch (action) {
 		case 'fetch_homework' :
+		var user;
+		request({
+			uri: 'https://graph.facebook.com/v2.7/' + sender.id,
+			qs: {
+				access_token: config.FB_PAGE_TOKEN
+			}
+	
+		}, function (error, response, body) {
+			if (!error && response.statusCode == 200) {
+	
+				user = JSON.parse(body);
+	
+				if (user.first_name) {
+					console.log("FB user: %s %s, %s",
+						user.first_name, user.last_name, user.gender);
+	
+					//sendTextMessage(userId, "Welcome " + user.first_name + '! I am Eddy the Eagle, the SAS Student Chatbot. Ask me any school related queries! (e.g. School Days, Holidays, Homework Assignments) I will probably have an answer :)');
+				} else {
+					console.log("Cannot get data for fb user with id",
+						userId);
+				}
+			} else {
+				console.error(response.error);
+			}
+	
+		});
+
 			request({
 				url: "https://api.schoology.com/v1/search?keywords=" + user.first_name + "+" + user.last_name + "&type=user",
 				method: "GET",
