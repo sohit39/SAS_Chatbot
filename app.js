@@ -322,7 +322,7 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 					console.log("FB user: %s %s, %s",
 						user.first_name, user.last_name, user.gender);
 	
-					sendTextMessage(userId, "Welcome " + user.first_name + '! I am Eddy the Eagle, the SAS Student Chatbot. Ask me any school related queries! (e.g. School Days, Holidays, Homework Assignments) I will probably have an answer :)');
+					sendTextMessage(sender, "Welcome " + user.first_name + '! I am Eddy the Eagle, the SAS Student Chatbot. Ask me any school related queries! (e.g. School Days, Holidays, Homework Assignments) I will probably have an answer :)');
 				} else {
 					console.log("Cannot get data for fb user with id",
 						userId);
