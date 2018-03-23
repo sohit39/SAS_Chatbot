@@ -209,7 +209,7 @@ function refreshToken() {
 						console.error(response.error);
 					}
 				});
-			console.log("After Slesep"+ codes);
+			console.log("After Sleep"+ codes);
 }
 
 function getSchoolDay(sender, responseText) {
@@ -275,7 +275,6 @@ function getHoliday(sender, responseText, q1) {
 		method: "GET",
 		headers: {
 			Authorization: " Bearer " + codes,
-
 		}
 	}, function (error, response, body) {
 		if (!error && response.statusCode == 200) {
@@ -304,37 +303,22 @@ function getHoliday(sender, responseText, q1) {
 
 function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 	switch (action) {
-		/*case fetch_homework :
-		request({
-			url: "https://api.schoology.com/v1/users/?start=0&limit=1500",
-			method: "GET",
-			headers: {
-				Authorization: " Bearer " + codes,
-	
-			}
-		}, function (error, response, body) {
-			if (!error && response.statusCode == 200) {
-				console.log(body);
-				let day = JSON.parse(body);
-				let start = new Date(`${day["items"][0]["start"]["date"]}`);
-				let end = new Date(`${day["items"][0]["end"]["date"]}`);
-				var timeDiff = Math.abs(end.getTime() - start.getTime());
-				var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-				if (diffDays <= 1) {
-					let responses = `${responseText} ${day["items"][0]["summary"]} on ${day["items"][0]["start"]["date"]}`;
-					sendTextMessage(sender, responses);
+		case fetch_homework :
+			request({
+				url: "https://api.schoology.com/v1/users/?start=0&limit=2000",
+				method: "GET",
+				headers: {
+					Authorization: "OAuth realm=https://api.schoology.com/,oauth_consumer_key=6c0e7eaabd179fc62c025411bbc62df90596a2a38,oauth_token=,oauth_nonce=596b43992ed54,oauth_signature_method=PLAINTEXT,oauth_timestamp=1521607899,oauth_version=1.0,oauth_signature=7f9117828e3c1aef6fc25d09f8347319%26",
+		
 				}
-				else {
-					let responses = `${responseText} ${day["items"][0]["summary"]} from ${day["items"][0]["start"]["date"]} to ${day["items"][0]["end"]["date"]}`;
-					sendTextMessage(sender, responses);
+			}, function (error, response, body) {
+				if (!error && response.statusCode == 200) {
+					console.log(body);
+				} else {
+					console.error(response.error);
 				}
-	
-				console.log(codes);
-			} else {
-				console.error(response.error);
-			}
-		});
-		break;*/
+			});
+		break;
 		case 'find_school_day' :
 			refreshToken();
 			console.log("DAY: " + parameters["date"] + parameters.date);
