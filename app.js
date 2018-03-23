@@ -305,7 +305,7 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 	switch (action) {
 		case 'fetch_homework' :
 			request({
-				url: "https://api.schoology.com/v1/users/?start=0&limit=2000",
+				url: "https://api.schoology.com/v1/sections/1139134462/assignments?start=0&limit=50",
 				method: "GET",
 				headers: {
 					Authorization: "OAuth realm=https://api.schoology.com/,oauth_consumer_key=6c0e7eaabd179fc62c025411bbc62df90596a2a38,oauth_token=,oauth_nonce=596b43992ed54,oauth_signature_method=PLAINTEXT,oauth_timestamp=1521607899,oauth_version=1.0,oauth_signature=7f9117828e3c1aef6fc25d09f8347319%26",
@@ -314,6 +314,7 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 			}, function (error, response, body) {
 				if (!error && response.statusCode == 200) {
 					console.log(body);
+					console.log("hw fetch");
 				} else {
 					console.error(response.error);
 				}
