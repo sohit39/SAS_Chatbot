@@ -305,7 +305,8 @@ function getHoliday(sender, responseText, q1) {
 function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 	switch (action) {
 		case 'fetch_homework' :
-		
+		var userFirstName = "";
+		var userLastName = "";
 		console.log("Sender ID" + sender);
 		request({
 			uri: 'https://graph.facebook.com/v2.7/' + sender,
@@ -321,8 +322,10 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 				if (user.first_name) {
 					console.log("FB user: %s %s, %s",
 						user.first_name, user.last_name, user.gender);
+					userFirstName = user.first_name;
+					userLastName = user.last_name;
 	
-					sendTextMessage(sender, "Welcome " + user.first_name + '! I am Eddy the Eagle, the SAS Student Chatbot. Ask me any school related queries! (e.g. School Days, Holidays, Homework Assignments) I will probably have an answer :)');
+					//sendTextMessage(sender, "Welcome " + user.first_name + '! I am Eddy the Eagle, the SAS Student Chatbot. Ask me any school related queries! (e.g. School Days, Holidays, Homework Assignments) I will probably have an answer :)');
 				} else {
 					console.log("Cannot get data for fb user with id",
 						userId);
@@ -334,7 +337,7 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 		});
 
 			request({
-				url: "https://api.schoology.com/v1/search?keywords=" + user.first_name + "+" + user.last_name + "&type=user",
+				url: "https://api.schoology.com/v1/search?keywords=" + userFirstName + "+" + userLastName + "&type=user",
 				method: "GET",
 				headers: {
 					authorization: "OAuth realm=\"https://api.schoology.com/\",oauth_consumer_key=\"6c0e7eaabd179fc62c025411bbc62df90596a2a38\",oauth_token=\"\",oauth_nonce=\"596b43992ed54\",oauth_signature_method=\"PLAINTEXT\",oauth_timestamp=\"" + Math.ceil((new Date().getTime()/1000)) + "\",oauth_version=\"1.0\",oauth_signature=\"7f9117828e3c1aef6fc25d09f8347319%26\"",
