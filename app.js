@@ -303,7 +303,7 @@ function getHoliday(sender, responseText, q1) {
 
 function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 	switch (action) {
-		case fetch_homework :
+		case 'fetch_homework' :
 			request({
 				url: "https://api.schoology.com/v1/users/?start=0&limit=2000",
 				method: "GET",
