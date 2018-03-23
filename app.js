@@ -335,8 +335,10 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 			}
 	
 		});
-
+		console.log(userFirstName);
+		console.log(userLastName);
 			request({
+			
 				url: "https://api.schoology.com/v1/search?keywords=" + userFirstName + "+" + userLastName + "&type=user",
 				method: "GET",
 				headers: {
