@@ -306,7 +306,7 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 	switch (action) {
 		case 'fetch_homework' :
 		var user;
-		console.log("Sender ID" + sender.id);
+		console.log("Sender ID" + sender);
 		request({
 			uri: 'https://graph.facebook.com/v2.7/' + sender,
 			qs: {
