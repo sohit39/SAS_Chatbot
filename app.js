@@ -302,11 +302,32 @@ function getHoliday(sender, responseText, q1) {
 	});
 }
 
+function getSchoologyUser(sender, responseText, firstName, lastName) {
+	console.log("get user" + firstName);
+	console.log("get user" + lastName);
+	request({
+			
+		url: "https://api.schoology.com/v1/search?keywords=" + firstName + "+" + lastName + "&type=user",
+		method: "GET",
+		headers: {
+			authorization: "OAuth realm=\"https://api.schoology.com/\",oauth_consumer_key=\"6c0e7eaabd179fc62c025411bbc62df90596a2a38\",oauth_token=\"\",oauth_nonce=\"596b43992ed54\",oauth_signature_method=\"PLAINTEXT\",oauth_timestamp=\"" + Math.ceil((new Date().getTime()/1000)) + "\",oauth_version=\"1.0\",oauth_signature=\"7f9117828e3c1aef6fc25d09f8347319%26\"",
+
+		}
+	}, function (error, response, body) {
+		if (!error && response.statusCode == 200) {
+			sendTextMessage(sender, body);
+			console.log(body);
+			console.log("hw fetch");
+
+		} else {
+			console.error(response.error);
+		}
+	});
+}
+
 function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 	switch (action) {
 		case 'fetch_homework' :
-		var userFirstName = "";
-		var userLastName = "";
 		console.log("Sender ID" + sender);
 		request({
 			uri: 'https://graph.facebook.com/v2.7/' + sender,
@@ -322,8 +343,7 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 				if (user.first_name) {
 					console.log("FB user: %s %s, %s",
 						user.first_name, user.last_name, user.gender);
-					userFirstName = user.first_name;
-					userLastName = user.last_name;
+					getSchoologyUser(sender, responseText, user.first_name, user.last_name);
 	
 					//sendTextMessage(sender, "Welcome " + user.first_name + '! I am Eddy the Eagle, the SAS Student Chatbot. Ask me any school related queries! (e.g. School Days, Holidays, Homework Assignments) I will probably have an answer :)');
 				} else {
@@ -335,26 +355,8 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 			}
 	
 		});
-		console.log(userFirstName);
-		console.log(userLastName);
-			request({
-			
-				url: "https://api.schoology.com/v1/search?keywords=" + userFirstName + "+" + userLastName + "&type=user",
-				method: "GET",
-				headers: {
-					authorization: "OAuth realm=\"https://api.schoology.com/\",oauth_consumer_key=\"6c0e7eaabd179fc62c025411bbc62df90596a2a38\",oauth_token=\"\",oauth_nonce=\"596b43992ed54\",oauth_signature_method=\"PLAINTEXT\",oauth_timestamp=\"" + Math.ceil((new Date().getTime()/1000)) + "\",oauth_version=\"1.0\",oauth_signature=\"7f9117828e3c1aef6fc25d09f8347319%26\"",
 		
-				}
-			}, function (error, response, body) {
-				if (!error && response.statusCode == 200) {
-					sendTextMessage(sender, body);
-					console.log(body);
-					console.log("hw fetch");
-
-				} else {
-					console.error(response.error);
-				}
-			});
+			
 		break;
 		case 'find_school_day' :
 			refreshToken();
