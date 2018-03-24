@@ -351,6 +351,7 @@ function getSchoologyUser(sender, responseText, firstName, lastName) {
 
 function getSchoologyCourses(sender, responseText, schoologyUserID) {
 	console.log("entered course method");
+	console.log("ID " + schoologyUserID )
 	request({
 			
 		url: "https://api.schoology.com/v1/users/" + schoologyUserID + "/sections",
