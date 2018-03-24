@@ -191,6 +191,9 @@ function handleEcho(messageId, appId, metadata) {
 	console.log("Received echo for message %s and app %d with metadata %s", messageId, appId, metadata);
 }
 
+/*
+	Refreshes the bearer code for Google APIs everytime an event fetch is needed.
+*/
 function refreshToken() {
 	var request = require('request');
 				request({
@@ -202,7 +205,7 @@ function refreshToken() {
 				},	function(error, response, body) {
 					if (!error && response.statusCode == 200){
 						let code = JSON.parse(body);
-						if(code.hasOwnProperty("access_token")) {
+						if(code.hasOwnProperty("access_token")) { //checking if value is not null
 							codes = `${ code ["access_token"] }`;
 							console.log(codes);
 						}
@@ -213,6 +216,9 @@ function refreshToken() {
 			console.log("After Sleep"+ codes);
 }
 
+/*
+	Gets the current school day
+*/
 function getSchoolDay(sender, responseText) {
 	var today = new Date();
 	var tomorrow;
@@ -240,6 +246,9 @@ function getSchoolDay(sender, responseText) {
 	}); 
 }
 
+/*
+	Gets any future day
+*/
 function getSchoolDayAnotherDay(sender, responseText, dateOfDay) {
 	var today = new Date();
 	var tomorrow;
@@ -267,6 +276,9 @@ function getSchoolDayAnotherDay(sender, responseText, dateOfDay) {
 	});
 }
 
+/*
+	Gets the next school holiday or any other after that
+*/
 function getHoliday(sender, responseText, q1) {
 	var today = new Date();
 	today = today.toISOString();
@@ -284,7 +296,7 @@ function getHoliday(sender, responseText, q1) {
 			let start = new Date(`${day["items"][0]["start"]["date"]}`);
 			let end = new Date(`${day["items"][0]["end"]["date"]}`);
 			var timeDiff = Math.abs(end.getTime() - start.getTime());
-			var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+			var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); //	converst from ms to days
 			var daysTillBreak = Math.ceil((Math.abs((new Date()).getTime() - start.getTime())/(1000 * 3600 * 24)));
 			if (diffDays <= 1) {
 				let responses = `It's${responseText} ${day["items"][0]["summary"]} on ${day["items"][0]["start"]["date"]}`;
@@ -302,6 +314,9 @@ function getHoliday(sender, responseText, q1) {
 	});
 }
 
+/*
+	Searches for Schoology user using FB first name as last name
+*/
 function getSchoologyUser(sender, responseText, firstName, lastName) {
 	console.log("get user" + firstName);
 	console.log("get user" + lastName);
@@ -316,6 +331,8 @@ function getSchoologyUser(sender, responseText, firstName, lastName) {
 	}, function (error, response, body) {
 		if (!error && response.statusCode == 200) {
 			sendTextMessage(sender, body);
+			let user = JSON.parse(body);
+			console.log(user.users.search_result.uid)
 			console.log(body);
 			console.log("hw fetch");
 
@@ -329,6 +346,8 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 	switch (action) {
 		case 'fetch_homework' :
 		console.log("Sender ID" + sender);
+		
+		//fetch user data 
 		request({
 			uri: 'https://graph.facebook.com/v2.7/' + sender,
 			qs: {
@@ -343,10 +362,8 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 				if (user.first_name) {
 					console.log("FB user: %s %s, %s",
 						user.first_name, user.last_name, user.gender);
-					getSchoologyUser(sender, responseText, user.first_name, user.last_name);
+					getSchoologyUser(sender, responseText, user.first_name, user.last_name); //calls the getUserMethod
 	
-					//sendTextMessage(sender, "Welcome " + user.first_name + '! I am Eddy the Eagle, the SAS Student Chatbot. Ask me any school related queries! (e.g. School Days, Holidays, Homework Assignments) I will probably have an answer :)');
-				} else {
 					console.log("Cannot get data for fb user with id",
 						userId);
 				}
@@ -355,7 +372,7 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 			}
 	
 		});
-		
+		//end of fetching user data
 			
 		break;
 		case 'find_school_day' :
@@ -756,7 +773,7 @@ function sendVideoMessage(recipientId, videoName) {
 }
 
 /*
- * Send a video using the Send API.
+ * Send a file using the Send API.
  * example fileName: fileName"/assets/test.txt"
  */
 function sendFileMessage(recipientId, fileName) {
