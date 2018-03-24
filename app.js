@@ -364,8 +364,7 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 						user.first_name, user.last_name, user.gender);
 					getSchoologyUser(sender, responseText, user.first_name, user.last_name); //calls the getUserMethod
 	
-					console.log("Cannot get data for fb user with id",
-						userId);
+					
 				}
 			} else {
 				console.error(response.error);
