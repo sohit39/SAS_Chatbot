@@ -335,8 +335,9 @@ function getSchoologyUser(sender, responseText, firstName, lastName) {
 			if (user["users"]["search_result"][0] != undefined) {
 				console.log("USERID: " + user["users"]["search_result"][0]["uid"]);
 				let schoologyUserID = user["users"]["search_result"][0]["uid"];
-				sendTextMessage(sender, "Your user ID is: " + schoologyUserID);
 				getSchoologyCourses(sender, responseText, schoologyUserID);
+				sendTextMessage(sender, "Your user ID is: " + schoologyUserID);
+				
 			}
 			//console.log("USER" + user);
 			console.log("hw fetch");
