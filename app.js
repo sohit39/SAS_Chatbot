@@ -363,7 +363,7 @@ function getSchoologyCourses(sender, responseText, schoologyUserID) {
 			let user = JSON.parse(body);
 			sendTextMessage(sender, body);
 			//console.log("USER" + user);
-			console.log("hw fetch");
+			console.log("course fetch");
 
 		} else {
 			console.error(response.error);
