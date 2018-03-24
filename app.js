@@ -337,6 +337,7 @@ function getSchoologyUser(sender, responseText, firstName, lastName) {
 				let schoologyUserID = user["users"]["search_result"][0]["uid"];
 				getSchoologyCourses(sender, responseText, schoologyUserID);
 				sendTextMessage(sender, "Your user ID is: " + schoologyUserID);
+				return schoologyUserID;
 				
 			}
 			//console.log("USER" + user);
@@ -349,6 +350,7 @@ function getSchoologyUser(sender, responseText, firstName, lastName) {
 }
 
 function getSchoologyCourses(sender, responseText, schoologyUserID) {
+	console.log("entered course method");
 	request({
 			
 		url: "https://api.schoology.com/v1/users/" + schoologyUserID + "/sections",
@@ -359,7 +361,7 @@ function getSchoologyCourses(sender, responseText, schoologyUserID) {
 		}
 	}, function (error, response, body) {
 		if (!error && response.statusCode == 200) {
-			
+			console.log("entered main course section")
 			let user = JSON.parse(body);
 			sendTextMessage(sender, body);
 			//console.log("USER" + user);
@@ -391,8 +393,8 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 				if (user.first_name) {
 					console.log("FB user: %s %s, %s",
 						user.first_name, user.last_name, user.gender);
-					getSchoologyUser(sender, responseText, user.first_name, user.last_name); //calls the getUserMethod
-	
+					let id = getSchoologyUser(sender, responseText, user.first_name, user.last_name); //calls the getUserMethod
+					//getSchoologyCourses
 					
 				}
 			} else {
