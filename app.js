@@ -331,9 +331,9 @@ function getSchoologyUser(sender, responseText, firstName, lastName) {
 	}, function (error, response, body) {
 		if (!error && response.statusCode == 200) {
 			sendTextMessage(sender, body);
-			let user = JSON.parse(body);
-			console.log("HELLO" + user["users"][0]);
-			console.log("USER" + user);
+			//let user = JSON.parse(body);
+			console.log("HELLO" + body["users"]["search_result"][0]["uid]");
+			//console.log("USER" + user);
 			console.log("hw fetch");
 
 		} else {
