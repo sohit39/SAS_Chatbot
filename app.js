@@ -336,7 +336,7 @@ function getSchoologyUser(sender, responseText, firstName, lastName) {
 				console.log("USERID: " + user["users"]["search_result"][0]["uid"]);
 				let schoologyUserID = user["users"]["search_result"][0]["uid"];
 				sendTextMessage(sender, "Your user ID is: " + schoologyUserID);
-				getSchoologyUser(sender, responseText, schoologyUserID);
+				getSchoologyCourses(sender, responseText, schoologyUserID);
 			}
 			//console.log("USER" + user);
 			console.log("hw fetch");
@@ -347,7 +347,7 @@ function getSchoologyUser(sender, responseText, firstName, lastName) {
 	});
 }
 
-function getSchoologyUser(sender, responseText, schoologyUserID) {
+function getSchoologyCourses(sender, responseText, schoologyUserID) {
 	request({
 			
 		url: "https://api.schoology.com/v1/users/" + schoologyUserID + "/sections",
