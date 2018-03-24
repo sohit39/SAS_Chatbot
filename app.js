@@ -330,9 +330,37 @@ function getSchoologyUser(sender, responseText, firstName, lastName) {
 		}
 	}, function (error, response, body) {
 		if (!error && response.statusCode == 200) {
-			sendTextMessage(sender, body);
+			
 			let user = JSON.parse(body);
-			console.log("HELLO" + user["users"]["search_result"][0]["uid"]);
+			if (user["users"]["search_result"][0] != undefined) {
+				console.log("USERID: " + user["users"]["search_result"][0]["uid"]);
+				let schoologyUserID = user["users"]["search_result"][0]["uid"];
+				sendTextMessage(sender, "Your user ID is: " + schoologyUserID);
+				getSchoologyUser(sender, responseText, schoologyUserID);
+			}
+			//console.log("USER" + user);
+			console.log("hw fetch");
+
+		} else {
+			console.error(response.error);
+		}
+	});
+}
+
+function getSchoologyUser(sender, responseText, schoologyUserID) {
+	request({
+			
+		url: "https://api.schoology.com/v1/users/" + schoologyUserID + "/sections",
+		method: "GET",
+		headers: {
+			authorization: "OAuth realm=\"https://api.schoology.com/\",oauth_consumer_key=\"6c0e7eaabd179fc62c025411bbc62df90596a2a38\",oauth_token=\"\",oauth_nonce=\"596b43992ed54\",oauth_signature_method=\"PLAINTEXT\",oauth_timestamp=\"" + Math.ceil((new Date().getTime()/1000)) + "\",oauth_version=\"1.0\",oauth_signature=\"7f9117828e3c1aef6fc25d09f8347319%26\"",
+
+		}
+	}, function (error, response, body) {
+		if (!error && response.statusCode == 200) {
+			
+			let user = JSON.parse(body);
+			sendTextMessage(sender, body);
 			//console.log("USER" + user);
 			console.log("hw fetch");
 
