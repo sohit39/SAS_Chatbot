@@ -368,7 +368,7 @@ function getSchoologyCourses(sender, responseText, schoologyUserID) {
 				console.log("COURSE TITLE: " + courses["section"][j]["course_title"]);
 				console.log("COURSE ID: " + courses["section"][j]["id"])
 				//sendTextMessage(sender, "You have course " + courses["section"][j]["course_title"] +  " with ID " + courses["section"][j]["id"]);
-				getSchoologyCourseAssignments(sender, courses["section"][j]["course_title"], courses["section"][j]["id"]);
+				//getSchoologyCourseAssignments(sender, courses["section"][j]["course_title"], courses["section"][j]["id"]);
 				getSchoologyCourseEvents(sender, courses["section"][j]["course_title"], courses["section"][j]["id"])
 			}
 			//sendTextMessage(sender, body);
