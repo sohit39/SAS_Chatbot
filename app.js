@@ -367,7 +367,7 @@ function getSchoologyCourses(sender, responseText, schoologyUserID) {
 			for( var j = 0; j < courses["section"].length; j++) { // goes through every course of a student
 				console.log("COURSE TITLE: " + courses["section"][j]["course_title"]);
 				console.log("COURSE ID: " + courses["section"][j]["id"])
-				sendTextMessage(sender, "You have course " + courses["section"][j]["course_title"] +  " with ID " + courses["section"][j]["id"]);
+				//sendTextMessage(sender, "You have course " + courses["section"][j]["course_title"] +  " with ID " + courses["section"][j]["id"]);
 				sendTextMessage(sender, "You have the following homework for: " + courses["section"][j]["course_title"] + "\n\n" +getSchoologyCourseAssignments(courses["section"][j]["id"]) );
 			}
 			//sendTextMessage(sender, body);
@@ -457,6 +457,7 @@ function getSchoologyCourseAssignments(schoologyCourseID) {
 					if(dates.compare(new Date(), new Date(assignments["assignment"][j]["due"])) == -1)
 						ret = ret + "You have assignment " + assignments["assignment"][j]["title"] +  " with description " + assignments["assignment"][j]["description"] + "\n";
 			}
+			console.log("RETURN" + ret)
 			return ret;
 			//sendTextMessage(sender, body);
 			//console.log("USER" + user);
