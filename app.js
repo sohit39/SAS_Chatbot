@@ -1328,7 +1328,10 @@ function receivedPostback(event) {
 			sendTextMessage(senderID, "SAT or ACT?");
 			break;
 		case 'HW_PAYLOAD' :
-			sendToApiAi(senderID, "What homework do I have due tomorrow?")
+			if (!sessionIds.has(senderID)) {
+				sessionIds.set(senderID, uuid.v1());
+			}
+			sendToApiAi(senderID, "What homework do I have due tomorrow?");
 			break;
 		default:
 			//unindentified payload
