@@ -386,7 +386,7 @@ request({
 		var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); //	converst from ms to days
 		var daysTillBreak = Math.floor((start.getTime() - (new Date()).getTime())/(1000 * 3600 * 24));
 		if (diffDays <= 1) {
-			let responses = `It's${responseText} ${day["items"][0]["summary"]} on ${day["items"][0]["start"]["date"]} Only ${daysTillBreak} days to go! Keep at it!`;
+			let responses = `You're already on holiday, but It's${responseText} ${day["items"][0]["summary"]} on ${day["items"][0]["start"]["date"]} Only ${daysTillBreak} days to go! Keep at it!`;
 			sendTextMessage(sender, responses);
 		}
 		else if(dates.compare(today, start) == 1) {
@@ -407,7 +407,7 @@ request({
 /*
 	Searches for Schoology user using FB first name as last name
 */
-function getSchoologyUser(sender, responseText, firstName, lastName, tests) {
+function getSchoologyUser(sender, responseText, firstName, lastName, tests, specificCourse) {
 	console.log("get user" + firstName);
 	console.log("get user" + lastName);
 	request({
@@ -424,7 +424,7 @@ function getSchoologyUser(sender, responseText, firstName, lastName, tests) {
 			if (user["users"]["search_result"][0] != undefined) {
 				console.log("USERID: " + user["users"]["search_result"][0]["uid"]);
 				let schoologyUserID = user["users"]["search_result"][0]["uid"];
-				getSchoologyCourses(sender, responseText, schoologyUserID, tests);
+				getSchoologyCourses(sender, responseText, schoologyUserID, tests, specificCourse);
 				//sendTextMessage(sender, "Your user ID is: " + schoologyUserID);
 				return schoologyUserID;
 				
@@ -438,7 +438,7 @@ function getSchoologyUser(sender, responseText, firstName, lastName, tests) {
 	});
 }
 
-function getSchoologyCourses(sender, responseText, schoologyUserID, tests) {
+function getSchoologyCourses(sender, responseText, schoologyUserID, tests, specificCourse) {
 	console.log("entered course method");
 	console.log("ID " + schoologyUserID )
 	request({
@@ -453,17 +453,24 @@ function getSchoologyCourses(sender, responseText, schoologyUserID, tests) {
 			console.log("entered main course section")
 			console.log(body);
 			let courses = JSON.parse(body);
+			let sent = false;
 			sendTextMessage("Your Courses: ")
 			for( var j = 0; j < courses["section"].length; j++) { // goes through every course of a student
 				console.log("COURSE TITLE: " + courses["section"][j]["course_title"]);
 				console.log("COURSE ID: " + courses["section"][j]["id"])
 				//sendTextMessage(sender, "You have course " + courses["section"][j]["course_title"] +  " with ID " + courses["section"][j]["id"]);
 				//getSchoologyCourseAssignments(sender, courses["section"][j]["course_title"], courses["section"][j]["id"]);
+				if(specificCourse != null && (courses["section"][j]["course_title"]).toLowerCase().indexOf(specificCourse.toLowerCase()) > 0) {
+					getSchoologyCourseEvents(sender, courses["section"][j]["course_title"], courses["section"][j]["id"]);
+					sent = true;
+				}
 				if(tests)
 					getSchoologyCourseAssignments(sender, courses["section"][j]["course_title"], courses["section"][j]["id"]);
 				else	
 					getSchoologyCourseEvents(sender, courses["section"][j]["course_title"], courses["section"][j]["id"]);
 			}
+			if(specificCourse != null && !sent)
+				sendTextMessage(sender, "you are not enrolled in this course");
 			//sendTextMessage(sender, body);
 			//console.log("USER" + user);
 			console.log("course fetch");
@@ -690,7 +697,7 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 				if (user.first_name) {
 					console.log("FB user: %s %s, %s",
 						user.first_name, user.last_name, user.gender);
-					let id = getSchoologyUser(sender, responseText, user.first_name, user.last_name, false); //calls the getUserMethod
+					let id = getSchoologyUser(sender, responseText, user.first_name, user.last_name, false, null); //calls the getUserMethod
 					//getSchoologyCourses
 					
 				}
@@ -702,6 +709,35 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 		
 		//end of fetching user data
 			
+		break;
+
+		case 'fetch_specific_homeowork' :
+		console.log("Sender ID" + sender);
+		
+		//fetch user data 
+		request({
+			uri: 'https://graph.facebook.com/v2.7/' + sender,
+			qs: {
+				access_token: config.FB_PAGE_TOKEN
+			}
+	
+		}, function (error, response, body) {
+			if (!error && response.statusCode == 200) {
+	
+				var user = JSON.parse(body);
+	
+				if (user.first_name) {
+					console.log("FB user: %s %s, %s",
+						user.first_name, user.last_name, user.gender);
+					let id = getSchoologyUser(sender, responseText, user.first_name, user.last_name, false, parameters["any"]); //calls the getUserMethod
+					//getSchoologyCourses
+					
+				}
+			} else {
+				console.error(response.error);
+			}
+	
+		});
 		break;
 
 		case 'fetch_tests':
