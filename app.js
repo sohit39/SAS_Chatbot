@@ -393,7 +393,7 @@ request({
 			
 		}
 		else {
-			let responses = `It's${responseText} ${day["items"][0]["summary"]} from ${day["items"][0]["start"]["date"]} to ${day["items"][0]["end"]["date"]} Only ${daysTillBreak} days to go! Keep at it!`;
+			let responses = `You're already on holiday, but It's${responseText} ${day["items"][0]["summary"]} from ${day["items"][0]["start"]["date"]} to ${day["items"][0]["end"]["date"]} Only ${daysTillBreak} days to go! Keep at it!`;
 			sendTextMessage(sender, responses);
 		}
 
