@@ -555,7 +555,7 @@ function getSchoologyCourseEvents(sender, courseTitle, schoologyCourseID) {
 					ret = ret + "You have assignment/test " + assignments["event"][j]["title"] +  " with description " + assignments["event"][j]["description"] + " due on " + assignments["event"][j]["start"] + "\n\n";
 		}
 		console.log("RETURN" + ret)
-		if(courseTitile.indexOf("dvisory") < 0 && courseTitile.indexOf("IS") < 0 && courseTitle.indexOf("Student Tech Help") < 0) {
+		if(courseTitle.indexOf("dvisory") < 0 && courseTitle.indexOf("IS") < 0 && courseTitle.indexOf("Student Tech Help") < 0) {
 			if(ret === "")
 				sendTextMessage(sender, "You have no homework events/tests for " + courseTitle + "\n\n" + "Yay! (unless your teacher just doesn't post on Schoology)");
 			else
