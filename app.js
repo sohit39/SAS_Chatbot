@@ -455,7 +455,7 @@ function getSchoologyCourseAssignments(sender, courseTitle, schoologyCourseID) {
 				console.log("ASSIGNMENT DESCRIPTION: " + assignments["assignment"][j]["description"])
 				if(assignments["assignment"][j]["due"] != "")
 					if(dates.compare(new Date(), new Date(assignments["assignment"][j]["due"])) == -1)
-						ret = ret + "You have assignment " + assignments["assignment"][j]["title"] +  " with description " + assignments["assignment"][j]["description"] + "\n" + "due on " + ssignments["assignment"][j]["due"];
+						ret = ret + "You have assignment " + assignments["assignment"][j]["title"] +  " with description " + assignments["assignment"][j]["description"] + "\n" + "due on " + assignments["assignment"][j]["due"];
 			}
 			console.log("RETURN" + ret)
 			sendTextMessage(sender, "You have the following homework for " + courseTitle + "\n\n" + ret);
