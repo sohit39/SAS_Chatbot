@@ -361,6 +361,7 @@ function getSchoologyCourses(sender, responseText, schoologyUserID) {
 	}, function (error, response, body) {
 		if (!error && response.statusCode == 200) {
 			console.log("entered main course section")
+			console.log(body);
 			let user = JSON.parse(body);
 			sendTextMessage(sender, body);
 			//console.log("USER" + user);
