@@ -464,10 +464,12 @@ function getSchoologyCourses(sender, responseText, schoologyUserID, tests, speci
 					getSchoologyCourseEvents(sender, courses["section"][j]["course_title"], courses["section"][j]["id"]);
 					sent = true;
 				}
-				if(tests)
-					getSchoologyCourseAssignments(sender, courses["section"][j]["course_title"], courses["section"][j]["id"]);
-				else	
-					getSchoologyCourseEvents(sender, courses["section"][j]["course_title"], courses["section"][j]["id"]);
+				if(specificCourse == null) {
+					if(tests)
+						getSchoologyCourseAssignments(sender, courses["section"][j]["course_title"], courses["section"][j]["id"]);
+					else	
+						getSchoologyCourseEvents(sender, courses["section"][j]["course_title"], courses["section"][j]["id"]);
+				}
 			}
 			if(specificCourse != null && !sent)
 				sendTextMessage(sender, "you are not enrolled in this course");
