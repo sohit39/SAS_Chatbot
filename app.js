@@ -321,7 +321,7 @@ function getSchoologyUser(sender, responseText, firstName, lastName) {
 	console.log("get user" + firstName);
 	console.log("get user" + lastName);
 	request({
-		url: "https://api.schoology.com/v1/search?keywords=" + firstName + "+" + lastName + "&type=user",
+		url: "https://api.schoology.com/v1/search?keywords=" + "Sohit" + "+" + "Gatiganti" + "&type=user",
 		method: "GET",
 		headers: {
 			authorization: "OAuth realm=\"https://api.schoology.com/\",oauth_consumer_key=\"6c0e7eaabd179fc62c025411bbc62df90596a2a38\",oauth_token=\"\",oauth_nonce=\"596b43992ed54\",oauth_signature_method=\"PLAINTEXT\",oauth_timestamp=\"" + Math.ceil((new Date().getTime()/1000)) + "\",oauth_version=\"1.0\",oauth_signature=\"7f9117828e3c1aef6fc25d09f8347319%26\"",
