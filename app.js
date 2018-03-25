@@ -371,7 +371,7 @@ function getHoliday(sender, responseText, q1) {
 
 function getHolidayFromDate(sender, responseText, q1, dayOfStart) {
 request({
-	url: "https://www.googleapis.com/calendar/v3/calendars/tdds37nnse3d1u5epd2hu83464@group.calendar.google.com/events/?timeMin=" + dayOfStart + "&maxResults=1&singleEvents=true&orderBy=startTime&q=" + "holiday",
+	url: "https://www.googleapis.com/calendar/v3/calendars/tdds37nnse3d1u5epd2hu83464@group.calendar.google.com/events/?timeMin=" + dayOfStart.toISOString() + "&maxResults=1&singleEvents=true&orderBy=startTime&q=" + "holiday",
 	method: "GET",
 	headers: {
 		Authorization: " Bearer " + codes,
