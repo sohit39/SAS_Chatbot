@@ -368,7 +368,7 @@ function getSchoologyCourses(sender, responseText, schoologyUserID) {
 				console.log("COURSE TITLE: " + courses["section"][j]["course_title"]);
 				console.log("COURSE ID: " + courses["section"][j]["id"])
 				//sendTextMessage(sender, "You have course " + courses["section"][j]["course_title"] +  " with ID " + courses["section"][j]["id"]);
-				getSchoologyCourseAssignments(courses["section"][j]["course_title"], courses["section"][j]["id"]);
+				getSchoologyCourseAssignments(sender, courses["section"][j]["course_title"], courses["section"][j]["id"]);
 			}
 			//sendTextMessage(sender, body);
 			//console.log("USER" + user);
@@ -381,7 +381,7 @@ function getSchoologyCourses(sender, responseText, schoologyUserID) {
 	});
 }
 
-function getSchoologyCourseAssignments(courseTitle, schoologyCourseID) {
+function getSchoologyCourseAssignments(sender, courseTitle, schoologyCourseID) {
 			// Source: http://stackoverflow.com/questions/497790
 		var dates = {
 			convert:function(d) {
