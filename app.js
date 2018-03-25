@@ -368,7 +368,7 @@ function getSchoologyCourses(sender, responseText, schoologyUserID) {
 				console.log("COURSE TITLE: " + courses["section"][j]["course_title"]);
 				console.log("COURSE ID: " + courses["section"][j]["id"])
 				//sendTextMessage(sender, "You have course " + courses["section"][j]["course_title"] +  " with ID " + courses["section"][j]["id"]);
-				sendTextMessage(sender, "You have the following homework for: " + courses["section"][j]["course_title"] + "\n\n" +getSchoologyCourseAssignments(courses["section"][j]["id"]) );
+				getSchoologyCourseAssignments(courses["section"][j]["course_title"], courses["section"][j]["id"]);
 			}
 			//sendTextMessage(sender, body);
 			//console.log("USER" + user);
@@ -381,7 +381,7 @@ function getSchoologyCourses(sender, responseText, schoologyUserID) {
 	});
 }
 
-function getSchoologyCourseAssignments(schoologyCourseID) {
+function getSchoologyCourseAssignments(courseTitle, schoologyCourseID) {
 			// Source: http://stackoverflow.com/questions/497790
 		var dates = {
 			convert:function(d) {
@@ -458,7 +458,8 @@ function getSchoologyCourseAssignments(schoologyCourseID) {
 						ret = ret + "You have assignment " + assignments["assignment"][j]["title"] +  " with description " + assignments["assignment"][j]["description"] + "\n";
 			}
 			console.log("RETURN" + ret)
-			return ret;
+			sendTextMessage(sender, "You have the following homework for " + courseTitle + "\n\n" + ret);
+			//return ret;
 			//sendTextMessage(sender, body);
 			//console.log("USER" + user);
 			console.log("course fetch");
