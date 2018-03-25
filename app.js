@@ -669,7 +669,7 @@ function getSchoologyCourseEvents(sender, courseTitle, schoologyCourseID) {
 			}
 		}
 		console.log("RETURN" + ret)
-		if(courseTitle.indexOf("dvisory") < 0 && courseTitle.indexOf("IS") < 0 && courseTitle.indexOf("Student Tech Help") < 0) {
+		if(courseTitle.indexOf("dvisory") < 0 && courseTitle.indexOf("IS") < 0 && courseTitle.indexOf("Student Tech Help") < 0  && courseTitle.indexOf("I Service") < 0) {
 			if(ret === "")
 				sendTextMessage(sender, "You have no homework events/tests for " + courseTitle + " for the next 10 days" + "\n\n" + "Yay! (unless your teacher just doesn't post on Schoology)");
 			else
@@ -822,7 +822,7 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 							let buttons = [
 								{
 									"type": "web_url",
-									"url": "http://www.act.org/content/act/en/products-and-services/the-act/registration.html#scrollNav-2-2",
+									"url": "https://www.act.org/content/act/en/products-and-services/the-act/registration.html#scrollNav-1-2",
 									"title": "All ACT Testing Dates"
 								},
 							]
