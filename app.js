@@ -317,7 +317,7 @@ function getHoliday(sender, responseText, q1) {
 /*
 	Searches for Schoology user using FB first name as last name
 */
-function getSchoologyUser(sender, responseText, firstName, lastName) {
+function getSchoologyUser(sender, responseText, firstName, lastName, tests) {
 	console.log("get user" + firstName);
 	console.log("get user" + lastName);
 	request({
@@ -334,8 +334,8 @@ function getSchoologyUser(sender, responseText, firstName, lastName) {
 			if (user["users"]["search_result"][0] != undefined) {
 				console.log("USERID: " + user["users"]["search_result"][0]["uid"]);
 				let schoologyUserID = user["users"]["search_result"][0]["uid"];
-				getSchoologyCourses(sender, responseText, schoologyUserID);
-				sendTextMessage(sender, "Your user ID is: " + schoologyUserID);
+				getSchoologyCourses(sender, responseText, schoologyUserID, tests);
+				//sendTextMessage(sender, "Your user ID is: " + schoologyUserID);
 				return schoologyUserID;
 				
 			}
@@ -348,7 +348,7 @@ function getSchoologyUser(sender, responseText, firstName, lastName) {
 	});
 }
 
-function getSchoologyCourses(sender, responseText, schoologyUserID) {
+function getSchoologyCourses(sender, responseText, schoologyUserID, tests) {
 	console.log("entered course method");
 	console.log("ID " + schoologyUserID )
 	request({
@@ -369,7 +369,10 @@ function getSchoologyCourses(sender, responseText, schoologyUserID) {
 				console.log("COURSE ID: " + courses["section"][j]["id"])
 				//sendTextMessage(sender, "You have course " + courses["section"][j]["course_title"] +  " with ID " + courses["section"][j]["id"]);
 				//getSchoologyCourseAssignments(sender, courses["section"][j]["course_title"], courses["section"][j]["id"]);
-				getSchoologyCourseEvents(sender, courses["section"][j]["course_title"], courses["section"][j]["id"])
+				if(tests)
+					getSchoologyCourseAssignments(sender, courses["section"][j]["course_title"], courses["section"][j]["id"]);
+				else	
+					getSchoologyCourseEvents(sender, courses["section"][j]["course_title"], courses["section"][j]["id"]);
 			}
 			//sendTextMessage(sender, body);
 			//console.log("USER" + user);
@@ -456,7 +459,7 @@ function getSchoologyCourseAssignments(sender, courseTitle, schoologyCourseID) {
 				console.log("ASSIGNMENT DESCRIPTION: " + assignments["assignment"][j]["description"])
 				if(assignments["assignment"][j]["due"] != "")
 					if(dates.compare(new Date(), new Date(assignments["assignment"][j]["due"])) == -1)
-						ret = ret + "You have assignment " + assignments["assignment"][j]["title"] +  " with description " + assignments["assignment"][j]["description"] + " due on " + assignments["assignment"][j]["due"] + "\n\n";
+						ret = ret + "You have test " + assignments["assignment"][j]["title"] +  " with description " + assignments["assignment"][j]["description"] + " due on " + assignments["assignment"][j]["due"] + "\n\n";
 			}
 			console.log("RETURN" + ret)
 			//if(ret != "")
@@ -535,7 +538,7 @@ function getSchoologyCourseEvents(sender, courseTitle, schoologyCourseID) {
 	url: "https://api.schoology.com/v1/sections/" + schoologyCourseID + "/events/?start=0&limit=1000",
 	method: "GET",
 	headers: {
-		authorization: "OAuth realm=\"https://api.schoology.com/\",oauth_consumer_key=\"6c0e7eaabd179fc62c025411bbc62df90596a2a38\",oauth_token=\"\",oauth_nonce=\"596b43992ed54\",oauth_signature_method=\"PLAINTEXT\",oauth_timestamp=\"" + (Math.floor((new Date().getTime()/1000))-Math.random()*100+Math.random()*10) + "\",oauth_version=\"1.0\",oauth_signature=\"7f9117828e3c1aef6fc25d09f8347319%26\"",
+		authorization: "OAuth realm=\"https://api.schoology.com/\",oauth_consumer_key=\"6c0e7eaabd179fc62c025411bbc62df90596a2a38\",oauth_token=\"\",oauth_nonce=\"596b43992ed54\",oauth_signature_method=\"PLAINTEXT\",oauth_timestamp=\"" + (Math.floor((new Date().getTime()/1000))-(Math.random()*3000)+(Math.random()*3000)+(Math.random()*5)-(Math.random()*5)) + "\",oauth_version=\"1.0\",oauth_signature=\"7f9117828e3c1aef6fc25d09f8347319%26\"",
 
 	}
 	}, function (error, response, body) {
@@ -549,11 +552,15 @@ function getSchoologyCourseEvents(sender, courseTitle, schoologyCourseID) {
 			console.log("EVENT DESCRIPTION: " + assignments["event"][j]["description"])
 			if(assignments["event"][j]["due"] != "")
 				if(dates.compare(new Date(), new Date(assignments["event"][j]["start"])) == -1)
-					ret = ret + "You have assignment " + assignments["event"][j]["title"] +  " with description " + assignments["event"][j]["description"] + " due on " + assignments["event"][j]["start"] + "\n\n";
+					ret = ret + "You have assignment/test " + assignments["event"][j]["title"] +  " with description " + assignments["event"][j]["description"] + " due on " + assignments["event"][j]["start"] + "\n\n";
 		}
 		console.log("RETURN" + ret)
-		//if(ret != "")
-			sendTextMessage(sender, "You have the following homework events for " + courseTitle + "\n\n" + ret);
+		if(courseTitile.indexOf("dvisory") < 0 && courseTitile.indexOf("IS") < 0 && courseTitle.indexOf("Student Tech Help") < 0) {
+			if(ret === "")
+				sendTextMessage(sender, "You have no homework events/tests for " + courseTitle + "\n\n" + "Yay! (unless your teacher just doesn't post on Schoology)");
+			else
+				sendTextMessage(sender, "You have the following homework events/tests for " + courseTitle + "\n\n" + ret + "\n\n" + "Pro Life Tip: Ask for less homework next time");
+		}
 		//return ret;
 		//sendTextMessage(sender, body);
 		//console.log("USER" + user);
@@ -588,7 +595,7 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 				if (user.first_name) {
 					console.log("FB user: %s %s, %s",
 						user.first_name, user.last_name, user.gender);
-					let id = getSchoologyUser(sender, responseText, user.first_name, user.last_name); //calls the getUserMethod
+					let id = getSchoologyUser(sender, responseText, user.first_name, user.last_name, false); //calls the getUserMethod
 					//getSchoologyCourses
 					
 				}
@@ -597,8 +604,40 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 			}
 	
 		});
+		sendTextMessage(sender, "Go get some work done!");
 		//end of fetching user data
 			
+		break;
+
+		case 'fetch_tests':
+			console.log("Sender ID" + sender);
+			
+			//fetch user data 
+			request({
+				uri: 'https://graph.facebook.com/v2.7/' + sender,
+				qs: {
+					access_token: config.FB_PAGE_TOKEN
+				}
+		
+			}, function (error, response, body) {
+				if (!error && response.statusCode == 200) {
+		
+					var user = JSON.parse(body);
+		
+					if (user.first_name) {
+						console.log("FB user: %s %s, %s",
+							user.first_name, user.last_name, user.gender);
+						let id = getSchoologyUser(sender, responseText, user.first_name, user.last_name, true); //calls the getUserMethod
+						//getSchoologyCourses
+						
+					}
+				} else {
+					console.error(response.error);
+				}
+		
+			});
+			sendTextMessage(sender, "Go study for your tests!");
+			//end of fetching user data
 		break;
 		case 'find_school_day' :
 			refreshToken();
