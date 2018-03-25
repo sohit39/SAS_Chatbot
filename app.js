@@ -457,6 +457,7 @@ function getSchoologyCourseAssignments(schoologyCourseID) {
 					if(dates.compare(new Date(), new Date(assignemnts["assignment"][j]["due"])) == -1)
 						ret = ret + "You have assignment " + assignemnts["assignment"][j]["title"] +  " with description " + assignments["assignment"][j]["description"] + "\n";
 			}
+			return ret;
 			//sendTextMessage(sender, body);
 			//console.log("USER" + user);
 			console.log("course fetch");
@@ -467,7 +468,7 @@ function getSchoologyCourseAssignments(schoologyCourseID) {
 		}
 	});
 
-	return ret;
+	
 }
 
 function handleApiAiAction(sender, action, responseText, contexts, parameters) {
