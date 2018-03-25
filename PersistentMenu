@@ -1,52 +1,62 @@
-  "persistent_menu":[
-    {
-      "locale":"default",
-      "composer_input_disabled": true,
-      "call_to_actions":[
-        {
-          "title”:”School Events!”,
-          "type":"nested",
-          "call_to_actions":[
-            {
-              "title”:”Next School Day (A/B/C/D)”,
-              "type":"postback",
-              "payload”:”SCHOOL_DAY”
-            },
-            {
-              "title”:”Next School Holiday”,
-              "type":"postback",
-              "payload”:”SCHOOL_HOLIDAY”
-            },
-            {
-              "title”:”Next Alternate Dress Day”,
-              "type":"postback",
-              "payload”:”ALTERNATE_DRESS”
-            },
+curl -X POST -H "Content-Type: application/json" -d '{
+ "persistent_menu":[
+     {
+     "locale":"default",
+     "composer_input_disabled":false,
+     "call_to_actions":[
+         {
+         "title":"Your School Events",
+         "type":"nested",
+         "call_to_actions":[
              {
-              "title”:”Next SAT/ACT”,
-              "type":"postback",
-              "payload”:”TESTS”
-            }
-          ]
-        },
-        {
-          "type":"web_url",
-          "title":"Latest News",
-          "url":"http://www.messenger.com/",
-          "webview_height_ratio":"full"
-        }
-      ]
-    },
-    {
-      "locale":"zh_CN",
-      "composer_input_disabled":false,
-      "call_to_actions":[
-        {
-          "title":"Pay Bill",
-          "type":"postback",
-          "payload":"PAYBILL_PAYLOAD"
-        }
-      ]    
-    }
-  ]
-}
+             "title":"Next School Day (A/B/C/D)",
+             "type":"postback",
+             "payload":"SCHOOL_DAY_PAYLOAD"
+             },
+             {
+             "title":"Next School Holiday",
+             "type":"postback",
+             "payload":"SCHOOL_HOLIDAY_PAYLOAD"
+             },
+             {
+             "title":"Next Alternate Dress Day",
+             "type":"postback",
+             "payload":"SCHOOL_ALTERNATE_DRESS_PAYLOAD"
+             },
+              {
+             "title":"Next SAT/ACT",
+             "type":"postback",
+             "payload":"TESTS"
+             }
+         ]
+         },
+         {
+         "title":"Upcoming HW/Tests",
+         "type":"nested",
+         "call_to_actions":[
+             {
+             "title":"What homework do I have?",
+             "type":"postback",
+             "payload":"HW_PAYLOAD"
+             },
+             {
+             "title":"What tests do I have?",
+             "type":"postback",
+             "payload":"TESTS_PAYLOAD"
+             }
+         ]
+         },
+         {
+         "type":"web_url",
+         "title":"Visit website ",
+         "url":"http://sas.edu.sg",
+         "webview_height_ratio":"full"
+         }
+     ]
+     },
+     {
+     "locale":"zh_CN",
+     "composer_input_disabled":false
+     }
+ ]
+ }' "https://graph.facebook.com/v2.6/me/messenger_profile?access_token=EAAGXZALT7Vl0BACs8AK9vLdz5ZCu8QTaMYyZAQ0A53B0j6NjJudZBwfPKmSstYG0UynZB6VTW56jEfqMcdHv9lSfBr1NZCQlsEjPZCUFmL8n0lDZA06KBQaJmuJvvZCSfGkeipsIpzIEZC65XfY24cqtelwN3duvauvvcWNUghxUgCPSCShHdKYsYvZACENpF2bqZArCwmUZB6tazsgZDZD"

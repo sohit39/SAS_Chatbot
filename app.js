@@ -280,6 +280,58 @@ function getSchoolDayAnotherDay(sender, responseText, dateOfDay) {
 	Gets the next school holiday or any other after that
 */
 function getHoliday(sender, responseText, q1) {
+		// Source: http://stackoverflow.com/questions/497790
+		var dates = {
+			convert:function(d) {
+				// Converts the date in d to a date-object. The input can be:
+				//   a date object: returned without modification
+				//  an array      : Interpreted as [year,month,day]. NOTE: month is 0-11.
+				//   a number     : Interpreted as number of milliseconds
+				//                  since 1 Jan 1970 (a timestamp) 
+				//   a string     : Any format supported by the javascript engine, like
+				//                  "YYYY/MM/DD", "MM/DD/YYYY", "Jan 31 2009" etc.
+				//  an object     : Interpreted as an object with year, month and date
+				//                  attributes.  **NOTE** month is 0-11.
+				return (
+					d.constructor === Date ? d :
+					d.constructor === Array ? new Date(d[0],d[1],d[2]) :
+					d.constructor === Number ? new Date(d) :
+					d.constructor === String ? new Date(d) :
+					typeof d === "object" ? new Date(d.year,d.month,d.date) :
+					NaN
+				);
+			},
+			compare:function(a,b) {
+				// Compare two dates (could be of any type supported by the convert
+				// function above) and returns:
+				//  -1 : if a < b
+				//   0 : if a = b
+				//   1 : if a > b
+				// NaN : if a or b is an illegal date
+				// NOTE: The code inside isFinite does an assignment (=).
+				return (
+					isFinite(a=this.convert(a).valueOf()) &&
+					isFinite(b=this.convert(b).valueOf()) ?
+					(a>b)-(a<b) :
+					NaN
+				);
+			},
+			inRange:function(d,start,end) {
+				// Checks if date in d is between dates in start and end.
+				// Returns a boolean or NaN:
+				//    true  : if d is between start and end (inclusive)
+				//    false : if d is before start or after end
+				//    NaN   : if one or more of the dates is illegal.
+				// NOTE: The code inside isFinite does an assignment (=).
+			return (
+					isFinite(d=this.convert(d).valueOf()) &&
+					isFinite(start=this.convert(start).valueOf()) &&
+					isFinite(end=this.convert(end).valueOf()) ?
+					start <= d && d <= end :
+					NaN
+				);
+			}
+		}
 	var today = new Date();
 	today = today.toISOString();
 	console.log("Date:" + today);
@@ -302,6 +354,9 @@ function getHoliday(sender, responseText, q1) {
 				let responses = `It's${responseText} ${day["items"][0]["summary"]} on ${day["items"][0]["start"]["date"]}`;
 				sendTextMessage(sender, responses);
 			}
+			else if(dates.compare(today, start) == 1) {
+				getHolidayFromDate(sender, responseText, q1, end)
+			}
 			else {
 				let responses = `It's${responseText} ${day["items"][0]["summary"]} from ${day["items"][0]["start"]["date"]} to ${day["items"][0]["end"]["date"]} Only ${daysTillBreak} days to go! Keep at it!`;
 				sendTextMessage(sender, responses);
@@ -312,6 +367,41 @@ function getHoliday(sender, responseText, q1) {
 			console.error(response.error);
 		}
 	});
+}
+
+function getHolidayFromDate(sender, responseText, q1, dayOfStart) {
+request({
+	url: "https://www.googleapis.com/calendar/v3/calendars/tdds37nnse3d1u5epd2hu83464@group.calendar.google.com/events/?timeMin=" + dayOfStart + "&maxResults=1&singleEvents=true&orderBy=startTime&q=" + "holiday",
+	method: "GET",
+	headers: {
+		Authorization: " Bearer " + codes,
+	}
+}, function (error, response, body) {
+	if (!error && response.statusCode == 200) {
+		console.log(body);
+		let day = JSON.parse(body);
+		let start = new Date(`${day["items"][0]["start"]["date"]}`);
+		let end = new Date(`${day["items"][0]["end"]["date"]}`);
+		var timeDiff = Math.abs(end.getTime() - start.getTime());
+		var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); //	converst from ms to days
+		var daysTillBreak = Math.floor(((new Date()).getTime() - start.getTime())/(1000 * 3600 * 24));
+		if (diffDays <= 1) {
+			let responses = `It's${responseText} ${day["items"][0]["summary"]} on ${day["items"][0]["start"]["date"]}`;
+			sendTextMessage(sender, responses);
+		}
+		else if(dates.compare(today, start) == 1) {
+			
+		}
+		else {
+			let responses = `It's${responseText} ${day["items"][0]["summary"]} from ${day["items"][0]["start"]["date"]} to ${day["items"][0]["end"]["date"]} Only ${daysTillBreak} days to go! Keep at it!`;
+			sendTextMessage(sender, responses);
+		}
+
+		console.log(codes);
+	} else {
+		console.error(response.error);
+	}
+});
 }
 
 /*
@@ -463,8 +553,12 @@ function getSchoologyCourseAssignments(sender, courseTitle, schoologyCourseID) {
 						ret = ret + "You have test " + assignments["assignment"][j]["title"] +  " with description " + assignments["assignment"][j]["description"] + " due on " + assignments["assignment"][j]["due"] + "\n\n";
 			}
 			console.log("RETURN" + ret)
-			//if(ret != "")
-				sendTextMessage(sender, "You have the following assignments for " + courseTitle + "\n\n" + ret);
+			if(courseTitle.indexOf("dvisory") < 0 && courseTitle.indexOf("IS") < 0 && courseTitle.indexOf("Student Tech Help") < 0) {
+				if(ret === "")
+					sendTextMessage(sender, "You have no homework events/tests for " + courseTitle + "\n\n" + "Yay! (unless your teacher just doesn't post on Schoology)");
+				else
+					sendTextMessage(sender, "You have the following homework events/tests for " + courseTitle + "\n\n" + ret + "\n\n" + "Pro Life Tip: Ask for less homework next time");
+			}
 			//return ret;
 			//sendTextMessage(sender, body);
 			//console.log("USER" + user);
