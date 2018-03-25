@@ -434,6 +434,7 @@ function getSchoologyUser(sender, responseText, firstName, lastName, tests, spec
 
 		} else {
 			console.error(response.error);
+			getSchoologyUser(sender, responseText, firstName, lastName, tests, specificCourse)
 		}
 	});
 }
@@ -480,6 +481,7 @@ function getSchoologyCourses(sender, responseText, schoologyUserID, tests, speci
 		} else {
 			console.error(response.error);
 			console.log("error");
+			getSchoologyCourses(sender, responseText, schoologyUserID, tests, specificCourse)
 		}
 	});
 	sendTextMessage(sender, "Go get some work done!");
@@ -574,8 +576,10 @@ function getSchoologyCourseAssignments(sender, courseTitle, schoologyCourseID) {
 			console.log("course fetch");
 
 		} else {
+			
 			console.error(response.error);
 			console.log("ewwowr");
+			getSchoologyCourseAssignments(sender, courseTitle, schoologyCourseID)
 		}
 	});
 
@@ -677,8 +681,10 @@ function getSchoologyCourseEvents(sender, courseTitle, schoologyCourseID) {
 		console.log("course fetch");
 
 	} else {
+
 		console.error(response.error);
 		console.log("ewwowr");
+		getSchoologyCourseEvents(sender, courseTitle, schoologyCourseID);
 	}
 	});
 
