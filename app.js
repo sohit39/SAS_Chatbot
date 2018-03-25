@@ -460,7 +460,7 @@ function getSchoologyCourses(sender, responseText, schoologyUserID, tests, speci
 				console.log("COURSE ID: " + courses["section"][j]["id"])
 				//sendTextMessage(sender, "You have course " + courses["section"][j]["course_title"] +  " with ID " + courses["section"][j]["id"]);
 				//getSchoologyCourseAssignments(sender, courses["section"][j]["course_title"], courses["section"][j]["id"]);
-				if(specificCourse != null && (courses["section"][j]["course_title"]).toLowerCase().indexOf(specificCourse.toLowerCase()) > 0) {
+				if(specificCourse != null && (courses["section"][j]["course_title"]).toLowerCase().indexOf(specificCourse.toLowerCase()) >= 0) {
 					getSchoologyCourseEvents(sender, courses["section"][j]["course_title"], courses["section"][j]["id"]);
 					sent = true;
 				}
