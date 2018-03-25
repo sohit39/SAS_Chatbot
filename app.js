@@ -450,7 +450,7 @@ function getSchoologyCourseAssignments(schoologyCourseID) {
 			console.log(body);
 			let assignments = JSON.parse(body);
 			let ret = "";
-			for( var j = 0; j < assignments["assigment"].length; j++) {
+			for( var j = 0; j < assignments["assignment"].length; j++) {
 				console.log("ASSIGNMENT TITLE: " + assignments["assignment"][j]["title"]);
 				console.log("ASSIGNMENT DESCRIPTION: " + assignments["assignment"][j]["description"])
 				if(assignemnts["assignment"][j]["due"] != "")
