@@ -1324,14 +1324,26 @@ function receivedPostback(event) {
 			refreshToken();
 			getHoliday(senderID, "", "Holiday");
 		break;
-		case 'TESTS':
-			sendTextMessage(senderID, "SAT or ACT?");
-			break;
 		case 'HW_PAYLOAD' :
 			if (!sessionIds.has(senderID)) {
 				sessionIds.set(senderID, uuid.v1());
 			}
 			sendToApiAi(senderID, "What homework do I have due tomorrow?");
+			break;
+		case 'TESTS':
+			sendTextMessage(senderID, "SAT or ACT?");
+			break;
+		case 'SCHOOL_ALTERNATE_DRESS_PAYLOAD' :
+			if (!sessionIds.has(senderID)) {
+				sessionIds.set(senderID, uuid.v1());
+			}
+			sendToApiAi(senderID, "When is alternate dress day?");
+			break;
+		case 'TESTS_PAYLOAD' :
+			if (!sessionIds.has(senderID)) {
+				sessionIds.set(senderID, uuid.v1());
+			}
+			sendToApiAi(senderID, "What tests do I have?");
 			break;
 		default:
 			//unindentified payload
