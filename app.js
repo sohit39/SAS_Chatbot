@@ -1316,16 +1316,19 @@ function receivedPostback(event) {
 		case 'GET_STARTED':
 			greetUserText(senderID);
 			break;
-		case 'SCHOOL_DAY':
+		case 'SCHOOL_DAY_PAYLOAD':
 			refreshToken();
 			getSchoolDay(senderID, "");
 		break;
-		case 'SCHOOL_HOLIDAY':
+		case 'SCHOOL_HOLIDAY_PAYLOAD':
 			refreshToken();
 			getHoliday(senderID, "", "Holiday");
 		break;
 		case 'TESTS':
 			sendTextMessage(senderID, "SAT or ACT?");
+			break;
+		case 'HW_PAYLOAD' :
+			sendToApiAi(senderID, "What homework do I have due tomorrow?")
 			break;
 		default:
 			//unindentified payload

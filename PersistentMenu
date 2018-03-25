@@ -1,0 +1,52 @@
+  "persistent_menu":[
+    {
+      "locale":"default",
+      "composer_input_disabled": true,
+      "call_to_actions":[
+        {
+          "title”:”School Events!”,
+          "type":"nested",
+          "call_to_actions":[
+            {
+              "title”:”Next School Day (A/B/C/D)”,
+              "type":"postback",
+              "payload”:”SCHOOL_DAY”
+            },
+            {
+              "title”:”Next School Holiday”,
+              "type":"postback",
+              "payload”:”SCHOOL_HOLIDAY”
+            },
+            {
+              "title”:”Next Alternate Dress Day”,
+              "type":"postback",
+              "payload”:”ALTERNATE_DRESS”
+            },
+             {
+              "title”:”Next SAT/ACT”,
+              "type":"postback",
+              "payload”:”TESTS”
+            }
+          ]
+        },
+        {
+          "type":"web_url",
+          "title":"Latest News",
+          "url":"http://www.messenger.com/",
+          "webview_height_ratio":"full"
+        }
+      ]
+    },
+    {
+      "locale":"zh_CN",
+      "composer_input_disabled":false,
+      "call_to_actions":[
+        {
+          "title":"Pay Bill",
+          "type":"postback",
+          "payload":"PAYBILL_PAYLOAD"
+        }
+      ]    
+    }
+  ]
+}
