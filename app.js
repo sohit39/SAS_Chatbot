@@ -351,7 +351,7 @@ function getHoliday(sender, responseText, q1) {
 			var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); //	converst from ms to days
 			var daysTillBreak = Math.floor(((new Date()).getTime() - start.getTime())/(1000 * 3600 * 24));
 			if (diffDays <= 1) {
-				let responses = `It's${responseText} ${day["items"][0]["summary"]} on ${day["items"][0]["start"]["date"]}`;
+				let responses = `It's${responseText} ${day["items"][0]["summary"]} on ${day["items"][0]["start"]["date"]} Only ${daysTillBreak} days to go! Keep at it!`;
 				sendTextMessage(sender, responses);
 			}
 			else if(dates.compare(today, start) == 1) {
@@ -386,7 +386,7 @@ request({
 		var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); //	converst from ms to days
 		var daysTillBreak = Math.floor(((new Date()).getTime() - start.getTime())/(1000 * 3600 * 24));
 		if (diffDays <= 1) {
-			let responses = `It's${responseText} ${day["items"][0]["summary"]} on ${day["items"][0]["start"]["date"]}`;
+			let responses = `It's${responseText} ${day["items"][0]["summary"]} on ${day["items"][0]["start"]["date"]} Only ${daysTillBreak} days to go! Keep at it!`;
 			sendTextMessage(sender, responses);
 		}
 		else if(dates.compare(today, start) == 1) {
