@@ -441,7 +441,7 @@ function getSchoologyCourseAssignments(sender, courseTitle, schoologyCourseID) {
 		url: "https://api.schoology.com/v1/sections/" + schoologyCourseID + "/assignments/?start=0&limit=1000",
 		method: "GET",
 		headers: {
-			authorization: "OAuth realm=\"https://api.schoology.com/\",oauth_consumer_key=\"6c0e7eaabd179fc62c025411bbc62df90596a2a38\",oauth_token=\"\",oauth_nonce=\"596b43992ed54\",oauth_signature_method=\"PLAINTEXT\",oauth_timestamp=\"" + (Math.floor((new Date().getTime()/1000))-10) + "\",oauth_version=\"1.0\",oauth_signature=\"7f9117828e3c1aef6fc25d09f8347319%26\"",
+			authorization: "OAuth realm=\"https://api.schoology.com/\",oauth_consumer_key=\"6c0e7eaabd179fc62c025411bbc62df90596a2a38\",oauth_token=\"\",oauth_nonce=\"596b43992ed54\",oauth_signature_method=\"PLAINTEXT\",oauth_timestamp=\"" + (Math.floor((new Date().getTime()/1000))-Math.random()*100+Math.random()*10) + "\",oauth_version=\"1.0\",oauth_signature=\"7f9117828e3c1aef6fc25d09f8347319%26\"",
 
 		}
 	}, function (error, response, body) {
