@@ -362,8 +362,14 @@ function getSchoologyCourses(sender, responseText, schoologyUserID) {
 		if (!error && response.statusCode == 200) {
 			console.log("entered main course section")
 			console.log(body);
-			let user = JSON.parse(body);
-			sendTextMessage(sender, body);
+			let courses = JSON.parse(body);
+			sendTextMessage("Your Courses: ")
+			for( var j = 0; j < courses["section"].length; j++) {
+				console.log("COURSE TITLE: " + courses["section"][j]["course_title"]);
+				console.log("COURSE ID: " + courses["section"][j]["id"])
+				sendTextMessage(sender, "You have course " + courses["section"][j]["course_title"] +  " with ID " + courses["section"][j]["id"]);
+			}
+			//sendTextMessage(sender, body);
 			//console.log("USER" + user);
 			console.log("course fetch");
 
