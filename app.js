@@ -453,8 +453,8 @@ function getSchoologyCourseAssignments(sender, courseTitle, schoologyCourseID) {
 			for( var j = 0; j < assignments["assignment"].length; j++) {
 				console.log("ASSIGNMENT TITLE: " + assignments["assignment"][j]["title"]);
 				console.log("ASSIGNMENT DESCRIPTION: " + assignments["assignment"][j]["description"])
-				//if(assignments["assignment"][j]["due"] != "")
-					//if(dates.compare(new Date(), new Date(assignments["assignment"][j]["due"])) == -1)
+				if(assignments["assignment"][j]["due"] != "")
+					if(dates.compare(new Date(), new Date(assignments["assignment"][j]["due"])) == -1)
 						ret = ret + "You have assignment " + assignments["assignment"][j]["title"] +  " with description " + assignments["assignment"][j]["description"] + "\n";
 			}
 			console.log("RETURN" + ret)
