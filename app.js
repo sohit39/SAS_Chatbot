@@ -663,7 +663,7 @@ function getSchoologyCourseEvents(sender, courseTitle, schoologyCourseID) {
 				let dayOfWeek = d.getDay(); if(dayOfWeek == 0) dayOfWeek = "Sunday"; if(dayOfWeek == 1) dayOfWeek = "Monday"; if(dayOfWeek == 2) dayOfWeek = "Tuesday"; if(dayOfWeek == 3) dayOfWeek = "Wednesday"; if(dayOfWeek == 4) dayOfWeek = "Thursday"; if(dayOfWeek == 5) dayOfWeek = "Friday"; if(dayOfWeek == 6) dayOfWeek = "Saturday";
 				let numberInMonth = d.getDate();
 				let month = d.getMonth(); if(month == 0) month = "January"; if(month == 1) month = "February"; if(month == 2) month = "March"; if(month == 3) month = "April"; if(month == 4) month = "May"; if(month == 5) month = "June"; if(month == 6) month = "July"; if(month == 7) month = "August"; if(month == 8) month = "September"; if(month == 9) month = "October"; if(month == 10) month = "November"; if(month == 11) month = "December";
-				if(dates.compare(new Date(), new Date(assignments["event"][j]["start"])) == -1) { //&& dates.compare(new Date(new Date().getMilliseconds() + 864000000), new Date(assignments["event"][j]["start"])) == 1) {
+				if(dates.compare(new Date(), new Date(assignments["event"][j]["start"])) == -1 && dates.compare(new Date(new Date().getMilliseconds() + 864000000), new Date(assignments["event"][j]["start"])) == 1) {
 					ret = ret + "You have assignment/test " + assignments["event"][j]["title"] +  " with description " + assignments["event"][j]["description"] + " on " + dayOfWeek + ", " + numberInMonth + " " + month + ", " + assignments["event"][j]["start"] + "\n\n";
 				}
 			}
@@ -671,7 +671,7 @@ function getSchoologyCourseEvents(sender, courseTitle, schoologyCourseID) {
 		console.log("RETURN" + ret)
 		if(courseTitle.indexOf("dvisory") < 0 && courseTitle.indexOf("IS") < 0 && courseTitle.indexOf("Student Tech Help") < 0) {
 			if(ret === "")
-				sendTextMessage(sender, "You have no homework events/tests for " + courseTitle + "\n\n" + "Yay! (unless your teacher just doesn't post on Schoology)");
+				sendTextMessage(sender, "You have no homework events/tests for " + courseTitle + " for the next 10 days" + "\n\n" + "Yay! (unless your teacher just doesn't post on Schoology)");
 			else
 				sendTextMessage(sender, "You have the following homework events/tests for " + courseTitle + "\n\n" + ret + "\n\n" + "Pro Life Tip: Ask for less homework next time");
 		}
