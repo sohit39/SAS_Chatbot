@@ -604,7 +604,7 @@ function getSchoologyCourseAssignments(sender, courseTitle, schoologyCourseID, s
 			
 			console.error(response.error);
 			console.log("ewwowr");
-			getSchoologyCourseAssignments(sender, courseTitle, schoologyCourseID)
+			getSchoologyCourseAssignments(sender, courseTitle, schoologyCourseID, specificDate);
 		}
 	});
 
