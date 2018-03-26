@@ -611,7 +611,7 @@ function getSchoologyCourseAssignments(sender, courseTitle, schoologyCourseID, s
 	
 }
 
-function getSchoologyCourseEvents(sender, courseTitle, schoologyCourseID) {
+function getSchoologyCourseEvents(sender, courseTitle, schoologyCourseID, specificDate) {
 		// Source: http://stackoverflow.com/questions/497790
 	var dates = {
 		convert:function(d) {
