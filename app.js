@@ -484,7 +484,7 @@ function getSchoologyCourses(sender, responseText, schoologyUserID, tests, speci
 			getSchoologyCourses(sender, responseText, schoologyUserID, tests, specificCourse)
 		}
 	});
-	sendTextMessage(sender, "Go get some work done!");
+	
 }
 
 function getSchoologyCourseAssignments(sender, courseTitle, schoologyCourseID, specificDate) {
@@ -565,12 +565,12 @@ function getSchoologyCourseAssignments(sender, courseTitle, schoologyCourseID, s
 					let numberInMonth = d.getDate();
 					let month = d.getMonth(); if(month == 0) month = "January"; if(month == 1) month = "February"; if(month == 2) month = "March"; if(month == 3) month = "April"; if(month == 4) month = "May"; if(month == 5) month = "June"; if(month == 6) month = "July"; if(month == 7) month = "August"; if(month == 8) month = "September"; if(month == 9) month = "October"; if(month == 10) month = "November"; if(month == 11) month = "December";
 					if(specificDate != "") {
-						if(dates.compare(new Date(specificDate), new Date(assignments["assignment"][j]["due"])) == -1) { //&& dates.compare(new Date(new Date(specificDate).getMilliseconds() + (86400000*2), new Date(assignments["assignment"][j]["due"])) == 1)) {
+						if(dates.compare(new Date(specificDate), new Date(assignments["assignment"][j]["due"])) == -1 && dates.compare(new Date(new Date(specificDate).getTime() + (86400000*2), new Date(assignments["assignment"][j]["due"])) == 1)) {
 							ret = ret + "You have assignment/test " + "*" + assignments["assignment"][j]["title"] + "*" + " with description " + assignments["assignment"][j]["description"] + " on " + "*" + dayOfWeek + ", " + numberInMonth + " " + month + "*" + ", " + assignments["assignment"][j]["due"] + "\n\n";
 						}
 					}
 					else {
-						if(dates.compare(new Date(), new Date(assignments["assignment"][j]["due"])) == -1 ) { //&& dates.compare(new Date(new Date().getMilliseconds() + 864000000), new Date(assignments["assignment"][j]["due"])) == 1) {
+						if(dates.compare(new Date(), new Date(assignments["assignment"][j]["due"])) == -1 && dates.compare(new Date(new Date().getTime() + 864000000), new Date(assignments["assignment"][j]["due"])) == 1) {
 							ret = ret + "You have assignment/test " + "*" +assignments["assignment"][j]["title"] + "*" + " with description " + assignments["assignment"][j]["description"] + " on " + "*" + dayOfWeek + ", " + numberInMonth + " " + month  + "*"  + ", "+ assignments["assignment"][j]["due"] + "\n\n";
 						}
 					}
@@ -689,12 +689,12 @@ function getSchoologyCourseEvents(sender, courseTitle, schoologyCourseID, specif
 				let numberInMonth = d.getDate();
 				let month = d.getMonth(); if(month == 0) month = "January"; if(month == 1) month = "February"; if(month == 2) month = "March"; if(month == 3) month = "April"; if(month == 4) month = "May"; if(month == 5) month = "June"; if(month == 6) month = "July"; if(month == 7) month = "August"; if(month == 8) month = "September"; if(month == 9) month = "October"; if(month == 10) month = "November"; if(month == 11) month = "December";
 				if(specificDate != "") {
-					if(dates.compare(new Date(specificDate), new Date(assignments["event"][j]["start"])) == -1 ) { //&& dates.compare(new Date(new Date(specificDate).getMilliseconds() + (86400000*2), new Date(assignments["event"][j]["start"])) == 1)) {
+					if(dates.compare(new Date(specificDate), new Date(assignments["event"][j]["start"])) == -1 && dates.compare(new Date(new Date(specificDate).getTime() + (86400000*2), new Date(assignments["event"][j]["start"])) == 1)) {
 						ret = ret + "You have homework/assignment " + "*" + assignments["event"][j]["title"] + "*" +  " with description " + assignments["event"][j]["description"] + " on " + "*" +dayOfWeek + ", " + numberInMonth + " " + month + "*" + ", " + assignments["event"][j]["start"] + "\n\n";
 					}
 				}
 				else {
-					if(dates.compare(new Date(), new Date(assignments["event"][j]["start"])) == -1 ) { //&& dates.compare(new Date(new Date().getMilliseconds() + 864000000), new Date(assignments["event"][j]["start"])) == -1) {
+					if(dates.compare(new Date(), new Date(assignments["event"][j]["start"])) == -1 && dates.compare(new Date(new Date().getTime() + 864000000), new Date(assignments["event"][j]["start"])) == 1) {
 						ret = ret + "You have homework/assignment " + "*" + assignments["event"][j]["title"] +  "*" + " with description " + assignments["event"][j]["description"] + " on " + "*" + dayOfWeek + ", " + numberInMonth + " " + month + "*" + ", " + assignments["event"][j]["start"] + "\n\n";
 					}
 				}
@@ -825,7 +825,17 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 				}
 		
 			});
-			sendTextMessage(sender, "Go study for your tests!");
+			var start = Date.now();
+			console.log("starting timer...");
+			// expected output: starting timer...
+
+			setTimeout(function() {
+				var millis = Date.now() - start;
+				sendTextMessage(sender, "Go study for your tests!");
+				console.log("seconds elapsed = " + Math.floor(millis/1000));
+				// expected output : seconds elapsed = 1.2
+			}, 1200);
+			
 			//end of fetching user data
 		break;
 		case 'find_school_day' :
