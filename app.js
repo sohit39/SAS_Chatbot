@@ -407,7 +407,7 @@ request({
 /*
 	Searches for Schoology user using FB first name as last name
 */
-function getSchoologyUser(sender, responseText, firstName, lastName, tests, specificCourse) {
+function getSchoologyUser(sender, responseText, firstName, lastName, tests, specificCourse, specificDate) {
 	console.log("get user" + firstName);
 	console.log("get user" + lastName);
 	request({
@@ -424,7 +424,7 @@ function getSchoologyUser(sender, responseText, firstName, lastName, tests, spec
 			if (user["users"]["search_result"][0] != undefined) {
 				console.log("USERID: " + user["users"]["search_result"][0]["uid"]);
 				let schoologyUserID = user["users"]["search_result"][0]["uid"];
-				getSchoologyCourses(sender, responseText, schoologyUserID, tests, specificCourse);
+				getSchoologyCourses(sender, responseText, schoologyUserID, tests, specificCourse, specificDate);
 				//sendTextMessage(sender, "Your user ID is: " + schoologyUserID);
 				return schoologyUserID;
 				
@@ -434,12 +434,12 @@ function getSchoologyUser(sender, responseText, firstName, lastName, tests, spec
 
 		} else {
 			console.error(response.error);
-			getSchoologyUser(sender, responseText, firstName, lastName, tests, specificCourse)
+			getSchoologyUser(sender, responseText, firstName, lastName, tests, specificCourse, specificDate)
 		}
 	});
 }
 
-function getSchoologyCourses(sender, responseText, schoologyUserID, tests, specificCourse) {
+function getSchoologyCourses(sender, responseText, schoologyUserID, tests, specificCourse, specificDate) {
 	console.log("entered course method");
 	console.log("ID " + schoologyUserID )
 	request({
@@ -467,9 +467,9 @@ function getSchoologyCourses(sender, responseText, schoologyUserID, tests, speci
 				}
 				if(specificCourse == null) {
 					if(tests)
-						getSchoologyCourseAssignments(sender, courses["section"][j]["course_title"], courses["section"][j]["id"]);
+						getSchoologyCourseAssignments(sender, courses["section"][j]["course_title"], courses["section"][j]["id"], specificDate);
 					else	
-						getSchoologyCourseEvents(sender, courses["section"][j]["course_title"], courses["section"][j]["id"]);
+						getSchoologyCourseEvents(sender, courses["section"][j]["course_title"], courses["section"][j]["id"], specificDate);
 				}
 			}
 			if(specificCourse != null && !sent)
@@ -487,7 +487,7 @@ function getSchoologyCourses(sender, responseText, schoologyUserID, tests, speci
 	sendTextMessage(sender, "Go get some work done!");
 }
 
-function getSchoologyCourseAssignments(sender, courseTitle, schoologyCourseID) {
+function getSchoologyCourseAssignments(sender, courseTitle, schoologyCourseID, specificDate) {
 			// Source: http://stackoverflow.com/questions/497790
 		var dates = {
 			convert:function(d) {
@@ -560,21 +560,40 @@ function getSchoologyCourseAssignments(sender, courseTitle, schoologyCourseID) {
 				console.log("ASSIGNMENT TITLE: " + assignments["assignment"][j]["title"]);
 				console.log("ASSIGNMENT DESCRIPTION: " + assignments["assignment"][j]["description"])
 				if(assignments["assignment"][j]["due"] != "") {
-					let d = new Date(assignments["assignment"][j]["start"]);
+					let d = new Date(assignments["assignment"][j]["due"]);
 					let dayOfWeek = d.getDay(); if(dayOfWeek == 0) dayOfWeek = "Sunday"; if(dayOfWeek == 1) dayOfWeek = "Monday"; if(dayOfWeek == 2) dayOfWeek = "Tuesday"; if(dayOfWeek == 3) dayOfWeek = "Wednesday"; if(dayOfWeek == 4) dayOfWeek = "Thursday"; if(dayOfWeek == 5) dayOfWeek = "Friday"; if(dayOfWeek == 6) dayOfWeek = "Saturday";
 					let numberInMonth = d.getDate();
 					let month = d.getMonth(); if(month == 0) month = "January"; if(month == 1) month = "February"; if(month == 2) month = "March"; if(month == 3) month = "April"; if(month == 4) month = "May"; if(month == 5) month = "June"; if(month == 6) month = "July"; if(month == 7) month = "August"; if(month == 8) month = "September"; if(month == 9) month = "October"; if(month == 10) month = "November"; if(month == 11) month = "December";
-					if(dates.compare(new Date(), new Date(assignments["assignment"][j]["due"])) == -1 && dates.compare(new Date(new Date().getMilliseconds() + 864000000), new Date(assignments["assignment"][j]["due"])) == 1) {
-						ret = ret + "You have assignment/test " + assignments["assignment"][j]["title"] +  " with description " + assignments["assignment"][j]["description"] + " on " + dayOfWeek + ", " + numberInMonth + " " + month + ", " + assignments["assignment"][j]["due"] + "\n\n";
+					if(specificDate != "") {
+						if(dates.compare(new Date(specificDate), new Date(assignments["assignment"][j]["due"])) == -1 && dates.compare(new Date(new Date(specificDate).getMilliseconds() + (86400000*2), new Date(assignments["assignment"][j]["due"])) == 1)) {
+							ret = ret + "You have assignment/test " + assignments["assignment"][j]["title"] +  " with description " + assignments["assignment"][j]["description"] + " on " + dayOfWeek + ", " + numberInMonth + " " + month + ", " + assignments["assignment"][j]["due"] + "\n\n";
+						}
+					}
+					else {
+						if(dates.compare(new Date(), new Date(assignments["assignment"][j]["due"])) == -1 && dates.compare(new Date(new Date().getMilliseconds() + 864000000), new Date(assignments["assignment"][j]["due"])) == 1) {
+							ret = ret + "You have assignment/test " + assignments["assignment"][j]["title"] +  " with description " + assignments["assignment"][j]["description"] + " on " + dayOfWeek + ", " + numberInMonth + " " + month + ", " + assignments["assignment"][j]["due"] + "\n\n";
+						}
 					}
 				}
 			}
 			console.log("RETURN" + ret)
 			if(courseTitle.indexOf("dvisory") < 0 && courseTitle.indexOf("IS") < 0 && courseTitle.indexOf("Student Tech Help") < 0  && courseTitle.indexOf("I Service") < 0) {
-				if(ret === "")
-					sendTextMessage(sender, "You have no tests/quizzes for " + courseTitle + " for the next 10 days" + "\n\n" + "Yay! (unless your teacher just doesn't post on Schoology)");
-				else
-					sendTextMessage(sender, "You have the following tests/quizzes for " + courseTitle + "\n\n" + ret + "\n\n" + "Pro Life Tip: Ask for less homework next time");
+				if(specificDate != "") {
+					let d = new Date(specificDate);
+					let dayOfWeek = d.getDay(); if(dayOfWeek == 0) dayOfWeek = "Sunday"; if(dayOfWeek == 1) dayOfWeek = "Monday"; if(dayOfWeek == 2) dayOfWeek = "Tuesday"; if(dayOfWeek == 3) dayOfWeek = "Wednesday"; if(dayOfWeek == 4) dayOfWeek = "Thursday"; if(dayOfWeek == 5) dayOfWeek = "Friday"; if(dayOfWeek == 6) dayOfWeek = "Saturday";
+					let numberInMonth = d.getDate();
+					let month = d.getMonth(); if(month == 0) month = "January"; if(month == 1) month = "February"; if(month == 2) month = "March"; if(month == 3) month = "April"; if(month == 4) month = "May"; if(month == 5) month = "June"; if(month == 6) month = "July"; if(month == 7) month = "August"; if(month == 8) month = "September"; if(month == 9) month = "October"; if(month == 10) month = "November"; if(month == 11) month = "December";
+					if(ret === "")
+						sendTextMessage(sender, "You have no tests/quizzes for " + courseTitle + " on " + dayOfWeek + ", " + numberInMonth + " " + month + ", " + "\n\n" + "Yay! (unless your teacher just doesn't post on Schoology)");
+					else
+						sendTextMessage(sender, "You have the following tests/quizzes for " + courseTitle + "\n\n" + ret + "\n\n" + "Pro Life Tip: Ask for less homework next time");
+				}
+				else {
+					if(ret === "")
+						sendTextMessage(sender, "You have no tests/quizzes for " + courseTitle + " for the next 10 days" + "\n\n" + "Yay! (unless your teacher just doesn't post on Schoology)");
+					else
+						sendTextMessage(sender, "You have the following tests/quizzes for " + courseTitle + "\n\n" + ret + "\n\n" + "Pro Life Tip: Ask for less homework next time");
+				}
 			}
 			//return ret;
 			//sendTextMessage(sender, body);
@@ -669,17 +688,36 @@ function getSchoologyCourseEvents(sender, courseTitle, schoologyCourseID) {
 				let dayOfWeek = d.getDay(); if(dayOfWeek == 0) dayOfWeek = "Sunday"; if(dayOfWeek == 1) dayOfWeek = "Monday"; if(dayOfWeek == 2) dayOfWeek = "Tuesday"; if(dayOfWeek == 3) dayOfWeek = "Wednesday"; if(dayOfWeek == 4) dayOfWeek = "Thursday"; if(dayOfWeek == 5) dayOfWeek = "Friday"; if(dayOfWeek == 6) dayOfWeek = "Saturday";
 				let numberInMonth = d.getDate();
 				let month = d.getMonth(); if(month == 0) month = "January"; if(month == 1) month = "February"; if(month == 2) month = "March"; if(month == 3) month = "April"; if(month == 4) month = "May"; if(month == 5) month = "June"; if(month == 6) month = "July"; if(month == 7) month = "August"; if(month == 8) month = "September"; if(month == 9) month = "October"; if(month == 10) month = "November"; if(month == 11) month = "December";
-				if(dates.compare(new Date(), new Date(assignments["event"][j]["start"])) == -1 && dates.compare(new Date(new Date().getMilliseconds() + 864000000), new Date(assignments["event"][j]["start"])) == 1) {
-					ret = ret + "You have assignment/test " + assignments["event"][j]["title"] +  " with description " + assignments["event"][j]["description"] + " on " + dayOfWeek + ", " + numberInMonth + " " + month + ", " + assignments["event"][j]["start"] + "\n\n";
+				if(specificDate != "") {
+					if(dates.compare(new Date(specificDate), new Date(assignments["event"][j]["start"])) == -1 && dates.compare(new Date(new Date(specificDate).getMilliseconds() + (86400000*2), new Date(assignments["event"][j]["start"])) == 1)) {
+						ret = ret + "You have assignment/test " + assignments["event"][j]["title"] +  " with description " + assignments["event"][j]["description"] + " on " + dayOfWeek + ", " + numberInMonth + " " + month + ", " + assignments["event"][j]["start"] + "\n\n";
+					}
+				}
+				else {
+					if(dates.compare(new Date(), new Date(assignments["event"][j]["start"])) == -1 && dates.compare(new Date(new Date().getMilliseconds() + 864000000), new Date(assignments["event"][j]["start"])) == 1) {
+						ret = ret + "You have assignment/test " + assignments["event"][j]["title"] +  " with description " + assignments["event"][j]["description"] + " on " + dayOfWeek + ", " + numberInMonth + " " + month + ", " + assignments["event"][j]["start"] + "\n\n";
+					}
 				}
 			}
 		}
 		console.log("RETURN" + ret)
 		if(courseTitle.indexOf("dvisory") < 0 && courseTitle.indexOf("IS") < 0 && courseTitle.indexOf("Student Tech Help") < 0  && courseTitle.indexOf("I Service") < 0) {
-			if(ret === "")
-				sendTextMessage(sender, "You have no homework events/assignments for " + courseTitle + " for the next 10 days" + "\n\n" + "Yay! (unless your teacher just doesn't post on Schoology)");
-			else
-				sendTextMessage(sender, "You have the following homework events/assignments for " + courseTitle + "\n\n" + ret + "\n\n" + "Pro Life Tip: Ask for less homework next time");
+			if(specificDate != "") {
+				let d = new Date(specificDate);
+				let dayOfWeek = d.getDay(); if(dayOfWeek == 0) dayOfWeek = "Sunday"; if(dayOfWeek == 1) dayOfWeek = "Monday"; if(dayOfWeek == 2) dayOfWeek = "Tuesday"; if(dayOfWeek == 3) dayOfWeek = "Wednesday"; if(dayOfWeek == 4) dayOfWeek = "Thursday"; if(dayOfWeek == 5) dayOfWeek = "Friday"; if(dayOfWeek == 6) dayOfWeek = "Saturday";
+				let numberInMonth = d.getDate();
+				let month = d.getMonth(); if(month == 0) month = "January"; if(month == 1) month = "February"; if(month == 2) month = "March"; if(month == 3) month = "April"; if(month == 4) month = "May"; if(month == 5) month = "June"; if(month == 6) month = "July"; if(month == 7) month = "August"; if(month == 8) month = "September"; if(month == 9) month = "October"; if(month == 10) month = "November"; if(month == 11) month = "December";
+				if(ret === "")
+					sendTextMessage(sender, "You have no tests/quizzes for " + courseTitle + " on " + dayOfWeek + ", " + numberInMonth + " " + month + ", " + "\n\n" + "Yay! (unless your teacher just doesn't post on Schoology)");
+				else
+					sendTextMessage(sender, "You have the following tests/quizzes for " + courseTitle + "\n\n" + ret + "\n\n" + "Pro Life Tip: Ask for less homework next time");
+			}
+			else {
+				if(ret === "")
+					sendTextMessage(sender, "You have no tests/quizzes for " + courseTitle + " for the next 10 days" + "\n\n" + "Yay! (unless your teacher just doesn't post on Schoology)");
+				else
+					sendTextMessage(sender, "You have the following tests/quizzes for " + courseTitle + "\n\n" + ret + "\n\n" + "Pro Life Tip: Ask for less homework next time");
+			}
 		}
 		//return ret;
 		//sendTextMessage(sender, body);
@@ -717,7 +755,7 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 				if (user.first_name) {
 					console.log("FB user: %s %s, %s",
 						user.first_name, user.last_name, user.gender);
-					let id = getSchoologyUser(sender, responseText, user.first_name, user.last_name, false, null); //calls the getUserMethod
+					let id = getSchoologyUser(sender, responseText, user.first_name, user.last_name, false, null, parameters["date"]); //calls the getUserMethod
 					//getSchoologyCourses
 					
 				}
@@ -749,7 +787,7 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 				if (user.first_name) {
 					console.log("FB user: %s %s, %s",
 						user.first_name, user.last_name, user.gender);
-					let id = getSchoologyUser(sender, responseText, user.first_name, user.last_name, false, parameters["any"]); //calls the getUserMethod
+					let id = getSchoologyUser(sender, responseText, user.first_name, user.last_name, false, parameters["any"], parameters["date"]); //calls the getUserMethod
 					//getSchoologyCourses
 					
 				}
