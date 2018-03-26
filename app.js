@@ -816,7 +816,7 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 					if (user.first_name) {
 						console.log("FB user: %s %s, %s",
 							user.first_name, user.last_name, user.gender);
-						let id = getSchoologyUser(sender, responseText, user.first_name, user.last_name, true, parameters["date"]); //calls the getUserMethod
+						let id = getSchoologyUser(sender, responseText, user.first_name, user.last_name, true, null, parameters["date"]); //calls the getUserMethod
 						//getSchoologyCourses
 						
 					}
