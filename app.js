@@ -559,13 +559,13 @@ function getSchoologyCourseAssignments(sender, courseTitle, schoologyCourseID) {
 			for( var j = 0; j < assignments["assignment"].length; j++) {
 				console.log("ASSIGNMENT TITLE: " + assignments["assignment"][j]["title"]);
 				console.log("ASSIGNMENT DESCRIPTION: " + assignments["assignment"][j]["description"])
-				if(assignments["event"][j]["due"] != "") {
-					let d = new Date(assignments["event"][j]["start"]);
+				if(assignments["assignment"][j]["due"] != "") {
+					let d = new Date(assignments["assignment"][j]["start"]);
 					let dayOfWeek = d.getDay(); if(dayOfWeek == 0) dayOfWeek = "Sunday"; if(dayOfWeek == 1) dayOfWeek = "Monday"; if(dayOfWeek == 2) dayOfWeek = "Tuesday"; if(dayOfWeek == 3) dayOfWeek = "Wednesday"; if(dayOfWeek == 4) dayOfWeek = "Thursday"; if(dayOfWeek == 5) dayOfWeek = "Friday"; if(dayOfWeek == 6) dayOfWeek = "Saturday";
 					let numberInMonth = d.getDate();
 					let month = d.getMonth(); if(month == 0) month = "January"; if(month == 1) month = "February"; if(month == 2) month = "March"; if(month == 3) month = "April"; if(month == 4) month = "May"; if(month == 5) month = "June"; if(month == 6) month = "July"; if(month == 7) month = "August"; if(month == 8) month = "September"; if(month == 9) month = "October"; if(month == 10) month = "November"; if(month == 11) month = "December";
-					if(dates.compare(new Date(), new Date(assignments["event"][j]["start"])) == -1 && dates.compare(new Date(new Date().getMilliseconds() + 864000000), new Date(assignments["event"][j]["start"])) == 1) {
-						ret = ret + "You have assignment/test " + assignments["event"][j]["title"] +  " with description " + assignments["event"][j]["description"] + " on " + dayOfWeek + ", " + numberInMonth + " " + month + ", " + assignments["event"][j]["start"] + "\n\n";
+					if(dates.compare(new Date(), new Date(assignments["assignment"][j]["due"])) == -1 && dates.compare(new Date(new Date().getMilliseconds() + 864000000), new Date(assignments["assignment"][j]["due"])) == 1) {
+						ret = ret + "You have assignment/test " + assignments["assignment"][j]["title"] +  " with description " + assignments["assignment"][j]["description"] + " on " + dayOfWeek + ", " + numberInMonth + " " + month + ", " + assignments["assignment"][j]["due"] + "\n\n";
 					}
 				}
 			}
