@@ -690,12 +690,12 @@ function getSchoologyCourseEvents(sender, courseTitle, schoologyCourseID, specif
 				let month = d.getMonth(); if(month == 0) month = "January"; if(month == 1) month = "February"; if(month == 2) month = "March"; if(month == 3) month = "April"; if(month == 4) month = "May"; if(month == 5) month = "June"; if(month == 6) month = "July"; if(month == 7) month = "August"; if(month == 8) month = "September"; if(month == 9) month = "October"; if(month == 10) month = "November"; if(month == 11) month = "December";
 				if(specificDate != "") {
 					if(dates.compare(new Date(specificDate), new Date(assignments["event"][j]["start"])) == -1 && dates.compare(new Date(new Date(specificDate).getMilliseconds() + (86400000*2), new Date(assignments["event"][j]["start"])) == 1)) {
-						ret = ret + "You have assignment/test " + assignments["event"][j]["title"] +  " with description " + assignments["event"][j]["description"] + " on " + dayOfWeek + ", " + numberInMonth + " " + month + ", " + assignments["event"][j]["start"] + "\n\n";
+						ret = ret + "You have homework/assignment " + assignments["event"][j]["title"] +  " with description " + assignments["event"][j]["description"] + " on " + dayOfWeek + ", " + numberInMonth + " " + month + ", " + assignments["event"][j]["start"] + "\n\n";
 					}
 				}
 				else {
-					if(dates.compare(new Date(), new Date(assignments["event"][j]["start"])) == -1 && dates.compare(new Date(new Date().getMilliseconds() + 864000000), new Date(assignments["event"][j]["start"])) == 1) {
-						ret = ret + "You have assignment/test " + assignments["event"][j]["title"] +  " with description " + assignments["event"][j]["description"] + " on " + dayOfWeek + ", " + numberInMonth + " " + month + ", " + assignments["event"][j]["start"] + "\n\n";
+					if(dates.compare(new Date(), new Date(assignments["event"][j]["start"])) == -1 && dates.compare(new Date(new Date().getMilliseconds() + 864000000), new Date(assignments["event"][j]["start"])) == -1) {
+						ret = ret + "You have homework/assignment " + assignments["event"][j]["title"] +  " with description " + assignments["event"][j]["description"] + " on " + dayOfWeek + ", " + numberInMonth + " " + month + ", " + assignments["event"][j]["start"] + "\n\n";
 					}
 				}
 			}
@@ -708,15 +708,15 @@ function getSchoologyCourseEvents(sender, courseTitle, schoologyCourseID, specif
 				let numberInMonth = d.getDate();
 				let month = d.getMonth(); if(month == 0) month = "January"; if(month == 1) month = "February"; if(month == 2) month = "March"; if(month == 3) month = "April"; if(month == 4) month = "May"; if(month == 5) month = "June"; if(month == 6) month = "July"; if(month == 7) month = "August"; if(month == 8) month = "September"; if(month == 9) month = "October"; if(month == 10) month = "November"; if(month == 11) month = "December";
 				if(ret === "")
-					sendTextMessage(sender, "You have no tests/quizzes for " + courseTitle + " on " + dayOfWeek + ", " + numberInMonth + " " + month + ", " + "\n\n" + "Yay! (unless your teacher just doesn't post on Schoology)");
+					sendTextMessage(sender, "You have no homework/assignments for " + courseTitle + " on " + dayOfWeek + ", " + numberInMonth + " " + month + ", " + "\n\n" + "Yay! (unless your teacher just doesn't post on Schoology)");
 				else
-					sendTextMessage(sender, "You have the following tests/quizzes for " + courseTitle + "\n\n" + ret + "\n\n" + "Pro Life Tip: Ask for less homework next time");
+					sendTextMessage(sender, "You have the following homework/assignments for " + courseTitle + "\n\n" + ret + "\n\n" + "Pro Life Tip: Ask for less homework next time");
 			}
 			else {
 				if(ret === "")
-					sendTextMessage(sender, "You have no tests/quizzes for " + courseTitle + " for the next 10 days" + "\n\n" + "Yay! (unless your teacher just doesn't post on Schoology)");
+					sendTextMessage(sender, "You have no homework/assignments for " + courseTitle + " for the next 10 days" + "\n\n" + "Yay! (unless your teacher just doesn't post on Schoology)");
 				else
-					sendTextMessage(sender, "You have the following tests/quizzes for " + courseTitle + "\n\n" + ret + "\n\n" + "Pro Life Tip: Ask for less homework next time");
+					sendTextMessage(sender, "You have the following homework/assignments for " + courseTitle + "\n\n" + ret + "\n\n" + "Pro Life Tip: Ask for less homework next time");
 			}
 		}
 		//return ret;
@@ -1517,7 +1517,7 @@ function receivedPostback(event) {
 			if (!sessionIds.has(senderID)) {
 				sessionIds.set(senderID, uuid.v1());
 			}
-			sendToApiAi(senderID, "What homework do I have due tomorrow?");
+			sendToApiAi(senderID, "What homework do I have?");
 			break;
 		case 'TESTS':
 			sendTextMessage(senderID, "SAT or ACT?");
