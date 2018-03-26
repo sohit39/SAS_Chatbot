@@ -765,7 +765,16 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 	
 		});
 		
-		//end of fetching user data
+		var start = Date.now();
+		console.log("starting timer...");
+		// expected output: starting timer...
+
+		setTimeout(function() {
+			var millis = Date.now() - start;
+			sendTextMessage(sender, "Go get some work done!");
+			console.log("seconds elapsed = " + Math.floor(millis/1000));
+			// expected output : seconds elapsed = 1.2
+		}, 2000);
 			
 		break;
 
@@ -796,6 +805,16 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 			}
 	
 		});
+		var start = Date.now();
+			console.log("starting timer...");
+			// expected output: starting timer...
+
+			setTimeout(function() {
+				var millis = Date.now() - start;
+				sendTextMessage(sender, "Go get some work done!");
+				console.log("seconds elapsed = " + Math.floor(millis/1000));
+				// expected output : seconds elapsed = 1.2
+			}, 2000);
 		break;
 
 		case 'fetch_tests':
@@ -834,7 +853,7 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 				sendTextMessage(sender, "Go study for your tests!");
 				console.log("seconds elapsed = " + Math.floor(millis/1000));
 				// expected output : seconds elapsed = 1.2
-			}, 1200);
+			}, 2000);
 			
 			//end of fetching user data
 		break;
