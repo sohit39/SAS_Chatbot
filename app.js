@@ -588,7 +588,7 @@ function getSchoologyCourseAssignments(sender, courseTitle, schoologyCourseID, s
 					else
 						sendTextMessage(sender, "You have the following tests/quizzes for " + courseTitle + "\n\n" + ret + "\n\n" + "Pro Life Tip: Ask for less homework next time");
 				}
-				else {
+				else if (specificDate == ""){
 					if(ret === "")
 						sendTextMessage(sender, "You have no tests/quizzes for " + courseTitle + " for the next 10 days" + "\n\n" + "Yay! (unless your teacher just doesn't post on Schoology)");
 					else
