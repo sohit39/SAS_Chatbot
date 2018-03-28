@@ -751,7 +751,7 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 	switch (action) {
 		case 'fetch_homework' :
 		console.log("Sender ID" + sender);
-		
+		let userFirstName = "";
 		//fetch user data 
 		request({
 			uri: 'https://graph.facebook.com/v2.7/' + sender,
@@ -767,6 +767,7 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 				if (user.first_name) {
 					console.log("FB user: %s %s, %s",
 						user.first_name, user.last_name, user.gender);
+					userFirstName = user.first_name;
 					let id = getSchoologyUser(sender, responseText, user.first_name, user.last_name, false, null, parameters["date"]); //calls the getUserMethod
 					//getSchoologyCourses
 					
@@ -783,7 +784,7 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 
 		setTimeout(function() {
 			var millis = Date.now() - start;
-			sendTextMessage(sender, "Go get some work done!");
+			sendTextMessage(sender, "Go get some work done, " + userFirstName + " !");
 			console.log("seconds elapsed = " + Math.floor(millis/1000));
 			// expected output : seconds elapsed = 1.2
 		}, 2000);
@@ -791,8 +792,9 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 		break;
 
 		case 'fetch_specific_homeowork' :
-		console.log("Sender ID" + sender);
 		
+		console.log("Sender ID" + sender);
+		let userFirstName = "";
 		//fetch user data 
 		request({
 			uri: 'https://graph.facebook.com/v2.7/' + sender,
@@ -808,6 +810,7 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 				if (user.first_name) {
 					console.log("FB user: %s %s, %s",
 						user.first_name, user.last_name, user.gender);
+					userFirstName = user.first_name;
 					let id = getSchoologyUser(sender, responseText, user.first_name, user.last_name, false, parameters["any"], parameters["date"]); //calls the getUserMethod
 					//getSchoologyCourses
 					
@@ -823,7 +826,7 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 
 			setTimeout(function() {
 				var millis = Date.now() - start;
-				sendTextMessage(sender, "Go get some work done!");
+				sendTextMessage(sender, "Go get some work done, " + userFirstName + " !");
 				console.log("seconds elapsed = " + Math.floor(millis/1000));
 				// expected output : seconds elapsed = 1.2
 			}, 2000);
@@ -831,7 +834,7 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 
 		case 'fetch_tests':
 			console.log("Sender ID" + sender);
-			
+			let userFirstName = "";
 			//fetch user data 
 			request({
 				uri: 'https://graph.facebook.com/v2.7/' + sender,
@@ -847,6 +850,7 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 					if (user.first_name) {
 						console.log("FB user: %s %s, %s",
 							user.first_name, user.last_name, user.gender);
+						userFirstName = user.first_Name;
 						let id = getSchoologyUser(sender, responseText, user.first_name, user.last_name, true, null, parameters["date"]); //calls the getUserMethod
 						//getSchoologyCourses
 						
@@ -862,7 +866,7 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 
 			setTimeout(function() {
 				var millis = Date.now() - start;
-				sendTextMessage(sender, "Go study for your tests! (or the lack thereof)");
+				sendTextMessage(sender, "Go study for your tests, " + userFirstName + "! " + "! (or the lack thereof)");
 				console.log("seconds elapsed = " + Math.floor(millis/1000));
 				// expected output : seconds elapsed = 1.2
 			}, 2000);
