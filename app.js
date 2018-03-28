@@ -784,7 +784,7 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 
 		setTimeout(function() {
 			var millis = Date.now() - start;
-			sendTextMessage(sender, "Go get some work done, " + userFirstName + " !");
+			sendTextMessage(sender, "Go get some work done, " + userFirstName + "!");
 			console.log("seconds elapsed = " + Math.floor(millis/1000));
 			// expected output : seconds elapsed = 1.2
 		}, 2000);
@@ -826,7 +826,7 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 
 			setTimeout(function() {
 				var millis = Date.now() - start;
-				sendTextMessage(sender, "Go get some work done, " + userFirstName + " !");
+				sendTextMessage(sender, "Go get some work done, " + userFirstName + "!");
 				console.log("seconds elapsed = " + Math.floor(millis/1000));
 				// expected output : seconds elapsed = 1.2
 			}, 2000);
