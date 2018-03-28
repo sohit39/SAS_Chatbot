@@ -566,17 +566,17 @@ function getSchoologyCourseAssignments(sender, courseTitle, schoologyCourseID, s
 					let month = d.getMonth(); if(month == 0) month = "January"; if(month == 1) month = "February"; if(month == 2) month = "March"; if(month == 3) month = "April"; if(month == 4) month = "May"; if(month == 5) month = "June"; if(month == 6) month = "July"; if(month == 7) month = "August"; if(month == 8) month = "September"; if(month == 9) month = "October"; if(month == 10) month = "November"; if(month == 11) month = "December";
 					if(specificDate != "") {
 						if(dates.compare(new Date(specificDate), new Date(assignments["assignment"][j]["due"])) == -1 && dates.compare(new Date(new Date(specificDate).getTime() + (86400000*2)), new Date(assignments["assignment"][j]["due"])) == 1) {
-							if(assignments["assignment"][j]["description"] == "" || assignments["assignment"][j]["description"] == null )
-								ret = ret + "You have assignment/test " + "*" + assignments["assignment"][j]["title"] + "*"  + " on " + "*" + dayOfWeek + ", " + numberInMonth + " " + month + "*" + ", " + assignments["assignment"][j]["due"] + "\n\n";
-							else 
+							//if(assignments["assignment"][j]["description"] == "" || assignments["assignment"][j]["description"] == null )
+							//	ret = ret + "You have assignment/test " + "*" + assignments["assignment"][j]["title"] + "*"  + " on " + "*" + dayOfWeek + ", " + numberInMonth + " " + month + "*" + ", " + assignments["assignment"][j]["due"] + "\n\n";
+							//else 
 								ret = ret + "You have assignment/test " + "*" + assignments["assignment"][j]["title"] + "*" + " with description " + assignments["assignment"][j]["description"] + " on " + "*" + dayOfWeek + ", " + numberInMonth + " " + month + "*" + ", " + assignments["assignment"][j]["due"] + "\n\n";
 						}
 					}
 					else {
 						if(dates.compare(new Date(), new Date(assignments["assignment"][j]["due"])) == -1 && dates.compare(new Date(new Date().getTime() + 864000000), new Date(assignments["assignment"][j]["due"])) == 1) {
-							if(assignments["assignment"][j]["description"] == "" || assignments["assignment"][j]["description"] == null )
-							ret = ret + "You have assignment/test " + "*" + assignments["assignment"][j]["title"] + "*"  + " on " + "*" + dayOfWeek + ", " + numberInMonth + " " + month + "*" + ", " + assignments["assignment"][j]["due"] + "\n\n";
-						else 
+							//if(assignments["assignment"][j]["description"] == "" || assignments["assignment"][j]["description"] == null )
+							//ret = ret + "You have assignment/test " + "*" + assignments["assignment"][j]["title"] + "*"  + " on " + "*" + dayOfWeek + ", " + numberInMonth + " " + month + "*" + ", " + assignments["assignment"][j]["due"] + "\n\n";
+						//else 
 							ret = ret + "You have assignment/test " + "*" + assignments["assignment"][j]["title"] + "*" + " with description " + assignments["assignment"][j]["description"] + " on " + "*" + dayOfWeek + ", " + numberInMonth + " " + month + "*" + ", " + assignments["assignment"][j]["due"] + "\n\n";
 						}
 					}
@@ -696,17 +696,17 @@ function getSchoologyCourseEvents(sender, courseTitle, schoologyCourseID, specif
 				let month = d.getMonth(); if(month == 0) month = "January"; if(month == 1) month = "February"; if(month == 2) month = "March"; if(month == 3) month = "April"; if(month == 4) month = "May"; if(month == 5) month = "June"; if(month == 6) month = "July"; if(month == 7) month = "August"; if(month == 8) month = "September"; if(month == 9) month = "October"; if(month == 10) month = "November"; if(month == 11) month = "December";
 				if(specificDate != "") {
 					if(dates.compare(new Date(specificDate), new Date(assignments["event"][j]["start"])) == -1 && dates.compare(new Date(new Date(specificDate).getTime() + (86400000*2)), new Date(assignments["event"][j]["start"])) == 1) {
-						if(assignments["assignment"][j]["description"] == "" || assignments["assignment"][j]["description"] == null )
-							ret = ret + "You have assignment/test " + "*" + assignments["assignment"][j]["title"] + "*"  + " on " + "*" + dayOfWeek + ", " + numberInMonth + " " + month + "*" + ", " + assignments["assignment"][j]["due"] + "\n\n";
-						else 
+						//if(assignments["assignment"][j]["description"] == "" || assignments["assignment"][j]["description"] == null )
+						//	ret = ret + "You have assignment/test " + "*" + assignments["assignment"][j]["title"] + "*"  + " on " + "*" + dayOfWeek + ", " + numberInMonth + " " + month + "*" + ", " + assignments["assignment"][j]["due"] + "\n\n";
+						//else 
 							ret = ret + "You have assignment/test " + "*" + assignments["assignment"][j]["title"] + "*" + " with description " + assignments["assignment"][j]["description"] + " on " + "*" + dayOfWeek + ", " + numberInMonth + " " + month + "*" + ", " + assignments["assignment"][j]["due"] + "\n\n";
 					}
 				}
 				else {
 					if(dates.compare(new Date(), new Date(assignments["event"][j]["start"])) == -1 && dates.compare(new Date(new Date().getTime() + 864000000), new Date(assignments["event"][j]["start"])) == 1) {
-						if(assignments["assignment"][j]["description"] == "" || assignments["assignment"][j]["description"] == null )
-							ret = ret + "You have assignment/test " + "*" + assignments["assignment"][j]["title"] + "*"  + " on " + "*" + dayOfWeek + ", " + numberInMonth + " " + month + "*" + ", " + assignments["assignment"][j]["due"] + "\n\n";
-						else 
+						//if(assignments["assignment"][j]["description"] == "" || assignments["assignment"][j]["description"] == null )
+							//ret = ret + "You have assignment/test " + "*" + assignments["assignment"][j]["title"] + "*"  + " on " + "*" + dayOfWeek + ", " + numberInMonth + " " + month + "*" + ", " + assignments["assignment"][j]["due"] + "\n\n";
+						//else 
 							ret = ret + "You have assignment/test " + "*" + assignments["assignment"][j]["title"] + "*" + " with description " + assignments["assignment"][j]["description"] + " on " + "*" + dayOfWeek + ", " + numberInMonth + " " + month + "*" + ", " + assignments["assignment"][j]["due"] + "\n\n";
 					}
 				}
