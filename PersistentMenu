@@ -60,3 +60,13 @@ curl -X POST -H "Content-Type: application/json" -d '{
      }
  ]
  }' "https://graph.facebook.com/v2.6/me/messenger_profile?access_token=EAAGXZALT7Vl0BACs8AK9vLdz5ZCu8QTaMYyZAQ0A53B0j6NjJudZBwfPKmSstYG0UynZB6VTW56jEfqMcdHv9lSfBr1NZCQlsEjPZCUFmL8n0lDZA06KBQaJmuJvvZCSfGkeipsIpzIEZC65XfY24cqtelwN3duvauvvcWNUghxUgCPSCShHdKYsYvZACENpF2bqZArCwmUZB6tazsgZDZD"
+
+
+curl -X POST -H "Content-Type: application/json" -d '{
+  "greeting": [
+    {
+      "locale":"default",
+      "text":"Hello {{user_first_name}}!, Ask me any question regarding school, and I will answer it." 
+    }
+  ]
+}' "https://graph.facebook.com/v2.6/me/messenger_profile?access_token=EAAGXZALT7Vl0BACs8AK9vLdz5ZCu8QTaMYyZAQ0A53B0j6NjJudZBwfPKmSstYG0UynZB6VTW56jEfqMcdHv9lSfBr1NZCQlsEjPZCUFmL8n0lDZA06KBQaJmuJvvZCSfGkeipsIpzIEZC65XfY24cqtelwN3duvauvvcWNUghxUgCPSCShHdKYsYvZACENpF2bqZArCwmUZB6tazsgZDZD"

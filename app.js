@@ -462,7 +462,7 @@ function getSchoologyCourses(sender, responseText, schoologyUserID, tests, speci
 				//sendTextMessage(sender, "You have course " + courses["section"][j]["course_title"] +  " with ID " + courses["section"][j]["id"]);
 				//getSchoologyCourseAssignments(sender, courses["section"][j]["course_title"], courses["section"][j]["id"]);
 				if(specificCourse != null && (courses["section"][j]["course_title"]).toLowerCase().indexOf(specificCourse.toLowerCase()) >= 0) {
-					getSchoologyCourseEvents(sender, courses["section"][j]["course_title"], courses["section"][j]["id"]);
+					getSchoologyCourseEvents(sender, courses["section"][j]["course_title"], courses["section"][j]["id"], specificDate);
 					sent = true;
 				}
 				if(specificCourse == null) {
@@ -850,7 +850,7 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 
 			setTimeout(function() {
 				var millis = Date.now() - start;
-				sendTextMessage(sender, "Go study for your tests!");
+				sendTextMessage(sender, "Go study for your tests! (or the lack thereof)");
 				console.log("seconds elapsed = " + Math.floor(millis/1000));
 				// expected output : seconds elapsed = 1.2
 			}, 2000);
@@ -899,7 +899,7 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 									"title": "All ACT Testing Dates"
 								},
 							]
-							sendButtonMessage(sender, `${responseText} The Next ${ day ["items"] [0] ["summary"]} is on ${day ["items"] [0] ["start"] ["date"] }`, buttons);
+							sendButtonMessage(sender, `${responseText} The Next ${ day ["items"] [0] ["summary"]} is on ${day ["items"] [0] ["start"] ["date"] } Click on the link below for all ACT testing dates!` , buttons);
 						}
 						else {
 							let buttons = [
@@ -909,7 +909,7 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 									"title": "All SAT Testing Dates"
 								},
 							]
-							sendButtonMessage(sender, `${responseText} The Next ${ day ["items"] [0] ["summary"]} is on ${day ["items"] [0] ["start"] ["date"] }`, buttons);
+							sendButtonMessage(sender, `${responseText} The Next ${ day ["items"] [0] ["summary"]} is on ${day ["items"] [0] ["start"] ["date"] }  Click on the link below for all SAT testing dates!`, buttons);
 							}
 						}
 					else {
