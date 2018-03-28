@@ -751,7 +751,7 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 	switch (action) {
 		case 'fetch_homework' :
 		console.log("Sender ID" + sender);
-		let userFirstName = "";
+		var userFirstName = "";
 		//fetch user data 
 		request({
 			uri: 'https://graph.facebook.com/v2.7/' + sender,
@@ -794,7 +794,7 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 		case 'fetch_specific_homeowork' :
 		
 		console.log("Sender ID" + sender);
-		let userFirstName = "";
+		var userFirstName = "";
 		//fetch user data 
 		request({
 			uri: 'https://graph.facebook.com/v2.7/' + sender,
@@ -834,7 +834,7 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 
 		case 'fetch_tests':
 			console.log("Sender ID" + sender);
-			let userFirstName = "";
+			var userFirstName = "";
 			//fetch user data 
 			request({
 				uri: 'https://graph.facebook.com/v2.7/' + sender,
