@@ -349,7 +349,7 @@ function getHoliday(sender, responseText, q1) {
 			let end = new Date(`${day["items"][0]["end"]["date"]}`);
 			var timeDiff = Math.abs(end.getTime() - start.getTime());
 			var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); //	converst from ms to days
-			var daysTillBreak = Math.floor(((new Date()).getTime() - start.getTime())/(1000 * 3600 * 24));
+			var daysTillBreak = Math.abs(Math.floor(((new Date()).getTime() - start.getTime())/(1000 * 3600 * 24)));
 			if (diffDays <= 1) {
 				let responses = `It's${responseText} ${day["items"][0]["summary"]} on ${day["items"][0]["start"]["date"]} Only ${daysTillBreak} days to go! Keep at it!`;
 				sendTextMessage(sender, responses);
