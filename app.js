@@ -1551,8 +1551,13 @@ function receivedPostback(event) {
 			greetUserText(senderID);
 			break;
 		case 'SCHOOL_DAY_PAYLOAD':
-			refreshToken();
-			getSchoolDay(senderID, "");
+			if (!sessionIds.has(senderID)) {
+				sessionIds.set(senderID, uuid.v1());
+			}
+			sendTextMessage(senderID, "Today it is a: ")
+			sendToApiAi(senderID, "What school day is it today?");
+			sendTextMessage(senderID, "And Tomorrow:");
+			sendToApiAi(senderID, "What school day is it tomorrow?");
 		break;
 		case 'SCHOOL_HOLIDAY_PAYLOAD':
 			refreshToken();
