@@ -242,6 +242,7 @@ function getSchoolDay(sender, responseText) {
 			console.log(codes);
 		} else {
 			console.error(response.error);
+			getSchoolDay(sender, responseText);
 		}
 	}); 
 }
@@ -1554,9 +1555,9 @@ function receivedPostback(event) {
 			if (!sessionIds.has(senderID)) {
 				sessionIds.set(senderID, uuid.v1());
 			}
-			sendTextMessage(senderID, "Today it is a: ")
+			//sendTextMessage(senderID, "Today it is a: ")
 			sendToApiAi(senderID, "What school day is it today?");
-			sendTextMessage(senderID, "And Tomorrow:");
+			//sendTextMessage(senderID, "And Tomorrow:");
 			sendToApiAi(senderID, "What school day is it tomorrow?");
 		break;
 		case 'SCHOOL_HOLIDAY_PAYLOAD':
