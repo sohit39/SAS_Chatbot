@@ -1558,7 +1558,7 @@ function receivedPostback(event) {
 			//sendTextMessage(senderID, "Today it is a: ")
 			sendToApiAi(senderID, "What school day is it today?");
 			//sendTextMessage(senderID, "And Tomorrow:");
-			sendToApiAi(senderID, "What school day is it tomorrow?");
+			//sendToApiAi(senderID, "What school day is it tomorrow?");
 		break;
 		case 'SCHOOL_HOLIDAY_PAYLOAD':
 			refreshToken();
