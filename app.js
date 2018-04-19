@@ -1220,7 +1220,7 @@ function sendGifMessage(recipientId) {
 			attachment: {
 				type: "image",
 				payload: {
-					url: config.SERVER_URL + "/assets/instagram_logo.gif"
+					url: "http://media0.giphy.com/media/feqkVgjJpYtjy/200.gif"
 				}
 			}
 		}
@@ -1571,6 +1571,7 @@ function receivedPostback(event) {
 				sessionIds.set(senderID, uuid.v1());
 			}
 			sendToApiAi(senderID, "What homework do I have?");
+			sendGifMessage(senderID);
 			break;
 		case 'TESTS':
 			sendTextMessage(senderID, "SAT or ACT?");
