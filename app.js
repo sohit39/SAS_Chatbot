@@ -750,7 +750,7 @@ function getSchoologyCourseEvents(sender, courseTitle, schoologyCourseID, specif
 
 }
 
-function handleApiAiAction(sender, action, responseText, contexts, parameters) {
+function handleApiAiAction(sender, action, responseText, contexts, parameters, text) {
 	switch (action) {
 		case 'fetch_homework' :
 		console.log("Sender ID" + sender);
@@ -1014,9 +1014,9 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 			break;
 
 		case 'input.unknown':
-			console.log("RESPONSE TEXT: " + responseText)
+			console.log("RESPONSE TEXT: " + text)
 			request({
-				url: "http://api.giphy.com/v1/gifs/search?q=" + responseText + "&api_key=XK4RhRseSiXWSbozwB8q1VZgVpOeSTBd&limit=2",
+				url: "http://api.giphy.com/v1/gifs/search?q=" + text + "&api_key=XK4RhRseSiXWSbozwB8q1VZgVpOeSTBd&limit=2",
 				method: "GET",
 				headers: {
 				}
@@ -1115,7 +1115,7 @@ function handleCardMessages(messages, sender) {
 }
 
 
-function handleApiAiResponse(sender, response) {
+function handleApiAiResponse(sender, response, text) {
 	let responseText = response.result.fulfillment.speech;
 	let responseData = response.result.fulfillment.data;
 	let messages = response.result.fulfillment.messages;
@@ -1159,7 +1159,7 @@ function handleApiAiResponse(sender, response) {
 		console.log('Unknown query' + response.result.resolvedQuery);
 		sendTextMessage(sender, "I'm not sure what you want. Can you be more specific?");
 	} else if (isDefined(action)) {
-		handleApiAiAction(sender, action, responseText, contexts, parameters);
+		handleApiAiAction(sender, action, responseText, contexts, parameters, text);
 	} else if (isDefined(responseData) && isDefined(responseData.facebook)) {
 		try {
 			console.log('Response as formatted message' + responseData.facebook);
@@ -1182,7 +1182,7 @@ function sendToApiAi(sender, text) {
 
 	apiaiRequest.on('response', (response) => {
 		if (isDefined(response.result)) {
-			handleApiAiResponse(sender, response);
+			handleApiAiResponse(sender, response, text);
 		}
 	});
 
