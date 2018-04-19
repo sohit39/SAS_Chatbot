@@ -1015,7 +1015,7 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 
 		case 'input.unknown':
 			request({
-				url: "http://api.giphy.com/v1/gifs/search?q=" + "boop" + "&api_key=XK4RhRseSiXWSbozwB8q1VZgVpOeSTBd&limit=2",
+				url: "http://api.giphy.com/v1/gifs/search?q=" + responseText + "&api_key=XK4RhRseSiXWSbozwB8q1VZgVpOeSTBd&limit=2",
 				method: "GET",
 				headers: {
 				}
