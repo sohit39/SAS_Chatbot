@@ -265,6 +265,7 @@ function getSchoolDayAnotherDay(sender, responseText, dateOfDay) {
 	}, function (error, response, body) {
 		if (!error && response.statusCode == 200) {
 			console.log(body);
+			if(body == undefined) { getSchoolDayAnotherDay(sender, responseText, dateOfDay); }
 			let day = JSON.parse(body);
 			let dayOfWeek = new Date(day["items"][0]["start"]["date"]).getDay();
 			if(dayOfWeek == 0) dayOfWeek = "Sunday"; if(dayOfWeek == 1) dayOfWeek = "Monday"; if(dayOfWeek == 2) dayOfWeek = "Tuesday"; if(dayOfWeek == 3) dayOfWeek = "Wednesday"; if(dayOfWeek == 4) dayOfWeek = "Thursday"; if(dayOfWeek == 5) dayOfWeek = "Friday"; if(dayOfWeek == 6) dayOfWeek = "Saturday";
@@ -273,6 +274,7 @@ function getSchoolDayAnotherDay(sender, responseText, dateOfDay) {
 			console.log(codes);
 		} else {
 			console.error(response.error);
+			getSchoolDayAnotherDay(sender, responseText, dateOfDay);
 		}
 	});
 }
