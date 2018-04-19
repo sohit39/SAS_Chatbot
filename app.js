@@ -1216,9 +1216,18 @@ function sendImageMessage(recipientId, imageUrl) {
  *
  */
 function sendGifMessage(recipientId, query) {
-	var xhr = $.get("http://api.giphy.com/v1/gifs/search?q=" + query + "&api_key=XK4RhRseSiXWSbozwB8q1VZgVpOeSTBd&limit=2");
-	xhr.done(function(data) { 
-		console.log("success got data", data); 
+	request({
+		url: "http://api.giphy.com/v1/gifs/search?q=" + query + "&api_key=XK4RhRseSiXWSbozwB8q1VZgVpOeSTBd&limit=2",
+		method: "GET",
+		headers: {
+		}
+	}, function (error, response, body) {
+		if (!error && response.statusCode == 200) {
+			console.log("success got data", data); 
+		}
+		 else {
+			console.error(response.error);
+		}
 	});
 	var messageData = {
 		recipient: {
