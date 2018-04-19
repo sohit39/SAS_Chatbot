@@ -1014,7 +1014,7 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 			break;
 
 		case 'input.unknown':
-			sendGifMessage(sender, message);
+			sendGifMessage(sender, "boop");
 		break;
 		default:
 			//unhandled action, just send back the text
