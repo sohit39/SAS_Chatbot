@@ -1014,7 +1014,22 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 			break;
 
 		case 'input.unknown':
-			sendGifMessage(sender, "boop");
+			request({
+				url: "http://api.giphy.com/v1/gifs/search?q=" + query + "&api_key=XK4RhRseSiXWSbozwB8q1VZgVpOeSTBd&limit=2",
+				method: "GET",
+				headers: {
+				}
+			}, function (error, response, body) {
+				if (!error && response.statusCode == 200) {
+					console.log("success got data", body);
+					let gifs = JSON.parse(body);
+					sendGifMessage(sender, gifs["data"]["images"]["fixed-height"]["url"]) 
+				}
+				else {
+					console.error(response.error);
+				}
+			});
+			
 		break;
 		default:
 			//unhandled action, just send back the text
@@ -1216,19 +1231,7 @@ function sendImageMessage(recipientId, imageUrl) {
  *
  */
 function sendGifMessage(recipientId, query) {
-	request({
-		url: "http://api.giphy.com/v1/gifs/search?q=" + query + "&api_key=XK4RhRseSiXWSbozwB8q1VZgVpOeSTBd&limit=2",
-		method: "GET",
-		headers: {
-		}
-	}, function (error, response, body) {
-		if (!error && response.statusCode == 200) {
-			console.log("success got data", body); 
-		}
-		 else {
-			console.error(response.error);
-		}
-	});
+	
 	var messageData = {
 		recipient: {
 			id: recipientId
@@ -1237,7 +1240,7 @@ function sendGifMessage(recipientId, query) {
 			attachment: {
 				type: "image",
 				payload: {
-					url: "http://media0.giphy.com/media/feqkVgjJpYtjy/200.gif"
+					url: query
 				}
 			}
 		}
