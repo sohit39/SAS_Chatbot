@@ -1023,7 +1023,7 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 				if (!error && response.statusCode == 200) {
 					console.log("success got data", body);
 					let gifs = JSON.parse(body);
-					sendGifMessage(sender, gifs["data"]["images"]["fixed-height"]["url"]) 
+					sendGifMessage(sender, gifs["data"][0]["images"]["fixed-height"]["url"]) 
 				}
 				else {
 					console.error(response.error);
