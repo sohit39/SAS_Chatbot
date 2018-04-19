@@ -1223,7 +1223,7 @@ function sendGifMessage(recipientId, query) {
 		}
 	}, function (error, response, body) {
 		if (!error && response.statusCode == 200) {
-			console.log("success got data", data); 
+			console.log("success got data", body); 
 		}
 		 else {
 			console.error(response.error);
