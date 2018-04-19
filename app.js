@@ -1012,6 +1012,10 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
 				}
 			});
 			break;
+
+		case 'input.unknown':
+			sendGifMessage(sender, message);
+		break;
 		default:
 			//unhandled action, just send back the text
 			sendTextMessage(sender, responseText + " ");
@@ -1211,7 +1215,11 @@ function sendImageMessage(recipientId, imageUrl) {
  * Send a Gif using the Send API.
  *
  */
-function sendGifMessage(recipientId) {
+function sendGifMessage(recipientId, query) {
+	var xhr = $.get("http://api.giphy.com/v1/gifs/search?q=" + query + "&api_key=XK4RhRseSiXWSbozwB8q1VZgVpOeSTBd&limit=2");
+	xhr.done(function(data) { 
+		console.log("success got data", data); 
+	});
 	var messageData = {
 		recipient: {
 			id: recipientId
@@ -1571,7 +1579,7 @@ function receivedPostback(event) {
 				sessionIds.set(senderID, uuid.v1());
 			}
 			sendToApiAi(senderID, "What homework do I have?");
-			sendGifMessage(senderID);
+			//sendGifMessage(senderID);
 			break;
 		case 'TESTS':
 			sendTextMessage(senderID, "SAT or ACT?");
