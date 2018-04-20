@@ -1014,9 +1014,15 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters, t
 			break;
 
 		case 'input.unknown':
-			console.log("RESPONSE TEXT: " + text)
+			console.log("RESPONSE TEXT: " + text);
+			var words = text.split(" ");
+			var queryGif = "";
+			if(words.length == 1)
+				queryGif = words[0];
+			else
+				queryGif = words[words.length-2] + " " + words[words.length] -1;
 			request({
-				url: "http://api.giphy.com/v1/gifs/search?q=" + text + "&api_key=XK4RhRseSiXWSbozwB8q1VZgVpOeSTBd&limit=2",
+				url: "http://api.giphy.com/v1/gifs/search?q=" + queryGif + "&api_key=XK4RhRseSiXWSbozwB8q1VZgVpOeSTBd&limit=2",
 				method: "GET",
 				headers: {
 				}
@@ -1030,7 +1036,7 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters, t
 					console.error(response.error);
 				}
 			});
-			sendTextMessage(sender, "I wasn't sure what you were asking for, but here's a gif :)")
+			sendTextMessage(sender, "I wasn't sure what you were asking for, but here's a relevant gif :)")
 		break;
 		default:
 			//unhandled action, just send back the text
@@ -1174,7 +1180,6 @@ function handleApiAiResponse(sender, response, text) {
 }
 
 function sendToApiAi(sender, text) {
-
 	sendTypingOn(sender);
 	let apiaiRequest = apiAiService.textRequest(text, {
 		sessionId: sessionIds.get(sender)
