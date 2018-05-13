@@ -460,7 +460,7 @@ function getSchoologyCourses(sender, responseText, schoologyUserID, tests, speci
 			console.log(body);
 			let courses = JSON.parse(body);
 			let sent = false;
-			sendTextMessage("Your Courses: ")
+			//sendTextMessage("Your Courses: ")
 			for( var j = 0; j < courses["section"].length; j++) { // goes through every course of a student
 				console.log("COURSE TITLE: " + courses["section"][j]["course_title"]);
 				console.log("COURSE ID: " + courses["section"][j]["id"])
