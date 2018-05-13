@@ -1024,7 +1024,7 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters, t
 			else
 				queryGif = words[words.length-2] + " " + words[words.length-1];
 			request({
-				url: "http://api.giphy.com/v1/gifs/search?q=" + queryGif + "&api_key=XK4RhRseSiXWSbozwB8q1VZgVpOeSTBd&limit=2",
+				url: "http://api.giphy.com/v1/gifs/search?q=" + queryGif + "&api_key=XK4RhRseSiXWSbozwB8q1VZgVpOeSTBd&limit=3",
 				method: "GET",
 				headers: {
 				}
@@ -1032,13 +1032,16 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters, t
 				if (!error && response.statusCode == 200) {
 					console.log("success got data", body);
 					let gifs = JSON.parse(body);
-					sendGifMessage(sender, gifs["data"][0]["images"]["fixed_height"]["url"]) 
+					if(Math.random() < 0.5)
+						sendGifMessage(sender, gifs["data"][0]["images"]["fixed_height"]["url"]);
+					else
+						sendGifMessage(sender, gifs["data"][1]["images"]["fixed_height"]["url"]);
 				}
 				else {
 					console.error(response.error);
 				}
 			});
-			sendTextMessage(sender, "I wasn't sure what you were asking for, but here's a relevant gif :)")
+			sendTextMessage(sender, "Hre's a relevant gif :)")
 		break;
 		default:
 			//unhandled action, just send back the text
