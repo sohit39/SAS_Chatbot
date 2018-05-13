@@ -1022,7 +1022,7 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters, t
 			if(words.length == 1)
 				queryGif = words[0];
 			else
-				queryGif = words[words.length-2] + " " + words[words.length] -1;
+				queryGif = words[words.length-2] + " " + words[words.length-1];
 			request({
 				url: "http://api.giphy.com/v1/gifs/search?q=" + queryGif + "&api_key=XK4RhRseSiXWSbozwB8q1VZgVpOeSTBd&limit=2",
 				method: "GET",
