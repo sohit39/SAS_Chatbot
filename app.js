@@ -826,7 +826,7 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters, t
 	
 		});
 		var start = Date.now();
-			console.log("starting timer...");
+		console.log("starting timer...");
 			// expected output: starting timer...
 
 			setTimeout(function() {
@@ -1041,7 +1041,7 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters, t
 					console.error(response.error);
 				}
 			});
-			sendTextMessage(sender, "Hre's a relevant gif :)")
+			sendTextMessage(sender, "Here's a relevant gif :)")
 		break;
 		default:
 			//unhandled action, just send back the text
