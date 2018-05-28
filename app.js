@@ -597,7 +597,7 @@ function getSchoologyCourseAssignments(sender, courseTitle, schoologyCourseID, s
 					if(ret === "")
 						sendTextMessage(sender, "You have no tests/quizzes for " + "*" + courseTitle + "*" + " on " + dayOfWeek + ", " + numberInMonth + " " + month + ", " + "\n\n" + "Yay! (unless your teacher just doesn't post on Schoology)");
 					else
-						sendTextMessage(sender, "You have the following tests/quizzes for " + "*" + courseTitle + "*" + "\n\n" + ret + "\n\n" + "Pro Life Tip: Ask for less homework next time");
+						sendTextMessage(sender, "You have the following tests/quizzes for " + "*" + courseTitle + "*" + "\n\n" + ret);
 				}
 				else if (specificDate == ""){
 					if(ret === "")
@@ -727,7 +727,7 @@ function getSchoologyCourseEvents(sender, courseTitle, schoologyCourseID, specif
 				if(ret === "")
 					sendTextMessage(sender, "You have no homework/assignments for " + "*" + courseTitle + "*" + " on " + dayOfWeek + ", " + numberInMonth + " " + month + ", " + "\n\n" + "Yay! (unless your teacher just doesn't post on Schoology)");
 				else
-					sendTextMessage(sender, "You have the following homework/assignments for " + "*" + courseTitle + "*" + "\n\n" + ret + "\n\n" + "Pro Life Tip: Ask for less homework next time");
+					sendTextMessage(sender, "You have the following homework/assignments for " + "*" + courseTitle + "*" + "\n\n" + ret + "\n\n");
 			}
 			else {
 				if(ret === "")
