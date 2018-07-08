@@ -1,0 +1,84 @@
+curl -X POST -H "Content-Type: application/json" -d '{
+ "persistent_menu":[
+     {
+     "locale":"default",
+     "composer_input_disabled":false,
+     "call_to_actions":[
+         {
+         "title":"Your School Events",
+         "type":"nested",
+         "call_to_actions":[
+             {
+             "title":"Next School Day (A/B/C/D)",
+             "type":"postback",
+             "payload":"SCHOOL_DAY_PAYLOAD"
+             },
+             {
+             "title":"Next School Holiday",
+             "type":"postback",
+             "payload":"SCHOOL_HOLIDAY_PAYLOAD"
+             },
+             {
+             "title":"Next Alternate Dress Day",
+             "type":"postback",
+             "payload":"SCHOOL_ALTERNATE_DRESS_PAYLOAD"
+             },
+              {
+             "title":"Next SAT/ACT",
+             "type":"postback",
+             "payload":"TESTS"
+             }
+         ]
+         },
+         {
+         "title":"Upcoming HW/Tests",
+         "type":"nested",
+         "call_to_actions":[
+             {
+             "title":"What homework do I have?",
+             "type":"postback",
+             "payload":"HW_PAYLOAD"
+             },
+             {
+             "title":"What tests do I have?",
+             "type":"postback",
+             "payload":"TESTS_PAYLOAD"
+             }
+         ]
+         },
+         {
+         "type":"web_url",
+         "title":"Visit website ",
+         "url":"http://sas.edu.sg",
+         "webview_height_ratio":"full"
+         }
+     ]
+     },
+     {
+     "locale":"zh_CN",
+     "composer_input_disabled":false
+     }
+ ]
+ }' "https://graph.facebook.com/v2.6/me/messenger_profile?access_token=EAAGXZALT7Vl0BAN3Giat9FGgc63rAuplZByfHgrZBqlEgl2BLqMMSgZCv73iRDeiBUBQoLayr2njduh9qwKdUdQ4AyjpPjuSZCy9GnXJXjiVw8uj5YWmq5v2l5PwpRDEoig68nTRPEG9XBZAaC5ZBvshqsRAQZCAw0ZC0a9oV2KruICzZCGtSNxR2gFlVfZBuehjK86oyAVvkGgewZDZD"
+
+
+curl -X POST -H "Content-Type: application/json" -d '{
+  "greeting": [
+    {
+      "locale":"default",
+      "text":"Hello {{user_first_name}}!, Ask me any question regarding school, and I will answer it." 
+    }
+  ]
+}' "https://graph.facebook.com/v2.6/me/messenger_profile?access_token=EAAGXZALT7Vl0BAN3Giat9FGgc63rAuplZByfHgrZBqlEgl2BLqMMSgZCv73iRDeiBUBQoLayr2njduh9qwKdUdQ4AyjpPjuSZCy9GnXJXjiVw8uj5YWmq5v2l5PwpRDEoig68nTRPEG9XBZAaC5ZBvshqsRAQZCAw0ZC0a9oV2KruICzZCGtSNxR2gFlVfZBuehjK86oyAVvkGgewZDZD"
+
+curl -X POST -H "Content-Type: application/json" -d '{
+  "greeting": [
+    {
+      "locale":"default",
+      "text":"Hello {{user_first_name}}!, Ask me any question regarding school, and I will answer it." 
+    }, {
+      "locale":"en_US",
+      "text":"Hello {{user_first_name}}!, Ask me any question regarding school, and I will answer it."
+    }
+  ]
+}' "https://graph.facebook.com/v2.6/me/messenger_profile?access_token=EAAGXZALT7Vl0BAN3Giat9FGgc63rAuplZByfHgrZBqlEgl2BLqMMSgZCv73iRDeiBUBQoLayr2njduh9qwKdUdQ4AyjpPjuSZCy9GnXJXjiVw8uj5YWmq5v2l5PwpRDEoig68nTRPEG9XBZAaC5ZBvshqsRAQZCAw0ZC0a9oV2KruICzZCGtSNxR2gFlVfZBuehjK86oyAVvkGgewZDZD"
