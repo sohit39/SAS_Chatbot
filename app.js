@@ -4,7 +4,6 @@
 
 
 const apiai = require('apiai');
-const config = require('./config');
 const express = require('express');
 const crypto = require('crypto');
 const bodyParser = require('body-parser');
@@ -26,26 +25,43 @@ let s3 = new aws.S3({
 	googleClientSecret: process.env.GOOGLE_CLIENT_SECRET,
 	schoologyConsumerKey: process.env.SCHOOLOGY_CONSUMER_KEY,
 	googleBearerID: process.env.GOOGLE_BEARER_ID,
-	googleBearerSecret: process.env.GOOGLE_BEARER_SECRET
+	googleBearerSecret: process.env.GOOGLE_BEARER_SECRET, 
+	giphyAPIKEY: process.env.GIPHY_API_KEY
   });
 
-  console.log("S3 THINGS: " + process.env.SERVER_URL)
-
 // Messenger API parameters
-if (!config.FB_PAGE_TOKEN) {
+if (!process.env.FB_PAGE_TOKEN) {
 	throw new Error('missing FB_PAGE_TOKEN');
 }
-if (!config.FB_VERIFY_TOKEN) {
+if (!process.env.FB_VERIFY_TOKEN) {
 	throw new Error('missing FB_VERIFY_TOKEN');
 }
-if (!config.API_AI_CLIENT_ACCESS_TOKEN) {
+if (!process.env.API_AI_CLIENT_ACCESS_TOKEN) {
 	throw new Error('missing API_AI_CLIENT_ACCESS_TOKEN');
 }
-if (!config.FB_APP_SECRET) {
+if (!process.env.FB_APP_SECRET) {
 	throw new Error('missing FB_APP_SECRET');
 }
-if (!config.SERVER_URL) { //used for ink to static files
+if (!process.env.SERVER_URL) { //used for ink to static files
 	throw new Error('missing SERVER_URL');
+}
+if (!process.env.GOOGLE_CLIENT_ID) {
+	throw new Error('missing GOOGLE_CLIENT_ID');
+}
+if(!process.env.GOOGLE_CLIENT_SECRET) {
+	throw new Error('missing GOOGLE_CLIENT_SECRET');
+}
+if(!process.env.SCHOOLOGY_CONSUMER_KEY) {
+	throw new Error('missing SCHOOLOGY_CONSUMER_KEY');
+}
+if(!process.env.GOOGLE_BEARER_ID) {
+	throw new Error('missing GOOGLE_BEARER_ID');
+}
+if(!process.env.GOOGLE_BEARER_SECRET) {
+	throw new Error('missing GOOGLE_BEARER')
+}
+if(!process.env.GIPHY_API_KEY) {
+	throw new Error('missing GIPHY API KEY')
 }
 
 
@@ -71,7 +87,7 @@ app.use(bodyParser.json())
 
 
 
-const apiAiService = apiai(config.API_AI_CLIENT_ACCESS_TOKEN, {
+const apiAiService = apiai(process.env.API_AI_CLIENT_ACCESS_TOKEN, {
 	language: "en",
 	requestSource: "fb"
 });
@@ -89,7 +105,7 @@ app.get('/google0fcf00e2ee3ad649.html', function (req, res) {
 // for Facebook verification
 app.get('/webhook/', function (req, res) {
 	console.log("request");
-	if (req.query['hub.mode'] === 'subscribe' && req.query['hub.verify_token'] === config.FB_VERIFY_TOKEN) {
+	if (req.query['hub.mode'] === 'subscribe' && req.query['hub.verify_token'] === process.env.FB_VERIFY_TOKEN) {
 		res.status(200).send(req.query['hub.challenge']);
 	} else {
 		console.error("Failed validation. Make sure the validation tokens match.");
@@ -213,7 +229,7 @@ function handleEcho(messageId, appId, metadata) {
 function refreshToken() {
 	var request = require('request');
 				request({
-					url:'https://www.googleapis.com/oauth2/v4/token?&client_id=784777536708-g14fu1msh4a1a25435i3j4n85urdsjjr.apps.googleusercontent.com&refresh_token=1/UI3EJtLwGyLIkGBAvHkaYfFP8_9hJG9W0XVqpkUn1CFuY8oFkAYMPCwozxjEfb6u&client_secret=ov6NivbTd6JIupxIm-0b82Ij&grant_type=refresh_token',
+					url:'https://www.googleapis.com/oauth2/v4/token?&client_id=' + process.env.GOOGLE_BEARER_ID + '&refresh_token=1/UI3EJtLwGyLIkGBAvHkaYfFP8_9hJG9W0XVqpkUn1CFuY8oFkAYMPCwozxjEfb6u&client_secret=' + process.env.GOOGLE_BEARER_SECRET,
 					method:"POST",
 					headers:{
 						content_type: 'application/x-www-form-urlencoded'
@@ -435,7 +451,7 @@ function getSchoologyUser(sender, responseText, firstName, lastName, tests, spec
 		url: "https://api.schoology.com/v1/search?keywords=" + firstName + "+" + lastName + "&type=user",
 		method: "GET",
 		headers: {
-			authorization: "OAuth realm=\"https://api.schoology.com/\",oauth_consumer_key=\"6c0e7eaabd179fc62c025411bbc62df90596a2a38\",oauth_token=\"\",oauth_nonce=\"596b43992ed54\",oauth_signature_method=\"PLAINTEXT\",oauth_timestamp=\"" + (Math.ceil((new Date().getTime()/1000))-(Math.random()*3000)+(Math.random()*3000)+(Math.random()*5)-(Math.random()*5)) + "\",oauth_version=\"1.0\",oauth_signature=\"7f9117828e3c1aef6fc25d09f8347319%26\"",
+			authorization: "OAuth realm=\"https://api.schoology.com/\",oauth_consumer_key=" + process.env.SCHOOLOGY_CONSUMER_KEY + ",oauth_token=\"\",oauth_nonce=\"596b43992ed54\",oauth_signature_method=\"PLAINTEXT\",oauth_timestamp=\"" + (Math.ceil((new Date().getTime()/1000))-(Math.random()*3000)+(Math.random()*3000)+(Math.random()*5)-(Math.random()*5)) + "\",oauth_version=\"1.0\",oauth_signature=\"7f9117828e3c1aef6fc25d09f8347319%26\"",
 
 		}
 	}, function (error, response, body) {
@@ -467,7 +483,7 @@ function getSchoologyCourses(sender, responseText, schoologyUserID, tests, speci
 		url: "https://api.schoology.com/v1/users/" + schoologyUserID + "/sections/",
 		method: "GET",
 		headers: {
-			authorization: "OAuth realm=\"https://api.schoology.com/\",oauth_consumer_key=\"6c0e7eaabd179fc62c025411bbc62df90596a2a38\",oauth_token=\"\",oauth_nonce=\"596b43992ed54\",oauth_signature_method=\"PLAINTEXT\",oauth_timestamp=\"" + (Math.floor((new Date().getTime()/1000))-(Math.random()*3000)+(Math.random()*3000)+(Math.random()*5)-(Math.random()*5)) + "\",oauth_version=\"1.0\",oauth_signature=\"7f9117828e3c1aef6fc25d09f8347319%26\"",
+			authorization: "OAuth realm=\"https://api.schoology.com/\",oauth_consumer_key=" + process.env.SCHOOLOGY_CONSUMER_KEY + ",oauth_token=\"\",oauth_nonce=\"596b43992ed54\",oauth_signature_method=\"PLAINTEXT\",oauth_timestamp=\"" + (Math.floor((new Date().getTime()/1000))-(Math.random()*3000)+(Math.random()*3000)+(Math.random()*5)-(Math.random()*5)) + "\",oauth_version=\"1.0\",oauth_signature=\"7f9117828e3c1aef6fc25d09f8347319%26\"",
 
 		}
 	}, function (error, response, body) {
@@ -568,7 +584,7 @@ function getSchoologyCourseAssignments(sender, courseTitle, schoologyCourseID, s
 		url: "https://api.schoology.com/v1/sections/" + schoologyCourseID + "/assignments/?start=0&limit=1000",
 		method: "GET",
 		headers: {
-			authorization: "OAuth realm=\"https://api.schoology.com/\",oauth_consumer_key=\"6c0e7eaabd179fc62c025411bbc62df90596a2a38\",oauth_token=\"\",oauth_nonce=\"596b43992ed54\",oauth_signature_method=\"PLAINTEXT\",oauth_timestamp=\"" + (Math.ceil((new Date().getTime()/1000))-(Math.random()*3500)+(Math.random()*3500)+(Math.random()*100)-(Math.random()*100)) + "\",oauth_version=\"1.0\",oauth_signature=\"7f9117828e3c1aef6fc25d09f8347319%26\"",
+			authorization: "OAuth realm=\"https://api.schoology.com/\",oauth_consumer_key=" + process.env.SCHOOLOGY_CONSUMER_KEY + ",oauth_token=\"\",oauth_nonce=\"596b43992ed54\",oauth_signature_method=\"PLAINTEXT\",oauth_timestamp=\"" + (Math.ceil((new Date().getTime()/1000))-(Math.random()*3500)+(Math.random()*3500)+(Math.random()*100)-(Math.random()*100)) + "\",oauth_version=\"1.0\",oauth_signature=\"7f9117828e3c1aef6fc25d09f8347319%26\"",
 
 		}
 	}, function (error, response, body) {
@@ -698,7 +714,7 @@ function getSchoologyCourseEvents(sender, courseTitle, schoologyCourseID, specif
 	url: "https://api.schoology.com/v1/sections/" + schoologyCourseID + "/events/?start=0&limit=1000",
 	method: "GET",
 	headers: {
-		authorization: "OAuth realm=\"https://api.schoology.com/\",oauth_consumer_key=\"6c0e7eaabd179fc62c025411bbc62df90596a2a38\",oauth_token=\"\",oauth_nonce=\"596b43992ed54\",oauth_signature_method=\"PLAINTEXT\",oauth_timestamp=\"" + (Math.floor((new Date().getTime()/1000))-(Math.random()*3500)+(Math.random()*3500)+(Math.random()*100)-(Math.random()*100)) + "\",oauth_version=\"1.0\",oauth_signature=\"7f9117828e3c1aef6fc25d09f8347319%26\"",
+		authorization: "OAuth realm=\"https://api.schoology.com/\",oauth_consumer_key=" + process.env.SCHOOLOGY_CONSUMER_KEY + ",oauth_token=\"\",oauth_nonce=\"596b43992ed54\",oauth_signature_method=\"PLAINTEXT\",oauth_timestamp=\"" + (Math.floor((new Date().getTime()/1000))-(Math.random()*3500)+(Math.random()*3500)+(Math.random()*100)-(Math.random()*100)) + "\",oauth_version=\"1.0\",oauth_signature=\"7f9117828e3c1aef6fc25d09f8347319%26\"",
 
 	}
 	}, function (error, response, body) {
@@ -777,7 +793,7 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters, t
 		request({
 			uri: 'https://graph.facebook.com/v2.10/' + sender,
 			qs: {
-				access_token: config.FB_PAGE_TOKEN
+				access_token: process.env.FB_PAGE_TOKEN
 			}
 	
 		}, function (error, response, body) {
@@ -820,7 +836,7 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters, t
 		request({
 			uri: 'https://graph.facebook.com/v2.10/' + sender,
 			qs: {
-				access_token: config.FB_PAGE_TOKEN
+				access_token: process.env.FB_PAGE_TOKEN
 			}
 	
 		}, function (error, response, body) {
@@ -860,7 +876,7 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters, t
 			request({
 				uri: 'https://graph.facebook.com/v2.10/' + sender,
 				qs: {
-					access_token: config.FB_PAGE_TOKEN
+					access_token: process.env.FB_PAGE_TOKEN
 				}
 		
 			}, function (error, response, body) {
@@ -1040,7 +1056,7 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters, t
 			else
 				queryGif = words[words.length-2] + " " + words[words.length-1];
 			request({
-				url: "http://api.giphy.com/v1/gifs/search?q=" + queryGif + "&api_key=XK4RhRseSiXWSbozwB8q1VZgVpOeSTBd&limit=3",
+				url: "http://api.giphy.com/v1/gifs/search?q=" + queryGif + "&api_key=" + process.env.GIPHY_API_KEY + "&limit=3",
 				method: "GET",
 				headers: {
 				}
@@ -1289,7 +1305,7 @@ function sendAudioMessage(recipientId) {
 			attachment: {
 				type: "audio",
 				payload: {
-					url: config.SERVER_URL + "/assets/sample.mp3"
+					url: process.env.SERVER_URL + "/assets/sample.mp3"
 				}
 			}
 		}
@@ -1311,7 +1327,7 @@ function sendVideoMessage(recipientId, videoName) {
 			attachment: {
 				type: "video",
 				payload: {
-					url: config.SERVER_URL + videoName
+					url: process.env.SERVER_URL + videoName
 				}
 			}
 		}
@@ -1333,7 +1349,7 @@ function sendFileMessage(recipientId, fileName) {
 			attachment: {
 				type: "file",
 				payload: {
-					url: config.SERVER_URL + fileName
+					url: process.env.SERVER_URL + fileName
 				}
 			}
 		}
@@ -1506,7 +1522,7 @@ function sendAccountLinking(recipientId) {
 					text: "Welcome. Link your account.",
 					buttons: [{
 						type: "account_link",
-						url: config.SERVER_URL + "/authorize"
+						url: process.env.SERVER_URL + "/authorize"
           }]
 				}
 			}
@@ -1522,7 +1538,7 @@ function greetUserText(userId) {
 	request({
 		uri: 'https://graph.facebook.com/v2.10/' + userId,
 		qs: {
-			access_token: config.FB_PAGE_TOKEN
+			access_token: process.env.FB_PAGE_TOKEN
 		}
 
 	}, function (error, response, body) {
@@ -1555,7 +1571,7 @@ function callSendAPI(messageData) {
 	request({
 		uri: 'https://graph.facebook.com/v2.10/me/messages',
 		qs: {
-			access_token: config.FB_PAGE_TOKEN
+			access_token: process.env.FB_PAGE_TOKEN
 		},
 		method: 'POST',
 		json: messageData
@@ -1758,7 +1774,7 @@ function verifyRequestSignature(req, res, buf) {
 		var method = elements[0];
 		var signatureHash = elements[1];
 
-		var expectedHash = crypto.createHmac('sha1', config.FB_APP_SECRET)
+		var expectedHash = crypto.createHmac('sha1', process.env.FB_APP_SECRET)
 			.update(buf)
 			.digest('hex');
 
