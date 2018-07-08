@@ -231,7 +231,7 @@ function refreshToken() {
 	console.log(process.env.GOOGLE_BEARER_SECRET);
 	var request = require('request');
 				request({
-					url:'https://www.googleapis.com/oauth2/v4/token?&client_id=' + process.env.GOOGLE_BEARER_ID + '&refresh_token=1/UI3EJtLwGyLIkGBAvHkaYfFP8_9hJG9W0XVqpkUn1CFuY8oFkAYMPCwozxjEfb6u&client_secret=' + process.env.GOOGLE_BEARER_SECRET,
+					url:'https://www.googleapis.com/oauth2/v4/token?&client_id=' + process.env.GOOGLE_BEARER_ID + '&refresh_token=1/UI3EJtLwGyLIkGBAvHkaYfFP8_9hJG9W0XVqpkUn1CFuY8oFkAYMPCwozxjEfb6u&client_secret=' + process.env.GOOGLE_BEARER_SECRET + '&grant_type=refresh_token',
 					method:"POST",
 					headers:{
 						content_type: 'application/x-www-form-urlencoded'
