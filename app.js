@@ -227,6 +227,8 @@ function handleEcho(messageId, appId, metadata) {
 	Refreshes the bearer code for Google APIs everytime an event fetch is needed.
 */
 function refreshToken() {
+	console.log(process.env.GOOGLE_BEARER_ID);
+	console.log(process.env.GOOGLE_BEARER_SECRET);
 	var request = require('request');
 				request({
 					url:'https://www.googleapis.com/oauth2/v4/token?&client_id=' + process.env.GOOGLE_BEARER_ID + '&refresh_token=1/UI3EJtLwGyLIkGBAvHkaYfFP8_9hJG9W0XVqpkUn1CFuY8oFkAYMPCwozxjEfb6u&client_secret=' + process.env.GOOGLE_BEARER_SECRET,
@@ -244,6 +246,7 @@ function refreshToken() {
 					} else {
 						console.error(response.error);
 					}
+
 				});
 			console.log("After Sleep"+ codes);
 }
