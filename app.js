@@ -448,8 +448,6 @@ request({
 function getSchoologyUser(sender, responseText, firstName, lastName, tests, specificCourse, specificDate) {
 	console.log("get user" + firstName);
 	console.log("get user" + lastName);
-	if(firstName === "Paul" && lastName === "Kim")
-		firstName = "Seonghoo"
 	request({
 		url: "https://api.schoology.com/v1/search?keywords=" + firstName + "+" + lastName + "&type=user",
 		method: "GET",
