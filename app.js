@@ -29,6 +29,8 @@ let s3 = new aws.S3({
 	googleBearerSecret: process.env.GOOGLE_BEARER_SECRET
   });
 
+  print("S3 THINGS: " + s3.SERVER_URL)
+
 // Messenger API parameters
 if (!config.FB_PAGE_TOKEN) {
 	throw new Error('missing FB_PAGE_TOKEN');
