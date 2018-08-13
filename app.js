@@ -448,6 +448,14 @@ request({
 function getSchoologyUser(sender, responseText, firstName, lastName, tests, specificCourse, specificDate) {
 	console.log("get user" + firstName);
 	console.log("get user" + lastName);
+	if (firstName == "April" && lastName == "Yoon") {
+		firstName = "Yeh Bin"
+		lastName = "Yoon"
+	}
+	if (firstName == "Paul" && lastName == "Kim") {
+		firstName = "Seonghoo"
+		lastName = "Kim"
+	}
 	if (lastName.indexOf("'") >= 0) {
 		lastName = lastName.substring(lastName.indexOf("'") + 1);
 	}
