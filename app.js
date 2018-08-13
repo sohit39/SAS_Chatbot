@@ -1624,10 +1624,15 @@ function receivedPostback(event) {
 			if (!sessionIds.has(senderID)) {
 				sessionIds.set(senderID, uuid.v1());
 			}
-			//sendTextMessage(senderID, "Today it is a: ")
-			sendToApiAi(senderID, "What school day is it today?");
+			var now = new Date();
+			if (now.getHours() >= 13) {
+				sendToApiAi(senderID, "What school day is it tomorrow?");
+			}
+			else {//sendTextMessage(senderID, "Today it is a: ")
+				sendToApiAi(senderID, "What school day is it today?");
+			}
 			//sendTextMessage(senderID, "And Tomorrow:");
-			//sendToApiAi(senderID, "What school day is it tomorrow?");
+			//
 		break;
 		case 'SCHOOL_HOLIDAY_PAYLOAD':
 			refreshToken();
