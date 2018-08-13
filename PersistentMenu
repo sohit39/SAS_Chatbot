@@ -59,7 +59,7 @@ curl -X POST -H "Content-Type: application/json" -d '{
      "composer_input_disabled":false
      }
  ]
- }' "https://graph.facebook.com/v2.6/me/messenger_profile?access_token=EAAGXZALT7Vl0BAN3Giat9FGgc63rAuplZByfHgrZBqlEgl2BLqMMSgZCv73iRDeiBUBQoLayr2njduh9qwKdUdQ4AyjpPjuSZCy9GnXJXjiVw8uj5YWmq5v2l5PwpRDEoig68nTRPEG9XBZAaC5ZBvshqsRAQZCAw0ZC0a9oV2KruICzZCGtSNxR2gFlVfZBuehjK86oyAVvkGgewZDZD"
+ }' "https://graph.facebook.com/v2.6/me/messenger_profile?access_token=EAAFrAjJzdnUBAK4cDxWLhc6NKntHtwyPKlLA87ZBgZBpqgOP9iqWFeQYgVT3tLDZCsfNNqjCcyZAYFFPaBcATsA9SThZBWAnyU9mHdnhYGxHVRYAZA94e0eEoUet3ICUUEHHEuVJgQsZCZCu5zZC2jTrfpBKL22LrI8Emgsm3uxvldPHb8QxzNJ9QXc4cvElvKeQWQUZAnoqZC3PAZDZD"
 
 
 curl -X POST -H "Content-Type: application/json" -d '{
@@ -69,7 +69,7 @@ curl -X POST -H "Content-Type: application/json" -d '{
       "text":"Hello {{user_first_name}}!, Ask me any question regarding school, and I will answer it." 
     }
   ]
-}' "https://graph.facebook.com/v2.6/me/messenger_profile?access_token=EAAGXZALT7Vl0BAN3Giat9FGgc63rAuplZByfHgrZBqlEgl2BLqMMSgZCv73iRDeiBUBQoLayr2njduh9qwKdUdQ4AyjpPjuSZCy9GnXJXjiVw8uj5YWmq5v2l5PwpRDEoig68nTRPEG9XBZAaC5ZBvshqsRAQZCAw0ZC0a9oV2KruICzZCGtSNxR2gFlVfZBuehjK86oyAVvkGgewZDZD"
+}' "https://graph.facebook.com/v2.6/me/messenger_profile?access_token=EAAFrAjJzdnUBAK4cDxWLhc6NKntHtwyPKlLA87ZBgZBpqgOP9iqWFeQYgVT3tLDZCsfNNqjCcyZAYFFPaBcATsA9SThZBWAnyU9mHdnhYGxHVRYAZA94e0eEoUet3ICUUEHHEuVJgQsZCZCu5zZC2jTrfpBKL22LrI8Emgsm3uxvldPHb8QxzNJ9QXc4cvElvKeQWQUZAnoqZC3PAZDZD"
 
 curl -X POST -H "Content-Type: application/json" -d '{
   "greeting": [
@@ -82,3 +82,9 @@ curl -X POST -H "Content-Type: application/json" -d '{
     }
   ]
 }' "https://graph.facebook.com/v2.6/me/messenger_profile?access_token=EAAGXZALT7Vl0BAN3Giat9FGgc63rAuplZByfHgrZBqlEgl2BLqMMSgZCv73iRDeiBUBQoLayr2njduh9qwKdUdQ4AyjpPjuSZCy9GnXJXjiVw8uj5YWmq5v2l5PwpRDEoig68nTRPEG9XBZAaC5ZBvshqsRAQZCAw0ZC0a9oV2KruICzZCGtSNxR2gFlVfZBuehjK86oyAVvkGgewZDZD"
+
+curl -X POST -H "Content-Type: application/json" -d '{ 
+  "get_started":{
+    "payload":"GET_STARTED"
+  }
+}' "https://graph.facebook.com/v2.6/me/messenger_profile?access_token=EAAFrAjJzdnUBAK4cDxWLhc6NKntHtwyPKlLA87ZBgZBpqgOP9iqWFeQYgVT3tLDZCsfNNqjCcyZAYFFPaBcATsA9SThZBWAnyU9mHdnhYGxHVRYAZA94e0eEoUet3ICUUEHHEuVJgQsZCZCu5zZC2jTrfpBKL22LrI8Emgsm3uxvldPHb8QxzNJ9QXc4cvElvKeQWQUZAnoqZC3PAZDZD"

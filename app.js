@@ -449,7 +449,7 @@ function getSchoologyUser(sender, responseText, firstName, lastName, tests, spec
 	console.log("get user" + firstName);
 	console.log("get user" + lastName);
 	request({
-		url: "https://api.schoology.com/v1/search?keywords=" + firstName + "+" + lastName + "&type=user",
+		url: "https://api.schoology.com/v1/search?keywords=" + firstName + "+" + lastName.substring(lastName.indexOf("'")) + "&type=user",
 		method: "GET",
 		headers: {
 			authorization: "OAuth realm=\"https://api.schoology.com/\",oauth_consumer_key=" + process.env.SCHOOLOGY_CONSUMER_KEY + ",oauth_token=\"\",oauth_nonce=\"596b43992ed54\",oauth_signature_method=\"PLAINTEXT\",oauth_timestamp=\"" + (Math.ceil((new Date().getTime()/1000))-(Math.random()*3000)+(Math.random()*3000)+(Math.random()*5)-(Math.random()*5)) + "\",oauth_version=\"1.0\",oauth_signature=\"7f9117828e3c1aef6fc25d09f8347319%26\"",
@@ -735,17 +735,17 @@ function getSchoologyCourseEvents(sender, courseTitle, schoologyCourseID, specif
 				if(specificDate != "") {
 					if(dates.compare(new Date(specificDate), new Date(assignments["event"][j]["start"])) == -1 && dates.compare(new Date(new Date(specificDate).getTime() + (86400000*2)), new Date(assignments["event"][j]["start"])) == 1) {
 						if(assignments["event"][j]["description"] == undefined || assignments["event"][j]["description"] == null )
-							ret = ret + "You have homework/assignment " + "*" + assignments["event"][j]["title"] + "*"  + " on " + "*" + dayOfWeek + ", " + numberInMonth + " " + month + "*" + ", " + assignments["event"][j]["start"] + "\n\n";
+							ret = ret + "You have homework/assignment " + "*" + assignments["event"][j]["title"] + "*"  + " on " + "*" + dayOfWeek + ", " + numberInMonth + " " + month + "*" + ", " + "\n\n";
 						else 
-							ret = ret + "You have homework/assignment " + "*" + assignments["event"][j]["title"] + "*" + " with description " + assignments["event"][j]["description"] + " on " + "*" + dayOfWeek + ", " + numberInMonth + " " + month + "*" + ", " + assignments["event"][j]["start"] + "\n\n";
+							ret = ret + "You have homework/assignment " + "*" + assignments["event"][j]["title"] + "*" + " with description " + assignments["event"][j]["description"] + " on " + "*" + dayOfWeek + ", " + numberInMonth + " " + month + "*" + ", "  + "\n\n";
 					}
 				}
 				else {
 					if(dates.compare(new Date(), new Date(assignments["event"][j]["start"])) == -1 && dates.compare(new Date(new Date().getTime() + 864000000), new Date(assignments["event"][j]["start"])) == 1) {
 						if(assignments["event"][j]["description"] == undefined || assignments["event"][j]["description"] == null )
-							ret = ret + "You have homework/assignment " + "*" + assignments["event"][j]["title"] + "*"  + " on " + "*" + dayOfWeek + ", " + numberInMonth + " " + month + "*" + ", " + assignments["event"][j]["start"] + "\n\n";
+							ret = ret + "You have homework/assignment " + "*" + assignments["event"][j]["title"] + "*"  + " on " + "*" + dayOfWeek + ", " + numberInMonth + " " + month + "*" + ", " + "\n\n";
 						else 
-							ret = ret + "You have homework/assignment " + "*" + assignments["event"][j]["title"] + "*" + " with description " + assignments["event"][j]["description"] + " on " + "*" + dayOfWeek + ", " + numberInMonth + " " + month + "*" + ", " + assignments["event"][j]["start"] + "\n\n";
+							ret = ret + "You have homework/assignment " + "*" + assignments["event"][j]["title"] + "*" + " with description " + assignments["event"][j]["description"] + " on " + "*" + dayOfWeek + ", " + numberInMonth + " " + month + "*" + ", " + "\n\n";
 					}
 				}
 			}
