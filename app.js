@@ -448,8 +448,11 @@ request({
 function getSchoologyUser(sender, responseText, firstName, lastName, tests, specificCourse, specificDate) {
 	console.log("get user" + firstName);
 	console.log("get user" + lastName);
+	if (lastName.indexOf("'") >= 0) {
+		lastName = lastName.substring(lastName.indexOf("'") + 1);
+	}
 	request({
-		url: "https://api.schoology.com/v1/search?keywords=" + firstName + "+" + lastName.substring(lastName.indexOf("'")) + "&type=user",
+		url: "https://api.schoology.com/v1/search?keywords=" + firstName + "+" + lastName + "&type=user",
 		method: "GET",
 		headers: {
 			authorization: "OAuth realm=\"https://api.schoology.com/\",oauth_consumer_key=" + process.env.SCHOOLOGY_CONSUMER_KEY + ",oauth_token=\"\",oauth_nonce=\"596b43992ed54\",oauth_signature_method=\"PLAINTEXT\",oauth_timestamp=\"" + (Math.ceil((new Date().getTime()/1000))-(Math.random()*3000)+(Math.random()*3000)+(Math.random()*5)-(Math.random()*5)) + "\",oauth_version=\"1.0\",oauth_signature=\"7f9117828e3c1aef6fc25d09f8347319%26\"",
