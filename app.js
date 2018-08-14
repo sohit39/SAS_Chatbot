@@ -1089,7 +1089,6 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters, t
 					console.error(response.error);
 				}
 			});
-			sendTextMessage(sender, "Here's a relevant gif :)")
 		break;
 		default:
 			//unhandled action, just send back the text
