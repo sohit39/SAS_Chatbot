@@ -461,7 +461,7 @@ function getSchoologyUser(sender, responseText, firstName, lastName, tests, spec
 		lastName = "Rhee"
 	}
 	if (firstName == "Chris" && lastName == "Cho") {
-		firstName = "Sungho"
+		firstName = "Sung Ho"
 		lastName = "Cho"
 	}
 	if (lastName.indexOf("'") >= 0) {
@@ -1087,10 +1087,12 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters, t
 				if (!error && response.statusCode == 200) {
 					console.log("success got data", body);
 					let gifs = JSON.parse(body);
+					if (gifs["data"].length > 0) {
 					if (Math.random() < 0.5)
 						sendGifMessage(sender, gifs["data"][0]["images"]["fixed_height"]["url"]);
 					else
 						sendGifMessage(sender, gifs["data"][1]["images"]["fixed_height"]["url"]);
+					}
 				}
 				else {
 					console.error(response.error);
