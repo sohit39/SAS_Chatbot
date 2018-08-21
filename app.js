@@ -460,6 +460,10 @@ function getSchoologyUser(sender, responseText, firstName, lastName, tests, spec
 		firstName = "Jaehyun"
 		lastName = "Rhee"
 	}
+	if (firstName == "Chris" && lastName == "Cho") {
+		firstName = "Sungho"
+		lastName = "Cho"
+	}
 	if (lastName.indexOf("'") >= 0) {
 		lastName = lastName.substring(lastName.indexOf("'") + 1);
 	}
