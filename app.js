@@ -18,16 +18,16 @@ refreshToken();
 let s3 = new aws.S3({
 	fbPageToken: process.env.FB_PAGE_TOKEN,
 	fbVerifyToken: process.env.FB_VERIFY_TOKEN,
-	apiaiClientAccessToken : process.env.API_AI_CLIENT_ACCESS_TOKEN,
-	fbAppSecret : process.env.FB_APP_SECRET,
-	serverURL : process.env.SERVER_URL,
-	googleClientID : process.env.GOOGLE_CLIENT_ID,
+	apiaiClientAccessToken: process.env.API_AI_CLIENT_ACCESS_TOKEN,
+	fbAppSecret: process.env.FB_APP_SECRET,
+	serverURL: process.env.SERVER_URL,
+	googleClientID: process.env.GOOGLE_CLIENT_ID,
 	googleClientSecret: process.env.GOOGLE_CLIENT_SECRET,
 	schoologyConsumerKey: process.env.SCHOOLOGY_CONSUMER_KEY,
 	googleBearerID: process.env.GOOGLE_BEARER_ID,
-	googleBearerSecret: process.env.GOOGLE_BEARER_SECRET, 
+	googleBearerSecret: process.env.GOOGLE_BEARER_SECRET,
 	giphyAPIKEY: process.env.GIPHY_API_KEY
-  });
+});
 
 // Messenger API parameters
 if (!process.env.FB_PAGE_TOKEN) {
@@ -48,19 +48,19 @@ if (!process.env.SERVER_URL) { //used for ink to static files
 if (!process.env.GOOGLE_CLIENT_ID) {
 	throw new Error('missing GOOGLE_CLIENT_ID');
 }
-if(!process.env.GOOGLE_CLIENT_SECRET) {
+if (!process.env.GOOGLE_CLIENT_SECRET) {
 	throw new Error('missing GOOGLE_CLIENT_SECRET');
 }
-if(!process.env.SCHOOLOGY_CONSUMER_KEY) {
+if (!process.env.SCHOOLOGY_CONSUMER_KEY) {
 	throw new Error('missing SCHOOLOGY_CONSUMER_KEY');
 }
-if(!process.env.GOOGLE_BEARER_ID) {
+if (!process.env.GOOGLE_BEARER_ID) {
 	throw new Error('missing GOOGLE_BEARER_ID');
 }
-if(!process.env.GOOGLE_BEARER_SECRET) {
+if (!process.env.GOOGLE_BEARER_SECRET) {
 	throw new Error('missing GOOGLE_BEARER')
 }
-if(!process.env.GIPHY_API_KEY) {
+if (!process.env.GIPHY_API_KEY) {
 	throw new Error('missing GIPHY API KEY')
 }
 
@@ -205,9 +205,9 @@ function receivedMessage(event) {
 }
 
 
-function handleMessageAttachments(messageAttachments, senderID){
+function handleMessageAttachments(messageAttachments, senderID) {
 	//for now just reply
-	sendTextMessage(senderID, "Attachment received. Thank you.");	
+	sendTextMessage(senderID, "Attachment received. Thank you.");
 }
 
 function handleQuickReply(senderID, quickReply, messageId) {
@@ -230,25 +230,25 @@ function refreshToken() {
 	console.log(process.env.GOOGLE_BEARER_ID);
 	console.log(process.env.GOOGLE_BEARER_SECRET);
 	var request = require('request');
-				request({
-					url:'https://www.googleapis.com/oauth2/v4/token?&client_id=' + process.env.GOOGLE_BEARER_ID + '&refresh_token=1/UI3EJtLwGyLIkGBAvHkaYfFP8_9hJG9W0XVqpkUn1CFuY8oFkAYMPCwozxjEfb6u&client_secret=' + process.env.GOOGLE_BEARER_SECRET + '&grant_type=refresh_token',
-					method:"POST",
-					headers:{
-						content_type: 'application/x-www-form-urlencoded'
-					}
-				},	function(error, response, body) {
-					if (!error && response.statusCode == 200){
-						let code = JSON.parse(body);
-						if(code.hasOwnProperty("access_token")) { //checking if value is not null
-							codes = `${ code ["access_token"] }`;
-							console.log(codes);
-						}
-					} else {
-						console.error(response.error);
-					}
+	request({
+		url: 'https://www.googleapis.com/oauth2/v4/token?&client_id=' + process.env.GOOGLE_BEARER_ID + '&refresh_token=1/UI3EJtLwGyLIkGBAvHkaYfFP8_9hJG9W0XVqpkUn1CFuY8oFkAYMPCwozxjEfb6u&client_secret=' + process.env.GOOGLE_BEARER_SECRET + '&grant_type=refresh_token',
+		method: "POST",
+		headers: {
+			content_type: 'application/x-www-form-urlencoded'
+		}
+	}, function (error, response, body) {
+		if (!error && response.statusCode == 200) {
+			let code = JSON.parse(body);
+			if (code.hasOwnProperty("access_token")) { //checking if value is not null
+				codes = `${code["access_token"]}`;
+				console.log(codes);
+			}
+		} else {
+			console.error(response.error);
+		}
 
-				});
-			console.log("After Sleep"+ codes);
+	});
+	console.log("After Sleep" + codes);
 }
 
 /*
@@ -271,7 +271,7 @@ function getSchoolDay(sender, responseText) {
 			console.log(body);
 			let day = JSON.parse(body);
 			let dayOfWeek = new Date(day["items"][0]["start"]["date"]).getDay();
-			if(dayOfWeek == 0) dayOfWeek = "Sunday"; if(dayOfWeek == 1) dayOfWeek = "Monday"; if(dayOfWeek == 2) dayOfWeek = "Tuesday"; if(dayOfWeek == 3) dayOfWeek = "Wednesday"; if(dayOfWeek == 4) dayOfWeek = "Thursday"; if(dayOfWeek == 5) dayOfWeek = "Friday"; if(dayOfWeek == 6) dayOfWeek = "Saturday";
+			if (dayOfWeek == 0) dayOfWeek = "Sunday"; if (dayOfWeek == 1) dayOfWeek = "Monday"; if (dayOfWeek == 2) dayOfWeek = "Tuesday"; if (dayOfWeek == 3) dayOfWeek = "Wednesday"; if (dayOfWeek == 4) dayOfWeek = "Thursday"; if (dayOfWeek == 5) dayOfWeek = "Friday"; if (dayOfWeek == 6) dayOfWeek = "Saturday";
 			let response = `It is a${responseText} ${day["items"][0]["summary"]} on ${dayOfWeek}, ${day["items"][0]["start"]["date"]}. Make sure to pack your bag for ${day["items"][0]["summary"]}!`;
 			sendTextMessage(sender, response);
 			console.log(codes);
@@ -279,7 +279,7 @@ function getSchoolDay(sender, responseText) {
 			console.error(response.error);
 			getSchoolDay(sender, responseText);
 		}
-	}); 
+	});
 }
 
 /*
@@ -300,10 +300,10 @@ function getSchoolDayAnotherDay(sender, responseText, dateOfDay) {
 	}, function (error, response, body) {
 		if (!error && response.statusCode == 200) {
 			console.log(body);
-			if(body == undefined) { getSchoolDayAnotherDay(sender, responseText, dateOfDay); }
+			if (body == undefined) { getSchoolDayAnotherDay(sender, responseText, dateOfDay); }
 			let day = JSON.parse(body);
 			let dayOfWeek = new Date(day["items"][0]["start"]["date"]).getDay();
-			if(dayOfWeek == 0) dayOfWeek = "Sunday"; if(dayOfWeek == 1) dayOfWeek = "Monday"; if(dayOfWeek == 2) dayOfWeek = "Tuesday"; if(dayOfWeek == 3) dayOfWeek = "Wednesday"; if(dayOfWeek == 4) dayOfWeek = "Thursday"; if(dayOfWeek == 5) dayOfWeek = "Friday"; if(dayOfWeek == 6) dayOfWeek = "Saturday";
+			if (dayOfWeek == 0) dayOfWeek = "Sunday"; if (dayOfWeek == 1) dayOfWeek = "Monday"; if (dayOfWeek == 2) dayOfWeek = "Tuesday"; if (dayOfWeek == 3) dayOfWeek = "Wednesday"; if (dayOfWeek == 4) dayOfWeek = "Thursday"; if (dayOfWeek == 5) dayOfWeek = "Friday"; if (dayOfWeek == 6) dayOfWeek = "Saturday";
 			let response = `It is a${responseText} ${day["items"][0]["summary"]} on ${dayOfWeek}, ${day["items"][0]["start"]["date"]} Did you pack your bag right?`;
 			sendTextMessage(sender, response);
 			console.log(codes);
@@ -318,58 +318,58 @@ function getSchoolDayAnotherDay(sender, responseText, dateOfDay) {
 	Gets the next school holiday or any other after that
 */
 function getHoliday(sender, responseText, q1) {
-		// Source: http://stackoverflow.com/questions/497790
-		var dates = {
-			convert:function(d) {
-				// Converts the date in d to a date-object. The input can be:
-				//   a date object: returned without modification
-				//  an array      : Interpreted as [year,month,day]. NOTE: month is 0-11.
-				//   a number     : Interpreted as number of milliseconds
-				//                  since 1 Jan 1970 (a timestamp) 
-				//   a string     : Any format supported by the javascript engine, like
-				//                  "YYYY/MM/DD", "MM/DD/YYYY", "Jan 31 2009" etc.
-				//  an object     : Interpreted as an object with year, month and date
-				//                  attributes.  **NOTE** month is 0-11.
-				return (
-					d.constructor === Date ? d :
-					d.constructor === Array ? new Date(d[0],d[1],d[2]) :
-					d.constructor === Number ? new Date(d) :
-					d.constructor === String ? new Date(d) :
-					typeof d === "object" ? new Date(d.year,d.month,d.date) :
-					NaN
-				);
-			},
-			compare:function(a,b) {
-				// Compare two dates (could be of any type supported by the convert
-				// function above) and returns:
-				//  -1 : if a < b
-				//   0 : if a = b
-				//   1 : if a > b
-				// NaN : if a or b is an illegal date
-				// NOTE: The code inside isFinite does an assignment (=).
-				return (
-					isFinite(a=this.convert(a).valueOf()) &&
-					isFinite(b=this.convert(b).valueOf()) ?
-					(a>b)-(a<b) :
-					NaN
-				);
-			},
-			inRange:function(d,start,end) {
-				// Checks if date in d is between dates in start and end.
-				// Returns a boolean or NaN:
-				//    true  : if d is between start and end (inclusive)
-				//    false : if d is before start or after end
-				//    NaN   : if one or more of the dates is illegal.
-				// NOTE: The code inside isFinite does an assignment (=).
+	// Source: http://stackoverflow.com/questions/497790
+	var dates = {
+		convert: function (d) {
+			// Converts the date in d to a date-object. The input can be:
+			//   a date object: returned without modification
+			//  an array      : Interpreted as [year,month,day]. NOTE: month is 0-11.
+			//   a number     : Interpreted as number of milliseconds
+			//                  since 1 Jan 1970 (a timestamp) 
+			//   a string     : Any format supported by the javascript engine, like
+			//                  "YYYY/MM/DD", "MM/DD/YYYY", "Jan 31 2009" etc.
+			//  an object     : Interpreted as an object with year, month and date
+			//                  attributes.  **NOTE** month is 0-11.
 			return (
-					isFinite(d=this.convert(d).valueOf()) &&
-					isFinite(start=this.convert(start).valueOf()) &&
-					isFinite(end=this.convert(end).valueOf()) ?
+				d.constructor === Date ? d :
+					d.constructor === Array ? new Date(d[0], d[1], d[2]) :
+						d.constructor === Number ? new Date(d) :
+							d.constructor === String ? new Date(d) :
+								typeof d === "object" ? new Date(d.year, d.month, d.date) :
+									NaN
+			);
+		},
+		compare: function (a, b) {
+			// Compare two dates (could be of any type supported by the convert
+			// function above) and returns:
+			//  -1 : if a < b
+			//   0 : if a = b
+			//   1 : if a > b
+			// NaN : if a or b is an illegal date
+			// NOTE: The code inside isFinite does an assignment (=).
+			return (
+				isFinite(a = this.convert(a).valueOf()) &&
+					isFinite(b = this.convert(b).valueOf()) ?
+					(a > b) - (a < b) :
+					NaN
+			);
+		},
+		inRange: function (d, start, end) {
+			// Checks if date in d is between dates in start and end.
+			// Returns a boolean or NaN:
+			//    true  : if d is between start and end (inclusive)
+			//    false : if d is before start or after end
+			//    NaN   : if one or more of the dates is illegal.
+			// NOTE: The code inside isFinite does an assignment (=).
+			return (
+				isFinite(d = this.convert(d).valueOf()) &&
+					isFinite(start = this.convert(start).valueOf()) &&
+					isFinite(end = this.convert(end).valueOf()) ?
 					start <= d && d <= end :
 					NaN
-				);
-			}
+			);
 		}
+	}
 	var today = new Date();
 	today = today.toISOString();
 	console.log("Date:" + today);
@@ -387,12 +387,12 @@ function getHoliday(sender, responseText, q1) {
 			let end = new Date(`${day["items"][0]["end"]["date"]}`);
 			var timeDiff = Math.abs(end.getTime() - start.getTime());
 			var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); //	converst from ms to days
-			var daysTillBreak = Math.abs(Math.floor(((new Date()).getTime() - start.getTime())/(1000 * 3600 * 24)));
+			var daysTillBreak = Math.abs(Math.floor(((new Date()).getTime() - start.getTime()) / (1000 * 3600 * 24)));
 			if (diffDays <= 1) {
 				let responses = `It's${responseText} ${day["items"][0]["summary"]} on ${day["items"][0]["start"]["date"]} Only ${daysTillBreak} days to go! Keep at it!`;
 				sendTextMessage(sender, responses);
 			}
-			else if(dates.compare(today, start) == 1) {
+			else if (dates.compare(today, start) == 1) {
 				getHolidayFromDate(sender, responseText, q1, end)
 			}
 			else {
@@ -408,38 +408,38 @@ function getHoliday(sender, responseText, q1) {
 }
 
 function getHolidayFromDate(sender, responseText, q1, dayOfStart) {
-request({
-	url: "https://www.googleapis.com/calendar/v3/calendars/tdds37nnse3d1u5epd2hu83464@group.calendar.google.com/events/?timeMin=" + dayOfStart.toISOString() + "&maxResults=1&singleEvents=true&orderBy=startTime&q=" + "holiday",
-	method: "GET",
-	headers: {
-		Authorization: " Bearer " + codes,
-	}
-}, function (error, response, body) {
-	if (!error && response.statusCode == 200) {
-		console.log(body);
-		let day = JSON.parse(body);
-		let start = new Date(`${day["items"][0]["start"]["date"]}`);
-		let end = new Date(`${day["items"][0]["end"]["date"]}`);
-		var timeDiff = Math.abs(end.getTime() - start.getTime());
-		var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); //	converst from ms to days
-		var daysTillBreak = Math.floor((start.getTime() - (new Date()).getTime())/(1000 * 3600 * 24));
-		if (diffDays <= 1) {
-			let responses = `You're already on holiday, but It's${responseText} ${day["items"][0]["summary"]} on ${day["items"][0]["start"]["date"]} Only ${daysTillBreak} days to go! Keep at it!`;
-			sendTextMessage(sender, responses);
+	request({
+		url: "https://www.googleapis.com/calendar/v3/calendars/tdds37nnse3d1u5epd2hu83464@group.calendar.google.com/events/?timeMin=" + dayOfStart.toISOString() + "&maxResults=1&singleEvents=true&orderBy=startTime&q=" + "holiday",
+		method: "GET",
+		headers: {
+			Authorization: " Bearer " + codes,
 		}
-		else if(dates.compare(today, start) == 1) {
-			
-		}
-		else {
-			let responses = `You're already on holiday, but It's${responseText} ${day["items"][0]["summary"]} from ${day["items"][0]["start"]["date"]} to ${day["items"][0]["end"]["date"]} Only ${daysTillBreak} days to go! Keep at it!`;
-			sendTextMessage(sender, responses);
-		}
+	}, function (error, response, body) {
+		if (!error && response.statusCode == 200) {
+			console.log(body);
+			let day = JSON.parse(body);
+			let start = new Date(`${day["items"][0]["start"]["date"]}`);
+			let end = new Date(`${day["items"][0]["end"]["date"]}`);
+			var timeDiff = Math.abs(end.getTime() - start.getTime());
+			var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); //	converst from ms to days
+			var daysTillBreak = Math.floor((start.getTime() - (new Date()).getTime()) / (1000 * 3600 * 24));
+			if (diffDays <= 1) {
+				let responses = `You're already on holiday, but It's${responseText} ${day["items"][0]["summary"]} on ${day["items"][0]["start"]["date"]} Only ${daysTillBreak} days to go! Keep at it!`;
+				sendTextMessage(sender, responses);
+			}
+			else if (dates.compare(today, start) == 1) {
 
-		console.log(codes);
-	} else {
-		console.error(response.error);
-	}
-});
+			}
+			else {
+				let responses = `You're already on holiday, but It's${responseText} ${day["items"][0]["summary"]} from ${day["items"][0]["start"]["date"]} to ${day["items"][0]["end"]["date"]} Only ${daysTillBreak} days to go! Keep at it!`;
+				sendTextMessage(sender, responses);
+			}
+
+			console.log(codes);
+		} else {
+			console.error(response.error);
+		}
+	});
 }
 
 /*
@@ -467,12 +467,12 @@ function getSchoologyUser(sender, responseText, firstName, lastName, tests, spec
 		url: "https://api.schoology.com/v1/search?keywords=" + firstName + "+" + lastName + "&type=user",
 		method: "GET",
 		headers: {
-			authorization: "OAuth realm=\"https://api.schoology.com/\",oauth_consumer_key=" + process.env.SCHOOLOGY_CONSUMER_KEY + ",oauth_token=\"\",oauth_nonce=\"596b43992ed54\",oauth_signature_method=\"PLAINTEXT\",oauth_timestamp=\"" + (Math.ceil((new Date().getTime()/1000))-(Math.random()*3000)+(Math.random()*3000)+(Math.random()*5)-(Math.random()*5)) + "\",oauth_version=\"1.0\",oauth_signature=\"7f9117828e3c1aef6fc25d09f8347319%26\"",
+			authorization: "OAuth realm=\"https://api.schoology.com/\",oauth_consumer_key=" + process.env.SCHOOLOGY_CONSUMER_KEY + ",oauth_token=\"\",oauth_nonce=\"596b43992ed54\",oauth_signature_method=\"PLAINTEXT\",oauth_timestamp=\"" + (Math.ceil((new Date().getTime() / 1000)) - (Math.random() * 3000) + (Math.random() * 3000) + (Math.random() * 5) - (Math.random() * 5)) + "\",oauth_version=\"1.0\",oauth_signature=\"7f9117828e3c1aef6fc25d09f8347319%26\"",
 
 		}
 	}, function (error, response, body) {
 		if (!error && response.statusCode == 200) {
-			
+
 			let user = JSON.parse(body);
 			if (user["users"]["search_result"][0] != undefined) {
 				console.log("USERID: " + user["users"]["search_result"][0]["uid"]);
@@ -480,7 +480,7 @@ function getSchoologyUser(sender, responseText, firstName, lastName, tests, spec
 				getSchoologyCourses(sender, responseText, schoologyUserID, tests, specificCourse, specificDate);
 				//sendTextMessage(sender, "Your user ID is: " + schoologyUserID);
 				return schoologyUserID;
-				
+
 			}
 			//console.log("USER" + user);
 			console.log("hw fetch");
@@ -494,12 +494,12 @@ function getSchoologyUser(sender, responseText, firstName, lastName, tests, spec
 
 function getSchoologyCourses(sender, responseText, schoologyUserID, tests, specificCourse, specificDate) {
 	console.log("entered course method");
-	console.log("ID " + schoologyUserID )
+	console.log("ID " + schoologyUserID)
 	request({
 		url: "https://api.schoology.com/v1/users/" + schoologyUserID + "/sections/",
 		method: "GET",
 		headers: {
-			authorization: "OAuth realm=\"https://api.schoology.com/\",oauth_consumer_key=" + process.env.SCHOOLOGY_CONSUMER_KEY + ",oauth_token=\"\",oauth_nonce=\"596b43992ed54\",oauth_signature_method=\"PLAINTEXT\",oauth_timestamp=\"" + (Math.floor((new Date().getTime()/1000))-(Math.random()*3000)+(Math.random()*3000)+(Math.random()*5)-(Math.random()*5)) + "\",oauth_version=\"1.0\",oauth_signature=\"7f9117828e3c1aef6fc25d09f8347319%26\"",
+			authorization: "OAuth realm=\"https://api.schoology.com/\",oauth_consumer_key=" + process.env.SCHOOLOGY_CONSUMER_KEY + ",oauth_token=\"\",oauth_nonce=\"596b43992ed54\",oauth_signature_method=\"PLAINTEXT\",oauth_timestamp=\"" + (Math.floor((new Date().getTime() / 1000)) - (Math.random() * 3000) + (Math.random() * 3000) + (Math.random() * 5) - (Math.random() * 5)) + "\",oauth_version=\"1.0\",oauth_signature=\"7f9117828e3c1aef6fc25d09f8347319%26\"",
 
 		}
 	}, function (error, response, body) {
@@ -509,24 +509,26 @@ function getSchoologyCourses(sender, responseText, schoologyUserID, tests, speci
 			let courses = JSON.parse(body);
 			let sent = false;
 			//sendTextMessage("Your Courses: ")
-			for( var j = 0; j < courses["section"].length; j++) { // goes through every course of a student
+			for (var j = 0; j < courses["section"].length; j++) { // goes through every course of a student
 				console.log("COURSE TITLE: " + courses["section"][j]["course_title"]);
 				console.log("COURSE ID: " + courses["section"][j]["id"])
 				//sendTextMessage(sender, "You have course " + courses["section"][j]["course_title"] +  " with ID " + courses["section"][j]["id"]);
 				//getSchoologyCourseAssignments(sender, courses["section"][j]["course_title"], courses["section"][j]["id"]);
-				specificCourse = specificCourse.replace("calculus", "calc");
-				if(specificCourse != null && ((courses["section"][j]["course_title"]).toLowerCase().indexOf(specificCourse.toLowerCase()) >= 0 || (specificCourse.toLowerCase().indexOf(courses["section"][j]["course_title"].toLowerCase())) >= 0)) {
+				if (specificCourse != null) {
+					specificCourse = specificCourse.replace("calculus", "calc");
+				}
+				if (specificCourse != null && ((courses["section"][j]["course_title"]).toLowerCase().indexOf(specificCourse.toLowerCase()) >= 0 || (specificCourse.toLowerCase().indexOf(courses["section"][j]["course_title"].toLowerCase())) >= 0)) {
 					getSchoologyCourseEvents(sender, courses["section"][j]["course_title"], courses["section"][j]["id"], specificDate);
 					sent = true;
 				}
-				if(specificCourse == null) {
-					if(tests)
+				if (specificCourse == null) {
+					if (tests)
 						getSchoologyCourseAssignments(sender, courses["section"][j]["course_title"], courses["section"][j]["id"], specificDate);
-					else	
+					else
 						getSchoologyCourseEvents(sender, courses["section"][j]["course_title"], courses["section"][j]["id"], specificDate);
 				}
 			}
-			if(specificCourse != null && !sent)
+			if (specificCourse != null && !sent)
 				sendTextMessage(sender, "you are not enrolled in this course");
 			//sendTextMessage(sender, body);
 			//console.log("USER" + user);
@@ -538,143 +540,13 @@ function getSchoologyCourses(sender, responseText, schoologyUserID, tests, speci
 			getSchoologyCourses(sender, responseText, schoologyUserID, tests, specificCourse)
 		}
 	});
-	
+
 }
 
 function getSchoologyCourseAssignments(sender, courseTitle, schoologyCourseID, specificDate) {
-			// Source: http://stackoverflow.com/questions/497790
-		var dates = {
-			convert:function(d) {
-				// Converts the date in d to a date-object. The input can be:
-				//   a date object: returned without modification
-				//  an array      : Interpreted as [year,month,day]. NOTE: month is 0-11.
-				//   a number     : Interpreted as number of milliseconds
-				//                  since 1 Jan 1970 (a timestamp) 
-				//   a string     : Any format supported by the javascript engine, like
-				//                  "YYYY/MM/DD", "MM/DD/YYYY", "Jan 31 2009" etc.
-				//  an object     : Interpreted as an object with year, month and date
-				//                  attributes.  **NOTE** month is 0-11.
-				return (
-					d.constructor === Date ? d :
-					d.constructor === Array ? new Date(d[0],d[1],d[2]) :
-					d.constructor === Number ? new Date(d) :
-					d.constructor === String ? new Date(d) :
-					typeof d === "object" ? new Date(d.year,d.month,d.date) :
-					NaN
-				);
-			},
-			compare:function(a,b) {
-				// Compare two dates (could be of any type supported by the convert
-				// function above) and returns:
-				//  -1 : if a < b
-				//   0 : if a = b
-				//   1 : if a > b
-				// NaN : if a or b is an illegal date
-				// NOTE: The code inside isFinite does an assignment (=).
-				return (
-					isFinite(a=this.convert(a).valueOf()) &&
-					isFinite(b=this.convert(b).valueOf()) ?
-					(a>b)-(a<b) :
-					NaN
-				);
-			},
-			inRange:function(d,start,end) {
-				// Checks if date in d is between dates in start and end.
-				// Returns a boolean or NaN:
-				//    true  : if d is between start and end (inclusive)
-				//    false : if d is before start or after end
-				//    NaN   : if one or more of the dates is illegal.
-				// NOTE: The code inside isFinite does an assignment (=).
-			return (
-					isFinite(d=this.convert(d).valueOf()) &&
-					isFinite(start=this.convert(start).valueOf()) &&
-					isFinite(end=this.convert(end).valueOf()) ?
-					start <= d && d <= end :
-					NaN
-				);
-			}
-		}
-			
-	console.log("entered course assignemnts method");
-	console.log("ID " + schoologyCourseID )
-	request({
-		url: "https://api.schoology.com/v1/sections/" + schoologyCourseID + "/assignments/?start=0&limit=1000",
-		method: "GET",
-		headers: {
-			authorization: "OAuth realm=\"https://api.schoology.com/\",oauth_consumer_key=" + process.env.SCHOOLOGY_CONSUMER_KEY + ",oauth_token=\"\",oauth_nonce=\"596b43992ed54\",oauth_signature_method=\"PLAINTEXT\",oauth_timestamp=\"" + (Math.ceil((new Date().getTime()/1000))-(Math.random()*3500)+(Math.random()*3500)+(Math.random()*100)-(Math.random()*100)) + "\",oauth_version=\"1.0\",oauth_signature=\"7f9117828e3c1aef6fc25d09f8347319%26\"",
-
-		}
-	}, function (error, response, body) {
-		if (!error && response.statusCode == 200) {
-			console.log("entered main course assignments section")
-			console.log(body);
-			let assignments = JSON.parse(body);
-			let ret = "";
-			for( var j = 0; j < assignments["assignment"].length; j++) {
-				console.log("ASSIGNMENT TITLE: " + assignments["assignment"][j]["title"]);
-				console.log("ASSIGNMENT DESCRIPTION: " + assignments["assignment"][j]["description"])
-				if(assignments["assignment"][j]["due"] != "") {
-					let d = new Date(assignments["assignment"][j]["due"]);
-					let dayOfWeek = d.getDay(); if(dayOfWeek == 0) dayOfWeek = "Sunday"; if(dayOfWeek == 1) dayOfWeek = "Monday"; if(dayOfWeek == 2) dayOfWeek = "Tuesday"; if(dayOfWeek == 3) dayOfWeek = "Wednesday"; if(dayOfWeek == 4) dayOfWeek = "Thursday"; if(dayOfWeek == 5) dayOfWeek = "Friday"; if(dayOfWeek == 6) dayOfWeek = "Saturday";
-					let numberInMonth = d.getDate();
-					let month = d.getMonth(); if(month == 0) month = "January"; if(month == 1) month = "February"; if(month == 2) month = "March"; if(month == 3) month = "April"; if(month == 4) month = "May"; if(month == 5) month = "June"; if(month == 6) month = "July"; if(month == 7) month = "August"; if(month == 8) month = "September"; if(month == 9) month = "October"; if(month == 10) month = "November"; if(month == 11) month = "December";
-					if(specificDate != "") {
-						if(dates.compare(new Date(specificDate), new Date(assignments["assignment"][j]["due"])) == -1 && dates.compare(new Date(new Date(specificDate).getTime() + (86400000*2)), new Date(assignments["assignment"][j]["due"])) == 1) {
-							if(assignments["assignment"][j]["description"] == "" || assignments["assignment"][j]["description"] == null )
-								ret = ret + "You have assignment/test " + "*" + assignments["assignment"][j]["title"] + "*"  + " on " + "*" + dayOfWeek + ", " + numberInMonth + " " + month + "*" + ", " + assignments["assignment"][j]["due"] + "\n\n";
-							else 
-								ret = ret + "You have assignment/test " + "*" + assignments["assignment"][j]["title"] + "*" + " with description " + assignments["assignment"][j]["description"] + " on " + "*" + dayOfWeek + ", " + numberInMonth + " " + month + "*" + ", " + assignments["assignment"][j]["due"] + "\n\n";
-						}
-					}
-					else {
-						if(dates.compare(new Date(), new Date(assignments["assignment"][j]["due"])) == -1 && dates.compare(new Date(new Date().getTime() + 864000000), new Date(assignments["assignment"][j]["due"])) == 1) {
-							if(assignments["assignment"][j]["description"] == "" || assignments["assignment"][j]["description"] == null )
-								ret = ret + "You have assignment/test " + "*" + assignments["assignment"][j]["title"] + "*"  + " on " + "*" + dayOfWeek + ", " + numberInMonth + " " + month + "*" + ", " + assignments["assignment"][j]["due"] + "\n\n";
-							else 
-								ret = ret + "You have assignment/test " + "*" + assignments["assignment"][j]["title"] + "*" + " with description " + assignments["assignment"][j]["description"] + " on " + "*" + dayOfWeek + ", " + numberInMonth + " " + month + "*" + ", " + assignments["assignment"][j]["due"] + "\n\n";
-						}
-					}
-				}
-			}
-			console.log("RETURN" + ret)
-			if(courseTitle.indexOf("dvisory") < 0 && courseTitle.indexOf("IS") < 0 && courseTitle.indexOf("Student Tech Help") < 0  && courseTitle.indexOf("I Service") < 0) {
-				if(specificDate != "") {
-					let d = new Date(specificDate);
-					let dayOfWeek = d.getDay(); if(dayOfWeek == 0) dayOfWeek = "Sunday"; if(dayOfWeek == 1) dayOfWeek = "Monday"; if(dayOfWeek == 2) dayOfWeek = "Tuesday"; if(dayOfWeek == 3) dayOfWeek = "Wednesday"; if(dayOfWeek == 4) dayOfWeek = "Thursday"; if(dayOfWeek == 5) dayOfWeek = "Friday"; if(dayOfWeek == 6) dayOfWeek = "Saturday";
-					let numberInMonth = d.getDate();
-					let month = d.getMonth(); if(month == 0) month = "January"; if(month == 1) month = "February"; if(month == 2) month = "March"; if(month == 3) month = "April"; if(month == 4) month = "May"; if(month == 5) month = "June"; if(month == 6) month = "July"; if(month == 7) month = "August"; if(month == 8) month = "September"; if(month == 9) month = "October"; if(month == 10) month = "November"; if(month == 11) month = "December";
-					if(ret === "")
-						sendTextMessage(sender, "You have no tests/quizzes for " + "*" + courseTitle + "*" + " on " + dayOfWeek + ", " + numberInMonth + " " + month + ", " + "\n\n" + "Yay! (unless your teacher just doesn't post on Schoology)");
-					else
-						sendTextMessage(sender, "You have the following tests/quizzes for " + "*" + courseTitle + "*" + "\n\n" + ret);
-				}
-				else if (specificDate == ""){
-					if(ret === "")
-						sendTextMessage(sender, "You have no tests/quizzes for " + "*" + courseTitle + "*" + " for the next 10 days" + "\n\n" + "Yay! (unless your teacher just doesn't post on Schoology)");
-					else
-						sendTextMessage(sender, "You have the following tests/quizzes for " + "*" + courseTitle + "*" + "\n\n" + ret + "\n\n" + "Pro Life Tip: Ask for less homework next time");
-				}
-			}
-			//return ret;
-			//sendTextMessage(sender, body);
-			//console.log("USER" + user);
-			console.log("course fetch");
-
-		} else {
-			
-			console.error(response.error);
-			console.log("ewwowr");
-			getSchoologyCourseAssignments(sender, courseTitle, schoologyCourseID, specificDate);
-		}
-	});
-
-	
-}
-
-function getSchoologyCourseEvents(sender, courseTitle, schoologyCourseID, specificDate) {
-		// Source: http://stackoverflow.com/questions/497790
+	// Source: http://stackoverflow.com/questions/497790
 	var dates = {
-		convert:function(d) {
+		convert: function (d) {
 			// Converts the date in d to a date-object. The input can be:
 			//   a date object: returned without modification
 			//  an array      : Interpreted as [year,month,day]. NOTE: month is 0-11.
@@ -686,14 +558,14 @@ function getSchoologyCourseEvents(sender, courseTitle, schoologyCourseID, specif
 			//                  attributes.  **NOTE** month is 0-11.
 			return (
 				d.constructor === Date ? d :
-				d.constructor === Array ? new Date(d[0],d[1],d[2]) :
-				d.constructor === Number ? new Date(d) :
-				d.constructor === String ? new Date(d) :
-				typeof d === "object" ? new Date(d.year,d.month,d.date) :
-				NaN
+					d.constructor === Array ? new Date(d[0], d[1], d[2]) :
+						d.constructor === Number ? new Date(d) :
+							d.constructor === String ? new Date(d) :
+								typeof d === "object" ? new Date(d.year, d.month, d.date) :
+									NaN
 			);
 		},
-		compare:function(a,b) {
+		compare: function (a, b) {
 			// Compare two dates (could be of any type supported by the convert
 			// function above) and returns:
 			//  -1 : if a < b
@@ -702,100 +574,230 @@ function getSchoologyCourseEvents(sender, courseTitle, schoologyCourseID, specif
 			// NaN : if a or b is an illegal date
 			// NOTE: The code inside isFinite does an assignment (=).
 			return (
-				isFinite(a=this.convert(a).valueOf()) &&
-				isFinite(b=this.convert(b).valueOf()) ?
-				(a>b)-(a<b) :
-				NaN
+				isFinite(a = this.convert(a).valueOf()) &&
+					isFinite(b = this.convert(b).valueOf()) ?
+					(a > b) - (a < b) :
+					NaN
 			);
 		},
-		inRange:function(d,start,end) {
+		inRange: function (d, start, end) {
 			// Checks if date in d is between dates in start and end.
 			// Returns a boolean or NaN:
 			//    true  : if d is between start and end (inclusive)
 			//    false : if d is before start or after end
 			//    NaN   : if one or more of the dates is illegal.
 			// NOTE: The code inside isFinite does an assignment (=).
-		return (
-				isFinite(d=this.convert(d).valueOf()) &&
-				isFinite(start=this.convert(start).valueOf()) &&
-				isFinite(end=this.convert(end).valueOf()) ?
-				start <= d && d <= end :
-				NaN
+			return (
+				isFinite(d = this.convert(d).valueOf()) &&
+					isFinite(start = this.convert(start).valueOf()) &&
+					isFinite(end = this.convert(end).valueOf()) ?
+					start <= d && d <= end :
+					NaN
 			);
 		}
-}
-	
-	console.log("entered course assignemnts method");
-	console.log("ID " + schoologyCourseID )
-	request({
-	url: "https://api.schoology.com/v1/sections/" + schoologyCourseID + "/events/?start=0&limit=1000",
-	method: "GET",
-	headers: {
-		authorization: "OAuth realm=\"https://api.schoology.com/\",oauth_consumer_key=" + process.env.SCHOOLOGY_CONSUMER_KEY + ",oauth_token=\"\",oauth_nonce=\"596b43992ed54\",oauth_signature_method=\"PLAINTEXT\",oauth_timestamp=\"" + (Math.floor((new Date().getTime()/1000))-(Math.random()*3500)+(Math.random()*3500)+(Math.random()*100)-(Math.random()*100)) + "\",oauth_version=\"1.0\",oauth_signature=\"7f9117828e3c1aef6fc25d09f8347319%26\"",
-
 	}
+
+	console.log("entered course assignemnts method");
+	console.log("ID " + schoologyCourseID)
+	request({
+		url: "https://api.schoology.com/v1/sections/" + schoologyCourseID + "/assignments/?start=0&limit=1000",
+		method: "GET",
+		headers: {
+			authorization: "OAuth realm=\"https://api.schoology.com/\",oauth_consumer_key=" + process.env.SCHOOLOGY_CONSUMER_KEY + ",oauth_token=\"\",oauth_nonce=\"596b43992ed54\",oauth_signature_method=\"PLAINTEXT\",oauth_timestamp=\"" + (Math.ceil((new Date().getTime() / 1000)) - (Math.random() * 3500) + (Math.random() * 3500) + (Math.random() * 100) - (Math.random() * 100)) + "\",oauth_version=\"1.0\",oauth_signature=\"7f9117828e3c1aef6fc25d09f8347319%26\"",
+
+		}
 	}, function (error, response, body) {
-	if (!error && response.statusCode == 200) {
-		console.log("entered main course assignments section")
-		console.log(body);
-		let assignments = JSON.parse(body);
-		let ret = "";
-		for( var j = 0; j < assignments["event"].length; j++) {
-			console.log("EVENT TITLE: " + assignments["event"][j]["title"]);
-			console.log("EVENT DESCRIPTION: " + assignments["event"][j]["description"])
-			if(assignments["event"][j]["due"] != "") {
-				let d = new Date(assignments["event"][j]["start"]);
-				let dayOfWeek = d.getDay(); if(dayOfWeek == 0) dayOfWeek = "Sunday"; if(dayOfWeek == 1) dayOfWeek = "Monday"; if(dayOfWeek == 2) dayOfWeek = "Tuesday"; if(dayOfWeek == 3) dayOfWeek = "Wednesday"; if(dayOfWeek == 4) dayOfWeek = "Thursday"; if(dayOfWeek == 5) dayOfWeek = "Friday"; if(dayOfWeek == 6) dayOfWeek = "Saturday";
-				let numberInMonth = d.getDate();
-				let month = d.getMonth(); if(month == 0) month = "January"; if(month == 1) month = "February"; if(month == 2) month = "March"; if(month == 3) month = "April"; if(month == 4) month = "May"; if(month == 5) month = "June"; if(month == 6) month = "July"; if(month == 7) month = "August"; if(month == 8) month = "September"; if(month == 9) month = "October"; if(month == 10) month = "November"; if(month == 11) month = "December";
-				if(specificDate != "") {
-					if(dates.compare(new Date(specificDate), new Date(assignments["event"][j]["start"])) == -1 && dates.compare(new Date(new Date(specificDate).getTime() + (86400000*2)), new Date(assignments["event"][j]["start"])) == 1) {
-						if(assignments["event"][j]["description"] == undefined || assignments["event"][j]["description"] == null )
-							ret = ret + "You have homework/assignment " + "*" + assignments["event"][j]["title"] + "*"  + " on " + "*" + dayOfWeek + ", " + numberInMonth + " " + month + "*" + ", " + "\n\n";
-						else 
-							ret = ret + "You have homework/assignment " + "*" + assignments["event"][j]["title"] + "*" + " with description " + assignments["event"][j]["description"] + " on " + "*" + dayOfWeek + ", " + numberInMonth + " " + month + "*" + ", "  + "\n\n";
+		if (!error && response.statusCode == 200) {
+			console.log("entered main course assignments section")
+			console.log(body);
+			let assignments = JSON.parse(body);
+			let ret = "";
+			for (var j = 0; j < assignments["assignment"].length; j++) {
+				console.log("ASSIGNMENT TITLE: " + assignments["assignment"][j]["title"]);
+				console.log("ASSIGNMENT DESCRIPTION: " + assignments["assignment"][j]["description"])
+				if (assignments["assignment"][j]["due"] != "") {
+					let d = new Date(assignments["assignment"][j]["due"]);
+					let dayOfWeek = d.getDay(); if (dayOfWeek == 0) dayOfWeek = "Sunday"; if (dayOfWeek == 1) dayOfWeek = "Monday"; if (dayOfWeek == 2) dayOfWeek = "Tuesday"; if (dayOfWeek == 3) dayOfWeek = "Wednesday"; if (dayOfWeek == 4) dayOfWeek = "Thursday"; if (dayOfWeek == 5) dayOfWeek = "Friday"; if (dayOfWeek == 6) dayOfWeek = "Saturday";
+					let numberInMonth = d.getDate();
+					let month = d.getMonth(); if (month == 0) month = "January"; if (month == 1) month = "February"; if (month == 2) month = "March"; if (month == 3) month = "April"; if (month == 4) month = "May"; if (month == 5) month = "June"; if (month == 6) month = "July"; if (month == 7) month = "August"; if (month == 8) month = "September"; if (month == 9) month = "October"; if (month == 10) month = "November"; if (month == 11) month = "December";
+					if (specificDate != "") {
+						if (dates.compare(new Date(specificDate), new Date(assignments["assignment"][j]["due"])) == -1 && dates.compare(new Date(new Date(specificDate).getTime() + (86400000 * 2)), new Date(assignments["assignment"][j]["due"])) == 1) {
+							if (assignments["assignment"][j]["description"] == "" || assignments["assignment"][j]["description"] == null)
+								ret = ret + "You have assignment/test " + "*" + assignments["assignment"][j]["title"] + "*" + " on " + "*" + dayOfWeek + ", " + numberInMonth + " " + month + "*" + ", " + assignments["assignment"][j]["due"] + "\n\n";
+							else
+								ret = ret + "You have assignment/test " + "*" + assignments["assignment"][j]["title"] + "*" + " with description " + assignments["assignment"][j]["description"] + " on " + "*" + dayOfWeek + ", " + numberInMonth + " " + month + "*" + ", " + assignments["assignment"][j]["due"] + "\n\n";
+						}
 					}
+					else {
+						if (dates.compare(new Date(), new Date(assignments["assignment"][j]["due"])) == -1 && dates.compare(new Date(new Date().getTime() + 864000000), new Date(assignments["assignment"][j]["due"])) == 1) {
+							if (assignments["assignment"][j]["description"] == "" || assignments["assignment"][j]["description"] == null)
+								ret = ret + "You have assignment/test " + "*" + assignments["assignment"][j]["title"] + "*" + " on " + "*" + dayOfWeek + ", " + numberInMonth + " " + month + "*" + ", " + assignments["assignment"][j]["due"] + "\n\n";
+							else
+								ret = ret + "You have assignment/test " + "*" + assignments["assignment"][j]["title"] + "*" + " with description " + assignments["assignment"][j]["description"] + " on " + "*" + dayOfWeek + ", " + numberInMonth + " " + month + "*" + ", " + assignments["assignment"][j]["due"] + "\n\n";
+						}
+					}
+				}
+			}
+			console.log("RETURN" + ret)
+			if (courseTitle.indexOf("dvisory") < 0 && courseTitle.indexOf("IS") < 0 && courseTitle.indexOf("Student Tech Help") < 0 && courseTitle.indexOf("I Service") < 0) {
+				if (specificDate != "") {
+					let d = new Date(specificDate);
+					let dayOfWeek = d.getDay(); if (dayOfWeek == 0) dayOfWeek = "Sunday"; if (dayOfWeek == 1) dayOfWeek = "Monday"; if (dayOfWeek == 2) dayOfWeek = "Tuesday"; if (dayOfWeek == 3) dayOfWeek = "Wednesday"; if (dayOfWeek == 4) dayOfWeek = "Thursday"; if (dayOfWeek == 5) dayOfWeek = "Friday"; if (dayOfWeek == 6) dayOfWeek = "Saturday";
+					let numberInMonth = d.getDate();
+					let month = d.getMonth(); if (month == 0) month = "January"; if (month == 1) month = "February"; if (month == 2) month = "March"; if (month == 3) month = "April"; if (month == 4) month = "May"; if (month == 5) month = "June"; if (month == 6) month = "July"; if (month == 7) month = "August"; if (month == 8) month = "September"; if (month == 9) month = "October"; if (month == 10) month = "November"; if (month == 11) month = "December";
+					if (ret === "")
+						sendTextMessage(sender, "You have no tests/quizzes for " + "*" + courseTitle + "*" + " on " + dayOfWeek + ", " + numberInMonth + " " + month + ", " + "\n\n" + "Yay! (unless your teacher just doesn't post on Schoology)");
+					else
+						sendTextMessage(sender, "You have the following tests/quizzes for " + "*" + courseTitle + "*" + "\n\n" + ret);
+				}
+				else if (specificDate == "") {
+					if (ret === "")
+						sendTextMessage(sender, "You have no tests/quizzes for " + "*" + courseTitle + "*" + " for the next 10 days" + "\n\n" + "Yay! (unless your teacher just doesn't post on Schoology)");
+					else
+						sendTextMessage(sender, "You have the following tests/quizzes for " + "*" + courseTitle + "*" + "\n\n" + ret + "\n\n" + "Pro Life Tip: Ask for less homework next time");
+				}
+			}
+			//return ret;
+			//sendTextMessage(sender, body);
+			//console.log("USER" + user);
+			console.log("course fetch");
+
+		} else {
+
+			console.error(response.error);
+			console.log("ewwowr");
+			getSchoologyCourseAssignments(sender, courseTitle, schoologyCourseID, specificDate);
+		}
+	});
+
+
+}
+
+function getSchoologyCourseEvents(sender, courseTitle, schoologyCourseID, specificDate) {
+	// Source: http://stackoverflow.com/questions/497790
+	var dates = {
+		convert: function (d) {
+			// Converts the date in d to a date-object. The input can be:
+			//   a date object: returned without modification
+			//  an array      : Interpreted as [year,month,day]. NOTE: month is 0-11.
+			//   a number     : Interpreted as number of milliseconds
+			//                  since 1 Jan 1970 (a timestamp) 
+			//   a string     : Any format supported by the javascript engine, like
+			//                  "YYYY/MM/DD", "MM/DD/YYYY", "Jan 31 2009" etc.
+			//  an object     : Interpreted as an object with year, month and date
+			//                  attributes.  **NOTE** month is 0-11.
+			return (
+				d.constructor === Date ? d :
+					d.constructor === Array ? new Date(d[0], d[1], d[2]) :
+						d.constructor === Number ? new Date(d) :
+							d.constructor === String ? new Date(d) :
+								typeof d === "object" ? new Date(d.year, d.month, d.date) :
+									NaN
+			);
+		},
+		compare: function (a, b) {
+			// Compare two dates (could be of any type supported by the convert
+			// function above) and returns:
+			//  -1 : if a < b
+			//   0 : if a = b
+			//   1 : if a > b
+			// NaN : if a or b is an illegal date
+			// NOTE: The code inside isFinite does an assignment (=).
+			return (
+				isFinite(a = this.convert(a).valueOf()) &&
+					isFinite(b = this.convert(b).valueOf()) ?
+					(a > b) - (a < b) :
+					NaN
+			);
+		},
+		inRange: function (d, start, end) {
+			// Checks if date in d is between dates in start and end.
+			// Returns a boolean or NaN:
+			//    true  : if d is between start and end (inclusive)
+			//    false : if d is before start or after end
+			//    NaN   : if one or more of the dates is illegal.
+			// NOTE: The code inside isFinite does an assignment (=).
+			return (
+				isFinite(d = this.convert(d).valueOf()) &&
+					isFinite(start = this.convert(start).valueOf()) &&
+					isFinite(end = this.convert(end).valueOf()) ?
+					start <= d && d <= end :
+					NaN
+			);
+		}
+	}
+
+	console.log("entered course assignemnts method");
+	console.log("ID " + schoologyCourseID)
+	request({
+		url: "https://api.schoology.com/v1/sections/" + schoologyCourseID + "/events/?start=0&limit=1000",
+		method: "GET",
+		headers: {
+			authorization: "OAuth realm=\"https://api.schoology.com/\",oauth_consumer_key=" + process.env.SCHOOLOGY_CONSUMER_KEY + ",oauth_token=\"\",oauth_nonce=\"596b43992ed54\",oauth_signature_method=\"PLAINTEXT\",oauth_timestamp=\"" + (Math.floor((new Date().getTime() / 1000)) - (Math.random() * 3500) + (Math.random() * 3500) + (Math.random() * 100) - (Math.random() * 100)) + "\",oauth_version=\"1.0\",oauth_signature=\"7f9117828e3c1aef6fc25d09f8347319%26\"",
+
+		}
+	}, function (error, response, body) {
+		if (!error && response.statusCode == 200) {
+			console.log("entered main course assignments section")
+			console.log(body);
+			let assignments = JSON.parse(body);
+			let ret = "";
+			for (var j = 0; j < assignments["event"].length; j++) {
+				console.log("EVENT TITLE: " + assignments["event"][j]["title"]);
+				console.log("EVENT DESCRIPTION: " + assignments["event"][j]["description"])
+				if (assignments["event"][j]["due"] != "") {
+					let d = new Date(assignments["event"][j]["start"]);
+					let dayOfWeek = d.getDay(); if (dayOfWeek == 0) dayOfWeek = "Sunday"; if (dayOfWeek == 1) dayOfWeek = "Monday"; if (dayOfWeek == 2) dayOfWeek = "Tuesday"; if (dayOfWeek == 3) dayOfWeek = "Wednesday"; if (dayOfWeek == 4) dayOfWeek = "Thursday"; if (dayOfWeek == 5) dayOfWeek = "Friday"; if (dayOfWeek == 6) dayOfWeek = "Saturday";
+					let numberInMonth = d.getDate();
+					let month = d.getMonth(); if (month == 0) month = "January"; if (month == 1) month = "February"; if (month == 2) month = "March"; if (month == 3) month = "April"; if (month == 4) month = "May"; if (month == 5) month = "June"; if (month == 6) month = "July"; if (month == 7) month = "August"; if (month == 8) month = "September"; if (month == 9) month = "October"; if (month == 10) month = "November"; if (month == 11) month = "December";
+					if (specificDate != "") {
+						if (dates.compare(new Date(specificDate), new Date(assignments["event"][j]["start"])) == -1 && dates.compare(new Date(new Date(specificDate).getTime() + (86400000 * 2)), new Date(assignments["event"][j]["start"])) == 1) {
+							if (assignments["event"][j]["description"] == undefined || assignments["event"][j]["description"] == null)
+								ret = ret + "You have homework/assignment " + "*" + assignments["event"][j]["title"] + "*" + " on " + "*" + dayOfWeek + ", " + numberInMonth + " " + month + "*" + ", " + "\n\n";
+							else
+								ret = ret + "You have homework/assignment " + "*" + assignments["event"][j]["title"] + "*" + " with description " + assignments["event"][j]["description"] + " on " + "*" + dayOfWeek + ", " + numberInMonth + " " + month + "*" + ", " + "\n\n";
+						}
+					}
+					else {
+						if (dates.compare(new Date(), new Date(assignments["event"][j]["start"])) == -1 && dates.compare(new Date(new Date().getTime() + 864000000), new Date(assignments["event"][j]["start"])) == 1) {
+							if (assignments["event"][j]["description"] == undefined || assignments["event"][j]["description"] == null)
+								ret = ret + "You have homework/assignment " + "*" + assignments["event"][j]["title"] + "*" + " on " + "*" + dayOfWeek + ", " + numberInMonth + " " + month + "*" + ", " + "\n\n";
+							else
+								ret = ret + "You have homework/assignment " + "*" + assignments["event"][j]["title"] + "*" + " with description " + assignments["event"][j]["description"] + " on " + "*" + dayOfWeek + ", " + numberInMonth + " " + month + "*" + ", " + "\n\n";
+						}
+					}
+				}
+			}
+			console.log("RETURN" + ret)
+			if (courseTitle.indexOf("dvisory") < 0 && courseTitle.indexOf("IS") < 0 && courseTitle.indexOf("Student Tech Help") < 0 && courseTitle.indexOf("I Service") < 0) {
+				if (specificDate != "") {
+					let d = new Date(specificDate);
+					let dayOfWeek = d.getDay(); if (dayOfWeek == 0) dayOfWeek = "Sunday"; if (dayOfWeek == 1) dayOfWeek = "Monday"; if (dayOfWeek == 2) dayOfWeek = "Tuesday"; if (dayOfWeek == 3) dayOfWeek = "Wednesday"; if (dayOfWeek == 4) dayOfWeek = "Thursday"; if (dayOfWeek == 5) dayOfWeek = "Friday"; if (dayOfWeek == 6) dayOfWeek = "Saturday";
+					let numberInMonth = d.getDate();
+					let month = d.getMonth(); if (month == 0) month = "January"; if (month == 1) month = "February"; if (month == 2) month = "March"; if (month == 3) month = "April"; if (month == 4) month = "May"; if (month == 5) month = "June"; if (month == 6) month = "July"; if (month == 7) month = "August"; if (month == 8) month = "September"; if (month == 9) month = "October"; if (month == 10) month = "November"; if (month == 11) month = "December";
+					if (ret === "")
+						sendTextMessage(sender, "You have no homework/assignments for " + "*" + courseTitle + "*" + " on " + dayOfWeek + ", " + numberInMonth + " " + month + ", " + "\n\n" + "Yay! (unless your teacher just doesn't post on Schoology)");
+					else
+						sendTextMessage(sender, "You have the following homework/assignments for " + "*" + courseTitle + "*" + "\n\n" + ret + "\n\n");
 				}
 				else {
-					if(dates.compare(new Date(), new Date(assignments["event"][j]["start"])) == -1 && dates.compare(new Date(new Date().getTime() + 864000000), new Date(assignments["event"][j]["start"])) == 1) {
-						if(assignments["event"][j]["description"] == undefined || assignments["event"][j]["description"] == null )
-							ret = ret + "You have homework/assignment " + "*" + assignments["event"][j]["title"] + "*"  + " on " + "*" + dayOfWeek + ", " + numberInMonth + " " + month + "*" + ", " + "\n\n";
-						else 
-							ret = ret + "You have homework/assignment " + "*" + assignments["event"][j]["title"] + "*" + " with description " + assignments["event"][j]["description"] + " on " + "*" + dayOfWeek + ", " + numberInMonth + " " + month + "*" + ", " + "\n\n";
-					}
+					if (ret === "")
+						sendTextMessage(sender, "You have no homework/assignments for " + "*" + courseTitle + "*" + " for the next 10 days" + "\n\n" + "Yay! (unless your teacher just doesn't post on Schoology)");
+					else
+						sendTextMessage(sender, "You have the following homework/assignments for " + "*" + courseTitle + "*" + "\n\n" + ret + "\n\n" + "Pro Life Tip: Ask for less homework next time");
 				}
 			}
-		}
-		console.log("RETURN" + ret)
-		if(courseTitle.indexOf("dvisory") < 0 && courseTitle.indexOf("IS") < 0 && courseTitle.indexOf("Student Tech Help") < 0  && courseTitle.indexOf("I Service") < 0) {
-			if(specificDate != "") {
-				let d = new Date(specificDate);
-				let dayOfWeek = d.getDay(); if(dayOfWeek == 0) dayOfWeek = "Sunday"; if(dayOfWeek == 1) dayOfWeek = "Monday"; if(dayOfWeek == 2) dayOfWeek = "Tuesday"; if(dayOfWeek == 3) dayOfWeek = "Wednesday"; if(dayOfWeek == 4) dayOfWeek = "Thursday"; if(dayOfWeek == 5) dayOfWeek = "Friday"; if(dayOfWeek == 6) dayOfWeek = "Saturday";
-				let numberInMonth = d.getDate();
-				let month = d.getMonth(); if(month == 0) month = "January"; if(month == 1) month = "February"; if(month == 2) month = "March"; if(month == 3) month = "April"; if(month == 4) month = "May"; if(month == 5) month = "June"; if(month == 6) month = "July"; if(month == 7) month = "August"; if(month == 8) month = "September"; if(month == 9) month = "October"; if(month == 10) month = "November"; if(month == 11) month = "December";
-				if(ret === "")
-					sendTextMessage(sender, "You have no homework/assignments for " + "*" + courseTitle + "*" + " on " + dayOfWeek + ", " + numberInMonth + " " + month + ", " + "\n\n" + "Yay! (unless your teacher just doesn't post on Schoology)");
-				else
-					sendTextMessage(sender, "You have the following homework/assignments for " + "*" + courseTitle + "*" + "\n\n" + ret + "\n\n");
-			}
-			else {
-				if(ret === "")
-					sendTextMessage(sender, "You have no homework/assignments for " + "*" + courseTitle + "*" + " for the next 10 days" + "\n\n" + "Yay! (unless your teacher just doesn't post on Schoology)");
-				else
-					sendTextMessage(sender, "You have the following homework/assignments for " + "*" + courseTitle + "*" + "\n\n" + ret + "\n\n" + "Pro Life Tip: Ask for less homework next time");
-			}
-		}
-		//return ret;
-		//sendTextMessage(sender, body);
-		//console.log("USER" + user);
-		console.log("course fetch");
+			//return ret;
+			//sendTextMessage(sender, body);
+			//console.log("USER" + user);
+			console.log("course fetch");
 
-	} else {
+		} else {
 
-		console.error(response.error);
-		console.log("ewwowr");
-		getSchoologyCourseEvents(sender, courseTitle, schoologyCourseID);
-	}
+			console.error(response.error);
+			console.log("ewwowr");
+			getSchoologyCourseEvents(sender, courseTitle, schoologyCourseID);
+		}
 	});
 
 
@@ -803,88 +805,88 @@ function getSchoologyCourseEvents(sender, courseTitle, schoologyCourseID, specif
 
 function handleApiAiAction(sender, action, responseText, contexts, parameters, text) {
 	switch (action) {
-		case 'fetch_homework' :
-		console.log("Sender ID" + sender);
-		var userFirstName = "";
-		//fetch user data 
-		request({
-			uri: 'https://graph.facebook.com/v2.10/' + sender,
-			qs: {
-				access_token: process.env.FB_PAGE_TOKEN
-			}
-	
-		}, function (error, response, body) {
-			if (!error && response.statusCode == 200) {
-	
-				var user = JSON.parse(body);
-	
-				if (user.first_name) {
-					console.log("FB user: %s %s, %s",
-						user.first_name, user.last_name, user.gender);
-					userFirstName = user.first_name;
-					let id = getSchoologyUser(sender, responseText, user.first_name, user.last_name, false, null, parameters["date"]); //calls the getUserMethod
-					//getSchoologyCourses
-					
+		case 'fetch_homework':
+			console.log("Sender ID" + sender);
+			var userFirstName = "";
+			//fetch user data 
+			request({
+				uri: 'https://graph.facebook.com/v2.10/' + sender,
+				qs: {
+					access_token: process.env.FB_PAGE_TOKEN
 				}
-			} else {
-				console.error(response.error);
-			}
-	
-		});
-		
-		var start = Date.now();
-		console.log("starting timer...");
-		// expected output: starting timer...
 
-		setTimeout(function() {
-			var millis = Date.now() - start;
-			sendTextMessage(sender, "Go get some work done, " + userFirstName + "!");
-			console.log("seconds elapsed = " + Math.floor(millis/1000));
-			// expected output : seconds elapsed = 1.2
-		}, 2000);
-			
-		break;
+			}, function (error, response, body) {
+				if (!error && response.statusCode == 200) {
 
-		case 'fetch_specific_homeowork' :
-		
-		console.log("Sender ID" + sender);
-		var userFirstName = "";
-		//fetch user data 
-		request({
-			uri: 'https://graph.facebook.com/v2.10/' + sender,
-			qs: {
-				access_token: process.env.FB_PAGE_TOKEN
-			}
-	
-		}, function (error, response, body) {
-			if (!error && response.statusCode == 200) {
-	
-				var user = JSON.parse(body);
-	
-				if (user.first_name) {
-					console.log("FB user: %s %s, %s",
-						user.first_name, user.last_name, user.gender);
-					userFirstName = user.first_name;
-					let id = getSchoologyUser(sender, responseText, user.first_name, user.last_name, false, parameters["any"], parameters["date"]); //calls the getUserMethod
-					//getSchoologyCourses
-					
+					var user = JSON.parse(body);
+
+					if (user.first_name) {
+						console.log("FB user: %s %s, %s",
+							user.first_name, user.last_name, user.gender);
+						userFirstName = user.first_name;
+						let id = getSchoologyUser(sender, responseText, user.first_name, user.last_name, false, null, parameters["date"]); //calls the getUserMethod
+						//getSchoologyCourses
+
+					}
+				} else {
+					console.error(response.error);
 				}
-			} else {
-				console.error(response.error);
-			}
-	
-		});
-		var start = Date.now();
-		console.log("starting timer...");
+
+			});
+
+			var start = Date.now();
+			console.log("starting timer...");
 			// expected output: starting timer...
 
-			setTimeout(function() {
+			setTimeout(function () {
 				var millis = Date.now() - start;
 				sendTextMessage(sender, "Go get some work done, " + userFirstName + "!");
-				console.log("seconds elapsed = " + Math.floor(millis/1000));
+				console.log("seconds elapsed = " + Math.floor(millis / 1000));
 				// expected output : seconds elapsed = 1.2
 			}, 2000);
-		break;
+
+			break;
+
+		case 'fetch_specific_homeowork':
+
+			console.log("Sender ID" + sender);
+			var userFirstName = "";
+			//fetch user data 
+			request({
+				uri: 'https://graph.facebook.com/v2.10/' + sender,
+				qs: {
+					access_token: process.env.FB_PAGE_TOKEN
+				}
+
+			}, function (error, response, body) {
+				if (!error && response.statusCode == 200) {
+
+					var user = JSON.parse(body);
+
+					if (user.first_name) {
+						console.log("FB user: %s %s, %s",
+							user.first_name, user.last_name, user.gender);
+						userFirstName = user.first_name;
+						let id = getSchoologyUser(sender, responseText, user.first_name, user.last_name, false, parameters["any"], parameters["date"]); //calls the getUserMethod
+						//getSchoologyCourses
+
+					}
+				} else {
+					console.error(response.error);
+				}
+
+			});
+			var start = Date.now();
+			console.log("starting timer...");
+			// expected output: starting timer...
+
+			setTimeout(function () {
+				var millis = Date.now() - start;
+				sendTextMessage(sender, "Go get some work done, " + userFirstName + "!");
+				console.log("seconds elapsed = " + Math.floor(millis / 1000));
+				// expected output : seconds elapsed = 1.2
+			}, 2000);
+			break;
 
 		case 'fetch_tests':
 			console.log("Sender ID" + sender);
@@ -895,48 +897,48 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters, t
 				qs: {
 					access_token: process.env.FB_PAGE_TOKEN
 				}
-		
+
 			}, function (error, response, body) {
 				if (!error && response.statusCode == 200) {
-		
+
 					var user = JSON.parse(body);
-		
+
 					if (user.first_name) {
 						console.log("FB user: %s %s, %s",
 							user.first_name, user.last_name, user.gender);
 						userFirstName = user.first_Name;
 						let id = getSchoologyUser(sender, responseText, user.first_name, user.last_name, true, null, parameters["date"]); //calls the getUserMethod
 						//getSchoologyCourses
-						
+
 					}
 				} else {
 					console.error(response.error);
 				}
-		
+
 			});
 			var start = Date.now();
 			console.log("starting timer...");
 			// expected output: starting timer...
 
-			setTimeout(function() {
+			setTimeout(function () {
 				var millis = Date.now() - start;
 				sendTextMessage(sender, "Go study for your tests, " + userFirstName + "! " + "! (or the lack thereof)");
-				console.log("seconds elapsed = " + Math.floor(millis/1000));
+				console.log("seconds elapsed = " + Math.floor(millis / 1000));
 				// expected output : seconds elapsed = 1.2
 			}, 2000);
-			
+
 			//end of fetching user data
-		break;
-		case 'find_school_day' :
+			break;
+		case 'find_school_day':
 			refreshToken();
 			console.log("DAY: " + parameters["date"] + parameters.date);
-			if(parameters["date"])
+			if (parameters["date"])
 				getSchoolDayAnotherDay(sender, responseText, (parameters["date"] + "T11:30:56.784Z"));
-			else 
+			else
 				getSchoolDay(sender, responseText);
-		break;
-		
-		case 'fetch_holidays' : 
+			break;
+
+		case 'fetch_holidays':
 			refreshToken();
 			var q1 = "holiday"
 			console.log(parameters.holiday)
@@ -945,54 +947,54 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters, t
 				console.log("HOLIDAY:" + `${parameters["holiday"]}`)
 			}
 			getHoliday(sender, responseText, q1);
-		break;
-		case 'fetch_SAT_ACT' :
+			break;
+		case 'fetch_SAT_ACT':
 			refreshToken();
 			var today = new Date();
 			today = today.toISOString();
 			console.log("Date:" + today);
 			request({
 				url: "https://www.googleapis.com/calendar/v3/calendars/sas.edu.sg_63hhdl0689bleqeuqhee37q688@group.calendar.google.com/events/?timeMin=" + today + "&maxResults=1&singleEvents=true&orderBy=startTime&q=" + parameters["Tests"],
-				method:"GET",
-				headers:{
+				method: "GET",
+				headers: {
 					Authorization: " Bearer " + codes,
-					
-				}
-				},	function(error, response, body) {
-					if (!error && response.statusCode == 200){
-						let day = JSON.parse(body);
-						if (parameters["Tests"] === "ACT") {
-							let buttons = [
-								{
-									"type": "web_url",
-									"url": "https://www.act.org/content/act/en/products-and-services/the-act/registration.html#scrollNav-1-2",
-									"title": "All ACT Testing Dates"
-								},
-							]
-							sendButtonMessage(sender, `${responseText} The Next ${ day ["items"] [0] ["summary"]} is on ${day ["items"] [0] ["start"] ["date"] } Click on the link below for all ACT testing dates!` , buttons);
-						}
-						else {
-							let buttons = [
-								{
-									"type": "web_url",
-									"url": "https://collegereadiness.collegeboard.org/sat/register/international",
-									"title": "All SAT Testing Dates"
-								},
-							]
-							sendButtonMessage(sender, `${responseText} The Next ${ day ["items"] [0] ["summary"]} is on ${day ["items"] [0] ["start"] ["date"] }  Click on the link below for all SAT testing dates!`, buttons);
-							}
-						}
-					else {
-						console.error(response.error);
-					}		
-						
-					console.log(codes);
 
-				});	
-		break;
-		case 'fetch_summer_break' :
-				sendTextMessage(sender, "Ooh don't get too far ahead of yourself, make sure to do well at school :) Summer break is from the 9th of June.")
-		break;
+				}
+			}, function (error, response, body) {
+				if (!error && response.statusCode == 200) {
+					let day = JSON.parse(body);
+					if (parameters["Tests"] === "ACT") {
+						let buttons = [
+							{
+								"type": "web_url",
+								"url": "https://www.act.org/content/act/en/products-and-services/the-act/registration.html#scrollNav-1-2",
+								"title": "All ACT Testing Dates"
+							},
+						]
+						sendButtonMessage(sender, `${responseText} The Next ${day["items"][0]["summary"]} is on ${day["items"][0]["start"]["date"]} Click on the link below for all ACT testing dates!`, buttons);
+					}
+					else {
+						let buttons = [
+							{
+								"type": "web_url",
+								"url": "https://collegereadiness.collegeboard.org/sat/register/international",
+								"title": "All SAT Testing Dates"
+							},
+						]
+						sendButtonMessage(sender, `${responseText} The Next ${day["items"][0]["summary"]} is on ${day["items"][0]["start"]["date"]}  Click on the link below for all SAT testing dates!`, buttons);
+					}
+				}
+				else {
+					console.error(response.error);
+				}
+
+				console.log(codes);
+
+			});
+			break;
+		case 'fetch_summer_break':
+			sendTextMessage(sender, "Ooh don't get too far ahead of yourself, make sure to do well at school :) Summer break is from the 9th of June.")
+			break;
 		case 'fetch_general_event':
 			refreshToken();
 			var today = new Date();
@@ -1000,43 +1002,43 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters, t
 			console.log("Date:" + today);
 			request({
 				url: "https://www.googleapis.com/calendar/v3/calendars/sas.edu.sg_63hhdl0689bleqeuqhee37q688@group.calendar.google.com/events/?timeMin=" + today + "&maxResults=1&singleEvents=true&orderBy=startTime&q=" + parameters["any"],
-				method:"GET",
-				headers:{
+				method: "GET",
+				headers: {
 					Authorization: " Bearer " + codes,
-					
+
 				}
-				},	function(error, response, body) {
-					if (!error && response.statusCode == 200){
-						console.log(body);
-						let day = JSON.parse(body);
-						if (day["items"][0] !== undefined) {
-							let start = new Date(`${day["items"][0]["start"]["date"]}`);
-							let end = new Date(`${day["items"][0]["end"]["date"]}`);
-							var timeDiff = Math.abs(end.getTime() - start.getTime());
-							var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
-							if (diffDays = 0) {
-								let responses = `invalid event`;
-							}
-						
-							if (diffDays <= 1) {
-								let responses = `${responseText} ${day["items"][0]["summary"]} on ${day["items"][0]["start"]["date"]}`;
-								sendTextMessage(sender, responses);
-							}
-							else {
-								let responses = `${responseText} ${day["items"][0]["summary"]} from ${day["items"][0]["start"]["date"]} to ${day["items"][0]["end"]["date"]}`;
-								sendTextMessage(sender, responses);
-							}	
-								console.log(codes);
-							}
+			}, function (error, response, body) {
+				if (!error && response.statusCode == 200) {
+					console.log(body);
+					let day = JSON.parse(body);
+					if (day["items"][0] !== undefined) {
+						let start = new Date(`${day["items"][0]["start"]["date"]}`);
+						let end = new Date(`${day["items"][0]["end"]["date"]}`);
+						var timeDiff = Math.abs(end.getTime() - start.getTime());
+						var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+						if (diffDays = 0) {
+							let responses = `invalid event`;
+						}
+
+						if (diffDays <= 1) {
+							let responses = `${responseText} ${day["items"][0]["summary"]} on ${day["items"][0]["start"]["date"]}`;
+							sendTextMessage(sender, responses);
+						}
 						else {
-							sendTextMessage(sender, "Sorry, I could not find this event.")
-						} 
+							let responses = `${responseText} ${day["items"][0]["summary"]} from ${day["items"][0]["start"]["date"]} to ${day["items"][0]["end"]["date"]}`;
+							sendTextMessage(sender, responses);
 						}
-						else {	
-							console.error(response.error);
-						}
-				});
-		break;
+						console.log(codes);
+					}
+					else {
+						sendTextMessage(sender, "Sorry, I could not find this event.")
+					}
+				}
+				else {
+					console.error(response.error);
+				}
+			});
+			break;
 
 		case 'fetch_dress':
 			refreshToken();
@@ -1057,8 +1059,8 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters, t
 					let day = JSON.parse(body);
 					let responses = `${responseText} ${day["items"][0]["summary"]}) on ${day["items"][0]["start"]["date"]}`;
 					sendTextMessage(sender, responses);
-					}
-				 else {
+				}
+				else {
 					console.error(response.error);
 				}
 			});
@@ -1068,10 +1070,10 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters, t
 			console.log("RESPONSE TEXT: " + text);
 			var words = text.split(" ");
 			var queryGif = "";
-			if(words.length == 1)
+			if (words.length == 1)
 				queryGif = words[0];
 			else
-				queryGif = words[words.length-2] + " " + words[words.length-1];
+				queryGif = words[words.length - 2] + " " + words[words.length - 1];
 			request({
 				url: "http://api.giphy.com/v1/gifs/search?q=" + queryGif + "&api_key=" + process.env.GIPHY_API_KEY + "&limit=3",
 				method: "GET",
@@ -1081,7 +1083,7 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters, t
 				if (!error && response.statusCode == 200) {
 					console.log("success got data", body);
 					let gifs = JSON.parse(body);
-					if(Math.random() < 0.5)
+					if (Math.random() < 0.5)
 						sendGifMessage(sender, gifs["data"][0]["images"]["fixed_height"]["url"]);
 					else
 						sendGifMessage(sender, gifs["data"][1]["images"]["fixed_height"]["url"]);
@@ -1090,12 +1092,12 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters, t
 					console.error(response.error);
 				}
 			});
-		break;
+			break;
 		default:
 			//unhandled action, just send back the text
 			sendTextMessage(sender, responseText + " ");
 
-		}
+	}
 }
 
 function handleMessage(message, sender) {
@@ -1164,7 +1166,7 @@ function handleCardMessages(messages, sender) {
 
 		let element = {
 			"title": message.title,
-			"image_url":message.imageUrl,
+			"image_url": message.imageUrl,
 			"subtitle": message.subtitle,
 			"buttons": buttons
 		};
@@ -1186,24 +1188,24 @@ function handleApiAiResponse(sender, response, text) {
 
 	if (isDefined(messages) && (messages.length == 1 && messages[0].type != 0 || messages.length > 1)) {
 		let timeoutInterval = 1100;
-		let previousType ;
+		let previousType;
 		let cardTypes = [];
 		let timeout = 0;
 		for (var i = 0; i < messages.length; i++) {
 
-			if ( previousType == 1 && (messages[i].type != 1 || i == messages.length - 1)) {
+			if (previousType == 1 && (messages[i].type != 1 || i == messages.length - 1)) {
 
 				timeout = (i - 1) * timeoutInterval;
 				setTimeout(handleCardMessages.bind(null, cardTypes, sender), timeout);
 				cardTypes = [];
 				timeout = i * timeoutInterval;
 				setTimeout(handleMessage.bind(null, messages[i], sender), timeout);
-			} else if ( messages[i].type == 1 && i == messages.length - 1) {
+			} else if (messages[i].type == 1 && i == messages.length - 1) {
 				cardTypes.push(messages[i]);
-                		timeout = (i - 1) * timeoutInterval;
-                		setTimeout(handleCardMessages.bind(null, cardTypes, sender), timeout);
-                		cardTypes = [];
-			} else if ( messages[i].type == 1 ) {
+				timeout = (i - 1) * timeoutInterval;
+				setTimeout(handleCardMessages.bind(null, cardTypes, sender), timeout);
+				cardTypes = [];
+			} else if (messages[i].type == 1) {
 				cardTypes.push(messages[i]);
 			} else {
 				timeout = i * timeoutInterval;
@@ -1290,7 +1292,7 @@ function sendImageMessage(recipientId, imageUrl) {
  *
  */
 function sendGifMessage(recipientId, query) {
-	
+
 	var messageData = {
 		recipient: {
 			id: recipientId
@@ -1422,7 +1424,7 @@ function sendGenericMessage(recipientId, elements) {
 
 
 function sendReceiptMessage(recipientId, recipient_name, currency, payment_method,
-							timestamp, elements, address, summary, adjustments) {
+	timestamp, elements, address, summary, adjustments) {
 	// Generate a random receipt ID as the API requires a unique ID
 	var receiptId = "order" + Math.floor(Math.random() * 1000);
 
@@ -1463,7 +1465,7 @@ function sendQuickReply(recipientId, text, replies, metadata) {
 		},
 		message: {
 			text: text,
-			metadata: isDefined(metadata)?metadata:'',
+			metadata: isDefined(metadata) ? metadata : '',
 			quick_replies: replies
 		}
 	};
@@ -1539,7 +1541,7 @@ function sendAccountLinking(recipientId) {
 					buttons: [{
 						type: "account_link",
 						url: process.env.SERVER_URL + "/authorize"
-          }]
+					}]
 				}
 			}
 		}
@@ -1645,12 +1647,12 @@ function receivedPostback(event) {
 			}
 			//sendTextMessage(senderID, "And Tomorrow:");
 			//
-		break;
+			break;
 		case 'SCHOOL_HOLIDAY_PAYLOAD':
 			refreshToken();
 			getHoliday(senderID, "", "Holiday");
-		break;
-		case 'HW_PAYLOAD' :
+			break;
+		case 'HW_PAYLOAD':
 			if (!sessionIds.has(senderID)) {
 				sessionIds.set(senderID, uuid.v1());
 			}
@@ -1660,13 +1662,13 @@ function receivedPostback(event) {
 		case 'TESTS':
 			sendTextMessage(senderID, "SAT or ACT?");
 			break;
-		case 'SCHOOL_ALTERNATE_DRESS_PAYLOAD' :
+		case 'SCHOOL_ALTERNATE_DRESS_PAYLOAD':
 			if (!sessionIds.has(senderID)) {
 				sessionIds.set(senderID, uuid.v1());
 			}
 			sendToApiAi(senderID, "When is alternate dress day?");
 			break;
-		case 'TESTS_PAYLOAD' :
+		case 'TESTS_PAYLOAD':
 			if (!sessionIds.has(senderID)) {
 				sessionIds.set(senderID, uuid.v1());
 			}
