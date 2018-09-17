@@ -616,7 +616,7 @@ function getSchoologyCourseAssignments(sender, courseTitle, schoologyCourseID, s
 			console.log(body);
 			let assignments = JSON.parse(body);
 			let ret = "";
-			for (var j = 0; j < assignments["assignment"].length; j++) {
+			for (var j = 0; j < assignments["assignment"].length && j < 2; j++) {
 				console.log("ASSIGNMENT TITLE: " + assignments["assignment"][j]["title"]);
 				console.log("ASSIGNMENT DESCRIPTION: " + assignments["assignment"][j]["description"])
 				if (assignments["assignment"][j]["due"] != "") {
@@ -746,7 +746,7 @@ function getSchoologyCourseEvents(sender, courseTitle, schoologyCourseID, specif
 			console.log(body);
 			let assignments = JSON.parse(body);
 			let ret = "";
-			for (var j = 0; j < assignments["event"].length; j++) {
+			for (var j = 0; j < assignments["event"].length && j < 2; j++) {
 				console.log("EVENT TITLE: " + assignments["event"][j]["title"]);
 				console.log("EVENT DESCRIPTION: " + assignments["event"][j]["description"])
 				if (assignments["event"][j]["due"] != "") {
@@ -997,7 +997,7 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters, t
 			});
 			break;
 		case 'fetch_summer_break':
-			sendTextMessage(sender, "Ooh don't get too far ahead of yourself, make sure to do well at school :) Summer break is from the 9th of June.")
+			sendTextMessage(sender, "Ooh don't get too far ahead of yourself, make sure to do well at school :) Summer break is from the 4th of June.")
 			break;
 		case 'fetch_general_event':
 			refreshToken();
@@ -1051,7 +1051,7 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters, t
 			console.log("Date:" + today);
 			console.log(parameters["dress-day"]);
 			request({
-				url: "https://www.googleapis.com/calendar/v3/calendars/sas.edu.sg_63hhdl0689bleqeuqhee37q688@group.calendar.google.com/events/?timeMin=" + today + "&maxResults=1&singleEvents=true&orderBy=startTime&q=" + parameters["dress-day"],
+				url: "https://www.googleapis.com/calendar/v3/calendars/communications@sas.edu.sg/events/?timeMin=" + today + "&maxResults=1&singleEvents=true&orderBy=startTime&q=" + parameters["dress-day"],
 				method: "GET",
 				headers: {
 					Authorization: " Bearer " + codes,
@@ -1068,6 +1068,17 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters, t
 					console.error(response.error);
 				}
 			});
+			break;
+
+		case 'find_flex':
+			var now = Date.now();
+			var dayOfFlex = now.getDay();
+			if (dayOfFlex == 1 || dayOfFlex == 3 || dayOfFlex == 5) {
+				sendTextMessage("There will be a flex block today! (unless there's an assembly, check the bulletin)");
+			}
+			else {
+				sendTextMessage("Well, whether you like it or not, go to Advisory today.");
+			}
 			break;
 
 		case 'input.unknown':
@@ -1099,6 +1110,8 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters, t
 				}
 			});
 			break;
+
+
 		default:
 			//unhandled action, just send back the text
 			sendTextMessage(sender, responseText + " ");
