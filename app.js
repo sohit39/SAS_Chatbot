@@ -616,7 +616,7 @@ function getSchoologyCourseAssignments(sender, courseTitle, schoologyCourseID, s
 			console.log(body);
 			let assignments = JSON.parse(body);
 			let ret = "";
-			for (var j = 0; j < assignments["assignment"].length && j < 2; j++) {
+			for (var j = 0; j < assignments["assignment"].length; j++) {
 				console.log("ASSIGNMENT TITLE: " + assignments["assignment"][j]["title"]);
 				console.log("ASSIGNMENT DESCRIPTION: " + assignments["assignment"][j]["description"])
 				if (assignments["assignment"][j]["due"] != "") {
@@ -746,7 +746,7 @@ function getSchoologyCourseEvents(sender, courseTitle, schoologyCourseID, specif
 			console.log(body);
 			let assignments = JSON.parse(body);
 			let ret = "";
-			for (var j = 0; j < assignments["event"].length && j < 2; j++) {
+			for (var j = 0; j < assignments["event"].length; j++) {
 				console.log("EVENT TITLE: " + assignments["event"][j]["title"]);
 				console.log("EVENT DESCRIPTION: " + assignments["event"][j]["description"])
 				if (assignments["event"][j]["due"] != "") {
@@ -1051,7 +1051,7 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters, t
 			console.log("Date:" + today);
 			console.log(parameters["dress-day"]);
 			request({
-				url: "https://www.googleapis.com/calendar/v3/calendars/communications@sas.edu.sg/events/?timeMin=" + today + "&maxResults=1&singleEvents=true&orderBy=startTime&q=" + parameters["dress-day"],
+				url: "https://www.googleapis.com/calendar/v3/calendars/communications@sas.edu.sg/events/?timeMin=" + today + "&maxResults=1&singleEvents=true&orderBy=startTime&q=dress day",
 				method: "GET",
 				headers: {
 					Authorization: " Bearer " + codes,
@@ -1685,7 +1685,7 @@ function receivedPostback(event) {
 			if (!sessionIds.has(senderID)) {
 				sessionIds.set(senderID, uuid.v1());
 			}
-			sendToApiAi(senderID, "When is alternate dress day?");
+			sendToApiAi(senderID, "alternate dress day");
 			break;
 		case 'TESTS_PAYLOAD':
 			if (!sessionIds.has(senderID)) {
