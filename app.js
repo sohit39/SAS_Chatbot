@@ -1099,10 +1099,13 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters, t
 					console.log("success got data", body);
 					let gifs = JSON.parse(body);
 					if (gifs["data"].length > 0) {
-					if (Math.random() < 0.5)
-						sendGifMessage(sender, gifs["data"][0]["images"]["fixed_height"]["url"]);
-					else
-						sendGifMessage(sender, gifs["data"][1]["images"]["fixed_height"]["url"]);
+						if (Math.random() < 0.5)
+							sendGifMessage(sender, gifs["data"][0]["images"]["fixed_height"]["url"]);
+						else
+							sendGifMessage(sender, gifs["data"][1]["images"]["fixed_height"]["url"]);
+					}
+					else {
+						sendTextMessage("Sorry, I don't understand what you're asking me. If you're looking for specific things, use the menu in the bot :)")
 					}
 				}
 				else {
