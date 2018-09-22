@@ -617,7 +617,7 @@ function getSchoologyCourseAssignments(sender, courseTitle, schoologyCourseID, s
 			console.log(body);
 			let assignments = JSON.parse(body);
 			let ret = "";
-			for (var j = 0; j < assignments["assignment"].length && j <= 1; j++) {
+			for (var j = 0; j < assignments["assignment"].length; j++) {
 				console.log("ASSIGNMENT TITLE: " + assignments["assignment"][j]["title"]);
 				console.log("ASSIGNMENT DESCRIPTION: " + assignments["assignment"][j]["description"])
 				if (assignments["assignment"][j]["due"] != "") {
@@ -644,14 +644,14 @@ function getSchoologyCourseAssignments(sender, courseTitle, schoologyCourseID, s
 				}
 			}
 			console.log("RETURN" + ret)
-			if (courseTitle.indexOf("dvisory") < 0 && courseTitle.indexOf("IS") < 0 && courseTitle.indexOf("Student Tech Help") < 0 && courseTitle.indexOf("I Service") < 0 && courseTitle.indexOf("free") < 0) {
+			if (courseTitle.indexOf("dvisory") < 0 && courseTitle.indexOf("IS") < 0 && courseTitle.indexOf("Student Tech Help") < 0 && courseTitle.indexOf("I Service") < 0 && courseTitle.indexOf("ree") < 0) {
 				if (specificDate != "") {
 					let d = new Date(specificDate);
 					let dayOfWeek = d.getDay(); if (dayOfWeek == 0) dayOfWeek = "Sunday"; if (dayOfWeek == 1) dayOfWeek = "Monday"; if (dayOfWeek == 2) dayOfWeek = "Tuesday"; if (dayOfWeek == 3) dayOfWeek = "Wednesday"; if (dayOfWeek == 4) dayOfWeek = "Thursday"; if (dayOfWeek == 5) dayOfWeek = "Friday"; if (dayOfWeek == 6) dayOfWeek = "Saturday";
 					let numberInMonth = d.getDate();
 					let month = d.getMonth(); if (month == 0) month = "January"; if (month == 1) month = "February"; if (month == 2) month = "March"; if (month == 3) month = "April"; if (month == 4) month = "May"; if (month == 5) month = "June"; if (month == 6) month = "July"; if (month == 7) month = "August"; if (month == 8) month = "September"; if (month == 9) month = "October"; if (month == 10) month = "November"; if (month == 11) month = "December";
 					if (ret === "")
-						sendTextMessage(sender, "You have no tests/quizzes for " + "*" + courseTitle + "*" + " on " + dayOfWeek + ", " + numberInMonth + " " + month + ", " + "\n\n" + "Yay! (unless your teacher just doesn't post on Schoology)");
+						sendTextMessage(sender, "You have no tests/quizzes for " + "*" + courseTitle + "*" + " on " + dayOfWeek + ", " + numberInMonth + " " + month + ", ");
 					else
 						sendTextMessage(sender, "You have the following tests/quizzes for " + "*" + courseTitle + "*" + "\n\n" + ret);
 				}
@@ -747,7 +747,7 @@ function getSchoologyCourseEvents(sender, courseTitle, schoologyCourseID, specif
 			console.log(body);
 			let assignments = JSON.parse(body);
 			let ret = "";
-			for (var j = 0; j < assignments["event"].length && j <= 1; j++) {
+			for (var j = 0; j < assignments["event"].length; j++) {
 				console.log("EVENT TITLE: " + assignments["event"][j]["title"]);
 				console.log("EVENT DESCRIPTION: " + assignments["event"][j]["description"])
 				if (assignments["event"][j]["due"] != "") {
@@ -774,7 +774,7 @@ function getSchoologyCourseEvents(sender, courseTitle, schoologyCourseID, specif
 				}
 			}
 			console.log("RETURN" + ret)
-			if (courseTitle.indexOf("dvisory") < 0 && courseTitle.indexOf("IS") < 0 && courseTitle.indexOf("Student Tech Help") < 0 && courseTitle.indexOf("I Service") < 0) {
+			if (courseTitle.indexOf("dvisory") < 0 && courseTitle.indexOf("IS") < 0 && courseTitle.indexOf("Student Tech Help") < 0 && courseTitle.indexOf("I Service") < 0 && courseTitle.indexOf("ree") < 0) {
 				if (specificDate != "") {
 					let d = new Date(specificDate);
 					let dayOfWeek = d.getDay(); if (dayOfWeek == 0) dayOfWeek = "Sunday"; if (dayOfWeek == 1) dayOfWeek = "Monday"; if (dayOfWeek == 2) dayOfWeek = "Tuesday"; if (dayOfWeek == 3) dayOfWeek = "Wednesday"; if (dayOfWeek == 4) dayOfWeek = "Thursday"; if (dayOfWeek == 5) dayOfWeek = "Friday"; if (dayOfWeek == 6) dayOfWeek = "Saturday";
@@ -787,9 +787,9 @@ function getSchoologyCourseEvents(sender, courseTitle, schoologyCourseID, specif
 				}
 				else {
 					if (ret === "")
-						sendTextMessage(sender, "You have no homework/assignments for " + "*" + courseTitle + "*" + " for the next 10 days" + "\n\n" + "Yay! (unless your teacher just doesn't post on Schoology)");
+						sendTextMessage(sender, "You have no homework/assignments for " + "*" + courseTitle + "*" + " for the next 10 days" + "\n\n" );
 					else
-						sendTextMessage(sender, "You have the following homework/assignments for " + "*" + courseTitle + "*" + "\n\n" + ret + "\n\n" + "Pro Life Tip: Ask for less homework next time");
+						sendTextMessage(sender, "You have the following homework/assignments for " + "*" + courseTitle + "*" + "\n\n" + ret + "\n\n" );
 				}
 			}
 			//return ret;
