@@ -617,7 +617,7 @@ function getSchoologyCourseAssignments(sender, courseTitle, schoologyCourseID, s
 			console.log(body);
 			let assignments = JSON.parse(body);
 			let ret = "";
-			for (var j = 0; j < assignments["assignment"].length; j++) {
+			for (var j = 0; j < assignments["assignment"].length && j <= 1; j++) {
 				console.log("ASSIGNMENT TITLE: " + assignments["assignment"][j]["title"]);
 				console.log("ASSIGNMENT DESCRIPTION: " + assignments["assignment"][j]["description"])
 				if (assignments["assignment"][j]["due"] != "") {
@@ -644,7 +644,7 @@ function getSchoologyCourseAssignments(sender, courseTitle, schoologyCourseID, s
 				}
 			}
 			console.log("RETURN" + ret)
-			if (courseTitle.indexOf("dvisory") < 0 && courseTitle.indexOf("IS") < 0 && courseTitle.indexOf("Student Tech Help") < 0 && courseTitle.indexOf("I Service") < 0) {
+			if (courseTitle.indexOf("dvisory") < 0 && courseTitle.indexOf("IS") < 0 && courseTitle.indexOf("Student Tech Help") < 0 && courseTitle.indexOf("I Service") < 0 && courseTitle.indexOf("free") < 0) {
 				if (specificDate != "") {
 					let d = new Date(specificDate);
 					let dayOfWeek = d.getDay(); if (dayOfWeek == 0) dayOfWeek = "Sunday"; if (dayOfWeek == 1) dayOfWeek = "Monday"; if (dayOfWeek == 2) dayOfWeek = "Tuesday"; if (dayOfWeek == 3) dayOfWeek = "Wednesday"; if (dayOfWeek == 4) dayOfWeek = "Thursday"; if (dayOfWeek == 5) dayOfWeek = "Friday"; if (dayOfWeek == 6) dayOfWeek = "Saturday";
@@ -657,9 +657,9 @@ function getSchoologyCourseAssignments(sender, courseTitle, schoologyCourseID, s
 				}
 				else if (specificDate == "") {
 					if (ret === "")
-						sendTextMessage(sender, "You have no tests/quizzes for " + "*" + courseTitle + "*" + " for the next 10 days" + "\n\n" + "Yay! (unless your teacher just doesn't post on Schoology)");
+						sendTextMessage(sender, "You have no tests/quizzes for " + "*" + courseTitle + "*" + " for the next 10 days");
 					else
-						sendTextMessage(sender, "You have the following tests/quizzes for " + "*" + courseTitle + "*" + "\n\n" + ret + "\n\n" + "Pro Life Tip: Ask for less homework next time");
+						sendTextMessage(sender, "You have the following tests/quizzes for " + "*" + courseTitle + "*" + "\n\n" + ret);
 				}
 			}
 			//return ret;
@@ -747,7 +747,7 @@ function getSchoologyCourseEvents(sender, courseTitle, schoologyCourseID, specif
 			console.log(body);
 			let assignments = JSON.parse(body);
 			let ret = "";
-			for (var j = 0; j < assignments["event"].length; j++) {
+			for (var j = 0; j < assignments["event"].length && j <= 1; j++) {
 				console.log("EVENT TITLE: " + assignments["event"][j]["title"]);
 				console.log("EVENT DESCRIPTION: " + assignments["event"][j]["description"])
 				if (assignments["event"][j]["due"] != "") {
