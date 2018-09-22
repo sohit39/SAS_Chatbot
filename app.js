@@ -520,6 +520,7 @@ function getSchoologyCourses(sender, responseText, schoologyUserID, tests, speci
 				//getSchoologyCourseAssignments(sender, courses["section"][j]["course_title"], courses["section"][j]["id"]);
 				if (specificCourse != null) {
 					specificCourse = specificCourse.replace("calculus", "calc");
+					specificCourse = specificCourse.replace("mvla", "multivariable");
 				}
 				if (specificCourse != null && ((courses["section"][j]["course_title"]).toLowerCase().indexOf(specificCourse.toLowerCase()) >= 0 || (specificCourse.toLowerCase().indexOf(courses["section"][j]["course_title"].toLowerCase())) >= 0)) {
 					getSchoologyCourseEvents(sender, courses["section"][j]["course_title"], courses["section"][j]["id"], specificDate);
