@@ -1,8 +1,5 @@
 'use strict';
 
-
-
-
 const apiai = require('apiai');
 const express = require('express');
 const crypto = require('crypto');
@@ -520,7 +517,7 @@ function getSchoologyCourses(sender, responseText, schoologyUserID, tests, speci
 				//getSchoologyCourseAssignments(sender, courses["section"][j]["course_title"], courses["section"][j]["id"]);
 				if (specificCourse != null) {
 					specificCourse = specificCourse.replace("calculus", "calc");
-					specificCourse = specificCourse.replace("mvla", "multivariable");
+					specificCourse = specificCourse.replace(/mvla/gi, 'multivariable');
 					specificCourse = specificCourse.replace(/stats/gi, 'statistics');
 					console.log("HABABABABA SPECIFIC COURSE HABABAB:" + specificCourse);
 				}
@@ -847,7 +844,7 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters, t
 
 			setTimeout(function () {
 				var millis = Date.now() - start;
-				sendTextMessage(sender, "Go get some work done, " + userFirstName + "!");
+				sendTextMessage(sender, "Go have some fun, " + userFirstName + "!");
 				console.log("seconds elapsed = " + Math.floor(millis / 1000));
 				// expected output : seconds elapsed = 1.2
 			}, 2000);
@@ -889,7 +886,7 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters, t
 
 			setTimeout(function () {
 				var millis = Date.now() - start;
-				sendTextMessage(sender, "Go get some work done, " + userFirstName + "!");
+				sendTextMessage(sender, "Looks like it's your lucky day, " + userFirstName + "! No Homework!");
 				console.log("seconds elapsed = " + Math.floor(millis / 1000));
 				// expected output : seconds elapsed = 1.2
 			}, 2000);
@@ -1670,8 +1667,6 @@ function receivedPostback(event) {
 			else {//sendTextMessage(senderID, "Today it is a: ")
 				sendToApiAi(senderID, "What school day is it today?");
 			}
-			//sendTextMessage(senderID, "And Tomorrow:");
-			//
 			break;
 		case 'SCHOOL_HOLIDAY_PAYLOAD':
 			refreshToken();
