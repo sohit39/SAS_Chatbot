@@ -424,9 +424,6 @@ function getHolidayFromDate(sender, responseText, q1, dayOfStart) {
 				let responses = `You're already on holiday, but It's${responseText} ${day["items"][0]["summary"]} on ${day["items"][0]["start"]["date"]} Only ${daysTillBreak} days to go! Keep at it!`;
 				sendTextMessage(sender, responses);
 			}
-			else if (dates.compare(today, start) == 1) {
-
-			}
 			else {
 				let responses = `You're already on holiday, but It's${responseText} ${day["items"][0]["summary"]} from ${day["items"][0]["start"]["date"]} to ${day["items"][0]["end"]["date"]} Only ${daysTillBreak} days to go! Keep at it!`;
 				sendTextMessage(sender, responses);
